@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Apparcus/bin/Debug/net8.0
+/Apparcus/obj
+/Core/bin/Debug/net8.0
+/Core/obj
+/Logic/bin/Debug/net8.0
+/Logic/obj
