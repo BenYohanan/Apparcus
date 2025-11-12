@@ -22646,47 +22646,6 @@ body.layout-mode-rtl .nav-list::before {
   border-color: #1F2228;
 }
 
-.sidebar-contact {
-  position: fixed;
-  top: 0%;
-  right: -350px;
-  transform: translateY(-50%);
-  width: 350px;
-  height: auto;
-  background: #FFF;
-  box-sizing: border-box;
-  transition: 0.5s;
-  z-index: 9999;
-}
-.sidebar-contact .toggle-theme {
-  position: absolute;
-  width: 35px;
-  text-align: center;
-  cursor: pointer;
-  background: #F26522;
-  top: 225px;
-  right: 350px;
-  padding: 6px;
-  height: 35px;
-  color: #FFF;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-.sidebar-contact .toggle-theme .fa-spin {
-  -webkit-animation: fa-spin 2s infinite linear;
-  animation: fa-spin 2s infinite linear;
-}
-
-#theme-settings {
-  width: 26px;
-  height: 26px;
-  border: 1px solid #E5E7EB;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-}
-
 .input-themeselect label {
   width: 100%;
 }
