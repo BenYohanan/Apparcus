@@ -10,16 +10,14 @@ namespace Core.DbContext
 {
     public static class CoreSeed
     {
-        public static async Task SeedDataAsync(AppDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public static void SeedData(AppDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
-            var dropdownTask = SeedDropdownsAsync(context);
-            var roleTask = SeedRolesAsync(roleManager);
-            var userTask = SeedUsersAsync(userManager);
-
-            await Task.WhenAll(dropdownTask, roleTask, userTask);
+            SeedDropdowns(context).Wait();
+            SeedRoles(roleManager).Wait();
+            SeedUsers(userManager).Wait();
         }
 
-        private static async Task SeedDropdownsAsync(AppDbContext context)
+        private static async Task SeedDropdowns(AppDbContext context)
         {
             var existingNames = await context.DropDowns
                 .AsNoTracking()
@@ -34,63 +32,41 @@ namespace Core.DbContext
             };
 
             var newDropdowns = dropdowns
-                .Where(d => !existingNames.Contains(d.Name))
-                .ToList();
+                .Where(s => !existingNames.Contains(s.Name))
+                .Select(d => new DropDown
+                {
+                    Name = d.Name,
+                    DropdownKey = d.DropdownKey
+                }).ToList();
 
-            if (newDropdowns.Count > 0)
+            if (newDropdowns.Count != 0)
             {
-                 await context.DropDowns.AddRangeAsync(newDropdowns);
+                context.DropDowns.AddRange(newDropdowns);
                 await context.SaveChangesAsync();
             }
         }
 
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            var existingRoles = await roleManager.Roles
-                .AsNoTracking()
-                .Select(r => r.Name)
-                .ToListAsync();
-
-            var newRoles = SeedItems.DefaultRoles()
-                .Where(r => !existingRoles.Contains(r.Name))
-                .ToList();
-
-            if (newRoles.Count == 0) return;
-
-            var tasks = newRoles.Select(r => roleManager.CreateAsync(r));
-            await Task.WhenAll(tasks);
+            foreach (var role in SeedItems.DefaultRoles())
+            {
+                if (!await roleManager.RoleExistsAsync(role.Name))
+                {
+                    await roleManager.CreateAsync(role);
+                }
+            }
         }
 
-        private static async Task SeedUsersAsync(UserManager<ApplicationUser> userManager)
+        private static async Task SeedUsers(UserManager<ApplicationUser> userManager)
         {
-            var defaultUsers = SeedItems.DefaultUsers();
-
-            var existingEmails = await userManager.Users
-                .AsNoTracking()
-                .Select(u => u.Email)
-                .ToListAsync();
-
-            var newUsers = defaultUsers
-                .Where(u => !existingEmails.Contains(u.Email))
-                .ToList();
-
-            if (newUsers.Count == 0)
-                return;
-
-            foreach (var user in newUsers)
+            foreach (var user in SeedItems.DefaultUsers())
             {
-                var result = await userManager.CreateAsync(user, "11111");
-                if (!result.Succeeded)
-                    continue;
-
-                string role = user.Email.ToLower() switch
+                var existingUser = await userManager.FindByEmailAsync(user.Email);
+                if (existingUser == null)
                 {
-                    "benyohanan@apparcus.com" => SeedItems.SuperAdminRole,
-                    "admin@apparcus.com" => SeedItems.AdminRole,
-                    _ => SeedItems.UserRole
-                };
-
-                await userManager.AddToRoleAsync(user, role);
+                    await userManager.CreateAsync(user, "11111").ConfigureAwait(false);
+                    await userManager.AddToRoleAsync(user, user?.FirstName?.ToUpper()).ConfigureAwait(false);
+                }
             }
         }
     }
@@ -127,7 +103,9 @@ namespace Core.DbContext
                 UserName = "benyohanan@apparcus.com",
                 PasswordHash = "AQAAAAEAACcQAAAAEO3NQwqwWgetIJ/tyYRIrobEpEcvQ47xoczshXUgLyKKSuanh+CiKz//sKDMCq+PCA==",
                 FirstName = "SuperAdmin",
-                PhoneNumber = "0000 000 0000"
+                PhoneNumber = "0000 000 0000",
+                Deleted = false,
+                DateCreated = DateTime.Now
             },
             new ApplicationUser
             {
@@ -138,7 +116,9 @@ namespace Core.DbContext
                 UserName = "admin@apparcus.com",
                 PasswordHash = "AQAAAAEAACcQAAAAEO3NQwqwWgetIJ/tyYRIrobEpEcvQ47xoczshXUgLyKKSuanh+CiKz//sKDMCq+PCA==",
                 FirstName = "Admin",
-                PhoneNumber = "0000 000 0000"
+                PhoneNumber = "0000 000 0000",
+                Deleted = false,
+                DateCreated = DateTime.Now
             },
             new ApplicationUser
             {
@@ -149,7 +129,9 @@ namespace Core.DbContext
                 UserName = "user@apparcus.com",
                 PasswordHash = "AQAAAAEAACcQAAAAEO3NQwqwWgetIJ/tyYRIrobEpEcvQ47xoczshXUgLyKKSuanh+CiKz//sKDMCq+PCA==",
                 FirstName = "User",
-                PhoneNumber = "0000 000 0000"
+                PhoneNumber = "0000 000 0000",
+                Deleted = false,
+                DateCreated = DateTime.Now
             }
         };
     }

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    var randomStr = DateTime.Now.ToString().ToLower().Replace(":", "").Replace("pm", "").Replace("am", "");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,106 @@
     <link href="~/leadpage/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
     <link href="~/leadpage/assets/css/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/auth-style.css" />
-   
+    <link href="~/css/sweetalert2.css" rel="stylesheet" />
+
+    <script>
+        function errorAlert(message) {
+            Swal.fire({
+                icon: 'error',
+                text: message,
+                timer: 60000,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
+
+        function infoAlert(message) {
+            Swal.fire({
+                icon: 'info',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
+
+        function infoAlertWithStyles(message) {
+            Swal.fire({
+                title: 'Incomplete Payment',
+                icon: 'info',
+                text: message,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
+        function newInfoAlert(message, url) {
+            Swal.fire({
+                icon: 'info',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    location.href = url;
+                }
+            })
+        }
+        function successAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
+
+        function newErrorAlert(message, url) {
+            Swal.fire({
+                icon: 'error',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            }).then(function () {
+                location.href = url;
+            })
+        }
+
+        function newSuccessAlert(message, url) {
+            Swal.fire({
+                icon: 'success',
+                text: message,
+                confirmButtonColor: "#0f0f2c",
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    location.reload(url);
+                }
+            })
+
+        }
+        function successAlertWithRedirect(message, url) {
+            Swal.fire({
+                title: "Success",
+                text: message,
+                icon: "success",
+                timer: 30000,
+                overlay: "background - color: rgba(43, 165, 137, 0.45)",
+                confirmButtonColor: "#0f0f2c",
+            }).then(function () {
+
+                location.href = url;
+            })
+        }
+
+        function successAlertWithFunction(message, action) {
+            Swal.fire({
+                title: "Success",
+                text: message,
+                icon: "success",
+                timer: 30000,
+                overlay: "background - color: rgba(43, 165, 137, 0.45)",
+                confirmButtonColor: "#0f0f2c",
+            }).then(function () {
+                action;
+            })
+        }
+    </script>
 </head>
 <body>
     <video autoplay muted loop id="bg-video">
@@ -106,11 +205,14 @@
         <i class="bi bi-arrow-up-short"></i>
     </a>
    
+    <script src="~/template/assets/js/jquery-3.7.1.min.js"></script>
     <script src="~/leadpage/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/leadpage/assets/vendor/aos/aos.js"></script>
     <script src="~/leadpage/assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="~/leadpage/assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="~/leadpage/assets/js/main.js"></script>
+    <script src="~/js/sweetalert2.all.min.js"></script>
+    <script src="~/js/main.js?v=@randomStr"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

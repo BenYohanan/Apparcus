@@ -42,7 +42,7 @@ using (var scope = app.Services.CreateScope())
         dbContext.Database.Migrate();
 
         // Run the seed logic
-        CoreSeed.SeedDataAsync(dbContext, roleManager, userManager).RunSynchronously();
+        CoreSeed.SeedData(dbContext, roleManager, userManager);
     }
     catch (Exception ex)
     {

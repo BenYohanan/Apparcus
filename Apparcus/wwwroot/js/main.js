@@ -8,13 +8,13 @@
 		dataType: 'json',
 		data:
 		{
-			emailorphone: email,
+			email: email,
 			password: password
 		},
 		success: function (result) {
 			$("#submit_btn").prop("disabled", false).text("Login");
 			if (!result.isError) {
-				location.href = result.dashboard;
+				location.href = result.returnUrl;
 			}
 			else {
 				if (result.data != null) {

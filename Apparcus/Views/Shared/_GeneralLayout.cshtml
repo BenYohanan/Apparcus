@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+	var randomStr = DateTime.Now.ToString().ToLower().Replace(":", "").Replace("pm", "").Replace("am", "");
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -51,7 +56,7 @@
 	<!-- Color Picker Css -->
 	<link rel="stylesheet" href="~/template/assets/plugins/flatpickr/flatpickr.min.css">
 	<link rel="stylesheet" href="~/template/assets/plugins/@@simonwep/pickr/themes/nano.min.css">
-
+	<link href="~/css/sweetalert2.css" rel="stylesheet" />
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="~/template/assets/css/style.css">
 
@@ -67,7 +72,104 @@
 		}
 
 	</style>
+	<script>
+		function errorAlert(message) {
+			Swal.fire({
+				icon: 'error',
+				text: message,
+				timer: 60000,
+				confirmButtonColor: "#0f0f2c",
+			})
+		}
 
+		function infoAlert(message) {
+			Swal.fire({
+				icon: 'info',
+				text: message,
+				timer: 30000,
+				confirmButtonColor: "#0f0f2c",
+			})
+		}
+
+		function infoAlertWithStyles(message) {
+			Swal.fire({
+				title: 'Incomplete Payment',
+				icon: 'info',
+				text: message,
+				confirmButtonColor: "#0f0f2c",
+			})
+		}
+		function newInfoAlert(message, url) {
+			Swal.fire({
+				icon: 'info',
+				text: message,
+				timer: 30000,
+				confirmButtonColor: "#0f0f2c",
+			}).then((isConfirm) => {
+				if (isConfirm) {
+					location.href = url;
+				}
+			})
+		}
+		function successAlert(message) {
+			Swal.fire({
+				icon: 'success',
+				text: message,
+				timer: 30000,
+				confirmButtonColor: "#0f0f2c",
+			})
+		}
+
+		function newErrorAlert(message, url) {
+			Swal.fire({
+				icon: 'error',
+				text: message,
+				timer: 30000,
+				confirmButtonColor: "#0f0f2c",
+			}).then(function () {
+				location.href = url;
+			})
+		}
+
+		function newSuccessAlert(message, url) {
+			Swal.fire({
+				icon: 'success',
+				text: message,
+				confirmButtonColor: "#0f0f2c",
+			}).then((isConfirm) => {
+				if (isConfirm) {
+					location.reload(url);
+				}
+			})
+
+		}
+		function successAlertWithRedirect(message, url) {
+			Swal.fire({
+				title: "Success",
+				text: message,
+				icon: "success",
+				timer: 30000,
+				overlay: "background - color: rgba(43, 165, 137, 0.45)",
+				confirmButtonColor: "#0f0f2c",
+			}).then(function () {
+
+				location.href = url;
+			})
+		}
+
+		function successAlertWithFunction(message, action) {
+			Swal.fire({
+				title: "Success",
+				text: message,
+				icon: "success",
+				timer: 30000,
+				overlay: "background - color: rgba(43, 165, 137, 0.45)",
+				confirmButtonColor: "#0f0f2c",
+			}).then(function () {
+				action;
+			})
+		}
+	</script>
 </head>
 
 <body>
@@ -1529,7 +1631,8 @@
 	<script src="~/template/assets/js/todo.js"></script>
 	<script src="~/template/assets/js/theme-colorpicker.js"></script>
 	<script src="~/template/assets/js/script.js"></script>
-
+	<script src="~/js/sweetalert2.all.min.js"></script>
+	<script src="~/js/main.js?v=@randomStr"></script>
 </body>
 
 </html>

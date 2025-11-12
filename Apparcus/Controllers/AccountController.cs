@@ -51,7 +51,6 @@ namespace Apparcus.Controllers
                             user.Roles.Contains(Constants.AdminRole) ? Constants.AdminRole :
                             Constants.UserRole;
             var url = _userHelper.GetValidatedUrl(user.Roles);
-            var currentUser = JsonConvert.SerializeObject(user, settings);
             return ResponseHelper.JsonSuccessWithReturnUrl(url);
         }
 
