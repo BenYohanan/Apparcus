@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"] | Apparcus</title>
+
+    <link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="icon">
+    <link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="~/leadpage/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/leadpage/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/leadpage/assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link href="~/leadpage/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="~/leadpage/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="~/leadpage/assets/css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/auth-style.css" />
+   
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="~/leadpage/assets/img/video/video-2.mp4" type="video/mp4">
+    </video>
+    <div id="video-overlay"></div>
+ 
+    <header id="header" class="header fixed-top header-scrolled">
+        <div class="nav-wrap">
+            <div class="container d-flex align-items-center justify-content-between">
+                <a href="~/Home/Index" class="logo d-flex align-items-center">
+                    <img src="~/leadpage/assets/img/Apparcus logo.jpg" alt="Apparcus Logo" style="height:40px; margin-right:8px;" />
+                    <h1 class="sitename mb-0">Apparcus</h1>
+                </a>
+                <nav id="navmenu" class="navmenu d-flex align-items-center">
+                    <ul class="d-flex mb-0">
+                        <li><a href="~/Home/Index" class="active">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="~/Account/Login">Login</a></li>
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list ms-3"></i>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main" style="margin-top:90px">
+        @RenderBody()
+    </main>
+   
+    <footer id="footer" class="footer dark-background">
+        <div class="container">
+            <div class="row gy-5">
+                <div class="col-lg-4">
+                    <div class="footer-content">
+                        <a href="~/Home/Index" class="logo d-flex align-items-center mb-3">
+                            <span class="sitename">Apparcus</span>
+                        </a>
+                        <p class="mb-4">
+                            Apparcus helps you move, manage, and grow your money securely — from instant transfers to digital wallets and business payments.
+                        </p>
+                        <div class="newsletter-form">
+                            <h6>Stay Updated</h6>
+                            <form>
+                                <div class="input-group">
+                                    <input type="email" name="email" class="form-control" placeholder="Enter your email">
+                                    <button class="btn btn-primary" type="submit"><i class="bi bi-send"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <div class="footer-links">
+                        <h5>Company</h5>
+                        <ul>
+                            <li><a href="#"><i class="bi bi-chevron-right"></i> About Us</a></li>
+                            <li><a href="#"><i class="bi bi-chevron-right"></i> Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+               
+                <div class="col-lg-4">
+                    <div class="footer-contact">
+                        <h5>Get in Touch</h5>
+                        <p><i class="bi bi-geo-alt"></i> 42 Allen Avenue, Lagos, Nigeria</p>
+                        <p><i class="bi bi-envelope"></i> support@apparcus.com</p>
+                        <p><i class="bi bi-telephone"></i> +234 800 222 9988</p>
+                        <div class="social-links mt-3">
+                            <a href="#"><i class="bi bi-facebook"></i></a>
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </footer>
+
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+   
+    <script src="~/leadpage/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/leadpage/assets/vendor/aos/aos.js"></script>
+    <script src="~/leadpage/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/leadpage/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/leadpage/assets/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
