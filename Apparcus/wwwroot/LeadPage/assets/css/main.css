@@ -4440,3 +4440,10 @@ section,
     border-radius: 0;
   }
 }
+
+
+@media (max-width: 767px) {
+    .testimonial-card {
+        margin: 0 auto;
+    }
+}
