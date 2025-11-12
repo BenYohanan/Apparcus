@@ -7,16 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Logic.Helpers
 {
-	public class UserHelper : IUserHelper
+	public class UserHelper(AppDbContext db, UserManager<ApplicationUser> userManager) : IUserHelper
 	{
-		private readonly AppDbContext db;
-		private UserManager<ApplicationUser> _userManager;
-		public UserHelper(AppDbContext db, UserManager<ApplicationUser> userManager)
-		{
-			_userManager = userManager;
-			this.db = db;
-		}
-		public async Task<ApplicationUser?> FindByEmailAsync(string email)
+		private readonly AppDbContext db = db;
+		private readonly UserManager<ApplicationUser> _userManager = userManager;
+
+        public async Task<ApplicationUser?> FindByEmailAsync(string email)
 		{
 			return await db.ApplicationUsers
 				.Where(s => s.Email == email && !s.Deleted)

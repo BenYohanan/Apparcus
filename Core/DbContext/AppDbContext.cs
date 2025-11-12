@@ -17,5 +17,8 @@ namespace Core.DbContext
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<DropDown> DropDowns { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectSupporter> ProjectSupporters { get; set; }
+        public DbSet<ProjectComment> ProjectComments { get; set; }
     }
 }

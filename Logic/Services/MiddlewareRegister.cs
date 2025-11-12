@@ -3,6 +3,7 @@ using Hangfire.Dashboard;
 using Hangfire.SqlServer;
 using Logic.Helpers;
 using Logic.IHelpers;
+using Logic.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,8 @@ public static class MiddlewareRegister
     public static IServiceCollection RegisterHelpers(this IServiceCollection services)
     {
         services.AddScoped<IUserHelper, UserHelper>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IEmailTemplateService, EmailTemplateService>();
         return services;
     }
     public class MyAuthorizationFilter : IDashboardAuthorizationFilter
