@@ -1,0 +1,52 @@
+﻿@model Apparcus.Models.RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAuth.cshtml";
+    ViewData["Title"] = "Register";
+}
+<div class="auth-card" data-aos="zoom-in" data-aos-delay="100" style="margin-top:132px;">
+    <div class="text-center mb-4">
+        <img src="~/leadpage/assets/img/Apparcus logo.jpg" alt="Apparcus Logo" class="img-fluid mb-3" style="width:80px;">
+        <h2>Create Account</h2>
+        <p>Join Apparcus Payments today</p>
+    </div>
+    <form asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="Full Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" placeholder="Email Address" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password"></label>
+            <div class="pass-group">
+                <input asp-for="Password" class="form-control pass-input" placeholder="Password" />
+                <span class="ti toggle-password ti-eye-off"></span>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword"></label>
+            <div class="pass-group">
+                <input asp-for="ConfirmPassword" class="form-control pass-inputs" placeholder="Confirm Password" />
+                <span class="ti toggle-passwords ti-eye-off"></span>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" id="agree_terms" type="checkbox" required />
+            <label for="agree_terms" class="form-check-label">Agree to <span class="text-primary">Terms & Privacy</span></label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mb-3">Sign Up</button>
+        <p class="text-center mt-4">
+            Already have an account? <a asp-action="Login" class="fw-semibold">Sign In</a>
+        </p>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

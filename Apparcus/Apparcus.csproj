@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Logic\Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\LeadPage\assets\img\icons\" />
+  </ItemGroup>
+
 </Project>

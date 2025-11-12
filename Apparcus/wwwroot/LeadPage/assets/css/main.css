@@ -592,7 +592,7 @@ h6 {
 .footer .footer-links ul a i {
   margin-right: 8px;
   font-size: 12px;
-  color: var(--accent-color);
+  color: white;
 }
 
 .footer .footer-contact .contact-item {
