@@ -6,7 +6,10 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>@ViewData["Title"] - Apparcus</title>    <link href="~/leadpage/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <title>@ViewData["Title"] | Apparcus</title>
+
+    <link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="icon">
+    <link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="apple-touch-icon">
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -25,38 +28,27 @@
     </video>
     <div id="video-overlay"></div>
  
-    <header id="header" class="header fixed-top">
-        <div class="container-fluid container-xl position-relative">
-            <div class="top-row d-flex align-items-center justify-content-between">
+    <header id="header" class="header fixed-top header-scrolled">
+        <div class="nav-wrap">
+            <div class="container d-flex align-items-center justify-content-between">
                 <a href="~/Home/Index" class="logo d-flex align-items-center">
-                    <h1 class="sitename">Apparcus</h1>
+                    <img src="~/leadpage/assets/img/Apparcus logo.jpg" alt="Apparcus Logo" style="height:40px; margin-right:8px;" />
+                    <h1 class="sitename mb-0">Apparcus</h1>
                 </a>
-                <div class="d-flex align-items-center">
-                    <div class="social-links">
-                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-		<div class="nav-wrap">
-			
-            <div class="container d-flex justify-content-center position-relative">
-                <nav id="navmenu" class="navmenu">
-                    <ul>
+                <nav id="navmenu" class="navmenu d-flex align-items-center">
+                    <ul class="d-flex mb-0">
                         <li><a href="~/Home/Index" class="active">Home</a></li>
-                        <li><a href="~/Home/About">About</a></li>
-                        <li><a href="~/Home/Services">Services</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
                         <li><a href="~/Account/Login">Login</a></li>
                     </ul>
-                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list ms-3"></i>
                 </nav>
             </div>
         </div>
     </header>
-   
-    <main class="main" style="margin-top:100px">
+
+    <main class="main" style="margin-top:90px">
         @RenderBody()
     </main>
    
@@ -87,23 +79,11 @@
                         <h5>Company</h5>
                         <ul>
                             <li><a href="#"><i class="bi bi-chevron-right"></i> About Us</a></li>
-                            <li><a href="#"><i class="bi bi-chevron-right"></i> Careers</a></li>
-                            <li><a href="#"><i class="bi bi-chevron-right"></i> Blog</a></li>
                             <li><a href="#"><i class="bi bi-chevron-right"></i> Contact</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-2 col-6">
-                    <div class="footer-links">
-                        <h5>Products</h5>
-                        <ul>
-                            <li><a href="#"><i class="bi bi-chevron-right"></i> Wallet</a></li>
-                            <li><a href="#"><i class="bi bi-chevron-right"></i> Transfers</a></li>
-                            <li><a href="#"><i class="bi bi-chevron-right"></i> Bills & Payments</a></li>
-                            <li><a href="#"><i class="bi bi-chevron-right"></i> Business API</a></li>
-                        </ul>
-                    </div>
-                </div>
+               
                 <div class="col-lg-4">
                     <div class="footer-contact">
                         <h5>Get in Touch</h5>
@@ -114,7 +94,6 @@
                             <a href="#"><i class="bi bi-facebook"></i></a>
                             <a href="#"><i class="bi bi-twitter-x"></i></a>
                             <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -132,23 +111,6 @@
     <script src="~/leadpage/assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="~/leadpage/assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="~/leadpage/assets/js/main.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const header = document.getElementById("header");
-
-          function toggleHeaderColor() {
-            if (window.scrollY > 20) {
-              header.classList.add("header-scrolled");
-            } else {
-              header.classList.remove("header-scrolled");
-            }
-          }
-
-          window.addEventListener("scroll", toggleHeaderColor);
-          toggleHeaderColor();
-        });
-    </script>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>
