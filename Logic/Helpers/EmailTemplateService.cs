@@ -1,22 +1,11 @@
 ﻿using Core.Models;
 using Logic.IHelpers;
-using Microsoft.Extensions.Configuration;
 
 namespace Logic.Helpers
 {
-    public class EmailTemplateService : IEmailTemplateService
+    public class EmailTemplateService(IEmailService emailService) : IEmailTemplateService
     {
-        private readonly IEmailService _emailService;
-        private readonly IConfiguration _emailConfiguration;
-        private readonly string supportEmail = string.Empty;
-
-        public EmailTemplateService(IEmailService emailService, IConfiguration configuration)
-        {
-            _emailConfiguration = configuration;
-            _emailService = emailService;
-            supportEmail = _emailConfiguration["EmailConfiguration:CompanyEmail"] ?? "okoronkwomarvelous@hotmail.com";
-        }
-
+        private readonly IEmailService _emailService = emailService;
 
         public bool SendRegistrationEmail(ApplicationUser user, string baseUrl)
         {
@@ -40,7 +29,7 @@ namespace Logic.Helpers
                             Login Link: <a href='{loginLink}' style='color: #004aad;'>Login</a>.
                         </p>
                         <p style='color: #333333;'>
-                            Need help? Contact us at <a href='mailto:{supportEmail}' style='color: #004aad;'>{supportEmail}</a>.
+                            Need help? Contact us at <a href='mailto:officialgreenpgms@gmail.com' style='color: #004aad;'>officialgreenpgms@gmail.com</a>.
                         </p>
                         <p><b>Kind regards,</b><br/>Apparcus Team</p>
                     </div>

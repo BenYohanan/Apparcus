@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.RegisterHelpers();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
 
 // Register the database context
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -25,6 +27,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 }).AddEntityFrameworkStores<AppDbContext>();
+
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(70000);
+});
 
 var app = builder.Build();
 
@@ -61,7 +71,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHangfireConfiguration();

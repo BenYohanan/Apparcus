@@ -2,7 +2,6 @@
 using Core.DbContext;
 using Core.Models;
 using Core.ViewModels;
-using Logic.Helpers;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -45,12 +44,14 @@ namespace Apparcus.Controllers
             {
                 return ResponseHelper.JsonError("Invalid user name or password");
             }
-            user.Roles = (List<string>)await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            user.Roles = (List<string?>)await _userManager.GetRolesAsync(user).ConfigureAwait(false);
 
             user.UserRole = user.Roles.Contains(Constants.SuperAdminRole) ? Constants.SuperAdminRole :
                             user.Roles.Contains(Constants.AdminRole) ? Constants.AdminRole :
                             Constants.UserRole;
             var url = _userHelper.GetValidatedUrl(user.Roles);
+            var currentUser = JsonConvert.SerializeObject(user, settings);
+            HttpContext.Session.SetString("loggedInUser", currentUser);
             return ResponseHelper.JsonSuccessWithReturnUrl(url);
         }
 
@@ -101,8 +102,6 @@ namespace Apparcus.Controllers
         {
             return View();
         }
-
-        
 
         public IActionResult ForgotPasswordConfirmation()
         {

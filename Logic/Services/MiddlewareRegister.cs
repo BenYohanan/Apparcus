@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.SqlServer;
+using Logic;
 using Logic.Helpers;
 using Logic.IHelpers;
 using Logic.Services;
@@ -24,7 +25,7 @@ public static class MiddlewareRegister
         public bool Authorize(DashboardContext context)
         {
             var user = context.GetHttpContext().User;
-            return user != null && user.Identity.IsAuthenticated && user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "SuperAdmin");
+            return user != null && user.Identity.IsAuthenticated && user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
         }
     }
 
@@ -44,6 +45,7 @@ public static class MiddlewareRegister
         {
             Authorization = new[] { new MyAuthorizationFilter() }
         };
+        AppHttpContext.Services = app.ApplicationServices;
         app.UseHangfireDashboard("/ApparusHangFire", dashboardOptions, robotStorage);
 
         return app;

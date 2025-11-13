@@ -84,6 +84,7 @@ namespace Logic.Helpers
                     FirstName = r.FirstName,
                     LastName = r.LastName,
                     Email = r.Email,
+                    FullName = $"{r.FirstName} {r.LastName}",
                     PhoneNumber = r.PhoneNumber,
                     DateRegistered = r.DateCreated,
                     DateOfBirth = r.DateOfBirth,
@@ -91,7 +92,16 @@ namespace Logic.Helpers
                 };
             })];
         }
-
+        public string GetRoleLayout()
+        {
+            var user = Utility.GetCurrentUser();
+            if (user == null)
+            {
+                return Constants.DefaultLayout;
+            }
+            var isSuperAdmin = user.Roles.Contains(Constants.SuperAdminRole);
+            return isSuperAdmin ? Constants.SuperAdminLayout : Constants.GeneralLayout;
+        }
 
     }
 }
