@@ -192,3 +192,56 @@ function changePassword() {
 		}
 	});
 }
+
+function makeUserAdmin() {
+	const userId = $('#userIdToMakeId').val();
+	if (!userId) {
+		errorAlert("Invalid user ID");
+		return;
+	}
+
+	$.ajax({
+		url: '/Admin/MakeUserAdmin',
+		type: 'POST',
+		data: { userId: userId },
+		success: function (response) {
+			if (!response.isError) {
+				var url = location.href;
+				newSuccessAlert(response.msg, url);
+			} else {
+				errorAlert(response.msg);
+			}
+		},
+		error: function () {
+			errorAlert("An error occurred while making user admin.");
+		}
+	});
+}
+
+function openDeleteUserModal(userId) {
+	$('#userIdToDelete').val(userId);
+	$('#delete_modal').modal('show');
+}
+function deleteUsers() {
+	$.ajax({
+		type: 'Post',
+		dataType: 'json',
+		url: '/Admin/Delete',
+		data:
+		{
+			userId: $('#userIdToDelete').val(),
+		},
+		success: function (result) {
+			if (!result.isError) {
+				var url = window.location.href;
+				newSuccessAlert(result.msg, url)
+			}
+			else {
+				errorAlert(result.msg)
+			}
+		},
+		error: function (ex) {
+			errorAlert("An error has occurred, try again. Please contact support if the error persists");
+		}
+	});
+}
