@@ -65,6 +65,26 @@ namespace Apparcus.Controllers
         }
 
         [HttpPost]
+        public async Task<JsonResult> RemoveUserAdmin(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return ResponseHelper.JsonError("User not found");
+
+            var isAdmin = await _userManager.IsInRoleAsync(user, SeedItems.AdminRole);
+            if (!isAdmin)
+                return ResponseHelper.JsonError("User is not an admin");
+
+            var result = await _userManager.RemoveFromRoleAsync(user, SeedItems.AdminRole);
+            if (result.Succeeded)
+                return ResponseHelper.JsonSuccess("User removed from admin role successfully");
+
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return ResponseHelper.JsonError($"Failed to remove admin role: {errors}");
+        }
+
+
+        [HttpPost]
         public JsonResult Delete(string userId)
         {
             if (string.IsNullOrEmpty(userId))

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Core.ViewModels.ApplicationUserViewModel>
 @{
-    ViewData["Title"] = "Researchers";
+    ViewData["Title"] = "Users";
 	Layout = ViewBag.Layout;
 }
 
@@ -71,6 +71,9 @@
 											<div class="action-icon d-inline-flex">
 												<a href="javascript:void(0);" onclick="openMakeAdminModal('@applicationUser.Id')" title="Make Admin">
 													<i class="ti ti-shield-check"></i>
+												</a>
+												<a href="javascript:void(0);" onclick="openRemoveAdminModal('@applicationUser.Id')" title="Remove as Admin">
+													<i class="ti ti-shield-x"></i>
 												</a>
 												<a href="javascript:void(0);" onclick="openChangePasswordModal('@applicationUser.Id')" title="Change Password"><i class="ti ti-lock-open"></i></a>
 												<a href="javascript:void(0);" onclick="openDeleteUserModal('@applicationUser.Id')" title="Delete"><i class="ti ti-trash"></i></a>
@@ -206,3 +209,22 @@
 	</div>
 </div>
 <!-- /Make admin Modal -->
+<!-- Remove Admin Modal -->
+<div class="modal fade" id="removeAdmin_modal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+					<i class="ti ti-shield-x fs-36"></i>
+				</span>
+				<h4 class="mb-1">Remove Admin</h4>
+				<input type="hidden" id="userIdToRemoveId" />
+				<p class="mb-3">Are you sure you want to remove this user as admin?</p>
+				<div class="d-flex justify-content-center">
+					<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
+					<a onclick="removeUserAdmin()" class="btn btn-danger">Proceed</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
