@@ -63,5 +63,24 @@ namespace Apparcus.Controllers
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
             return ResponseHelper.JsonError($"Failed to promote user: {errors}");
         }
+
+        [HttpPost]
+        public JsonResult Delete(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+                return ResponseHelper.JsonError("An error has occurred, try again. Please contact support if the error persists.");
+
+            var removeUser = _context.ApplicationUsers
+                .FirstOrDefault(u => u.Id == userId && !u.Deleted);
+
+            if (removeUser == null)
+                return ResponseHelper.JsonError("User not found.");
+
+            removeUser.Deleted = true;
+
+            _context.SaveChanges();
+            return ResponseHelper.JsonSuccess("Deleted!.");
+        }
+
     }
 }
