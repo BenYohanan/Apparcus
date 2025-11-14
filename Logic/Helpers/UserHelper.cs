@@ -72,7 +72,7 @@ namespace Logic.Helpers
             var adminUsers = _userManager.GetUsersInRoleAsync(SeedItems.AdminRole).Result;
             var normalUsers = _userManager.GetUsersInRoleAsync(SeedItems.UserRole).Result;
 
-            var allUsers = adminUsers.Concat(normalUsers).DistinctBy(u => u.Id).ToList();
+            var allUsers = adminUsers.Concat(normalUsers).DistinctBy(u => u.Id).Where(x=>!x.Deleted).ToList();
 
             return [.. allUsers.Select(r =>
             {
