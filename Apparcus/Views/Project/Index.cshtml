@@ -1,94 +1,351 @@
 ﻿
-
-
-
 @model List<Core.Models.Project>
 @{
     Layout = ViewBag.Layout;
     ViewData["Title"] = "Projects";
 }
+<style>
 
+    body {
+        counter-reset: Serial; /* / Set the Serial counter to 0 /*/
+    }
+
+    tr td:first-child:before {
+        counter-increment: Serial; /* / Increment the Serial counter /*/
+        content: counter(Serial); /*  / Display the counter /*/
+    }
+</style>
 <div class="page-wrapper">
-    <div class="content container-fluid">
-        <div class="d-flex align-items-center justify-content-between flex-wrap border-bottom mb-4 pb-3">
-            <h3 class="page-title">Projects</h3>
-            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_project">Add Project</a>
+    <div class="content">
+        <!-- Breadcrumb -->
+        <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
+            <div class="my-auto mb-2">
+                <h2 class="mb-1">Projects</h2>
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);"><i class="ti ti-smart-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            Dashboard
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Project</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
+                <div class="mb-2">
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add_project" class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Project</a>
+                </div>
+            </div>
         </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Project ID</th>
-                        <th>Project Name</th>
-                        <th>Leader</th>
-                        <th>Team</th>
-                        <th>Amount Needed</th>
-                        <th>Amount Obtained</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null)
-                    {
-                        @foreach (var project in Model)
-                        {
-                            <tr>
-                                <td><input type="checkbox" /></td>
-                                <td>PRO-@project.Id.ToString("000")</td>
-                                <td>@project.Title</td>
-                                <td>@(project.CreatedBy?.FullName ?? "N/A")</td>
-                                <td>0</td>
-                                <td>@project.AmountNeeded</td>
-                                <td>@project.AmountObtained</td>
-                                <td>Active</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+        <!-- /Breadcrumb -->
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="custom-datatable-filter table-responsive">
+                    <div class="table-responsive">
+                        <table class="table datatable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Project ID</th>
+                                    <th>Project Name</th>
+                                    <th>Leader</th>
+                                    <th>Team</th>
+                                    <th>Amount Needed</th>
+                                    <th>Amount Obtained</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    @foreach (var project in Model)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@project.Title</td>
+                                            <td>@project.CreatedBy?.FullName</td>
+                                            <td>
+                                                <div class="avatar-list-stacked avatar-group-sm">
+                                                    <span class="avatar avatar-rounded">
+                                                        <img class="border border-white" src="assets/img/profiles/avatar-02.jpg" alt="img">
+                                                    </span>
+                                                    <span class="avatar avatar-rounded">
+                                                        <img class="border border-white" src="assets/img/profiles/avatar-03.jpg" alt="img">
+                                                    </span>
+                                                    <span class="avatar avatar-rounded">
+                                                        <img class="border border-white" src="assets/img/profiles/avatar-05.jpg" alt="img">
+                                                    </span>
+                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" href="javascript:void(0);">
+                                                        +1
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>@project.AmountNeeded</td>
+                                            <td>@project.AmountObtained</td>
+                                            <td>Active</td>
+                                            <td>
+                                                <div class="action-icon d-inline-flex">
+                                                    <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project"><i class="ti ti-edit"></i></a>
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+       
     </div>
 </div>
 
 <!-- Add Project Modal -->
 <div class="modal fade" id="add_project" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Project</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-controller="Project" asp-action="Create" method="post">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Project Name</label>
-                        <input type="text" class="form-control" name="Title">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="Description" class="form-control summernote"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Amount Needed</label>
-                        <input type="number" class="form-control" name="AmountNeeded">
-                    </div>
-                
-                    <div class="mb-3">
-                        <label class="form-label">Select Users</label>
-                        <select style="width: 100%;" id="" class="select2" multiple="multiple"
-                            asp-items="@(new SelectList(ViewBag.UsersDropdown, "Id", "UserName"))">
-                        </select>
-                    </div>
-
-                 
-
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name">
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="description" class="form-control summernote"></textarea>
                 </div>
-            </form>
+                <div class="mb-3">
+                    <label class="form-label">Amount Needed</label>
+                    <input type="number" class="form-control" id="amountNeeded">
+                </div>
+            </div>
+			<div class="modal-footer">
+				<div class="d-flex align-items-center justify-content-end">
+					<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
+					<button class="btn btn-primary" onclick="saveProject()" type="button" data-bs-toggle="modal">Save</button>
+				</div>
+			</div>
         </div>
     </div>
 </div>
+
+<!-- Edit Project -->
+<div class="modal fade" id="edit_project" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header header-border align-items-center justify-content-between">
+				<div class="d-flex align-items-center">
+					<h5 class="modal-title me-2">Edit Project </h5>
+					<p class="text-dark">Project ID : PRO-0004</p>
+				</div>
+				<button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<i class="ti ti-x"></i>
+				</button>
+			</div>
+			<div class="add-info-fieldset ">
+				<div class="contact-grids-tab p-3 pb-0">
+					<ul class="nav nav-underline" id="myTab1" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="basic-tab1" data-bs-toggle="tab" data-bs-target="#basic-info1" type="button" role="tab" aria-selected="true">Basic Information</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="member-tab1" data-bs-toggle="tab" data-bs-target="#member1" type="button" role="tab" aria-selected="false">Members</button>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content" id="myTabContent1">
+					<div class="tab-pane fade show active" id="basic-info1" role="tabpanel" aria-labelledby="basic-tab1" tabindex="0">
+						<form action="projects.html">
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="d-flex align-items-center flex-wrap row-gap-3 bg-light w-100 rounded p-3 mb-4">
+											<div class="d-flex align-items-center justify-content-center avatar avatar-xxl rounded-circle border border-dashed me-2 flex-shrink-0 text-dark frames">
+												<i class="ti ti-photo text-gray-2 fs-16"></i>
+											</div>
+											<div class="profile-upload">
+												<div class="mb-2">
+													<h6 class="mb-1">Upload Project Logo</h6>
+													<p class="fs-12">Image should be below 4 mb</p>
+												</div>
+												<div class="profile-uploader d-flex align-items-center">
+													<div class="drag-upload-btn btn btn-sm btn-primary me-2">
+														Upload
+														<input type="file" class="form-control image-sign" multiple="">
+													</div>
+													<a href="javascript:void(0);" class="btn btn-light btn-sm">Cancel</a>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label">Project Name</label>
+											<input type="text" class="form-control" value="Office Management">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label">Client</label>
+											<select class="select">
+												<option>Select</option>
+												<option selected>Anthony Lewis</option>
+												<option>Brian Villalobos</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="mb-3">
+													<label class="form-label">Start Date</label>
+													<div class="input-icon-end position-relative">
+														<input type="text" class="form-control datetimepicker" placeholder="dd/mm/yyyy" value="02-05-2024">
+														<span class="input-icon-addon">
+															<i class="ti ti-calendar text-gray-7"></i>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="mb-3">
+													<label class="form-label">End Date</label>
+													<div class="input-icon-end position-relative">
+														<input type="text" class="form-control datetimepicker" placeholder="dd/mm/yyyy" value="02-05-2024">
+														<span class="input-icon-addon">
+															<i class="ti ti-calendar text-gray-7"></i>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="mb-3">
+													<label class="form-label">Priority</label>
+													<select class="select">
+														<option>Select</option>
+														<option>High</option>
+														<option>Medium</option>
+														<option>Low</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="mb-3">
+													<label class="form-label">Project Value</label>
+													<input type="text" class="form-control" value="$">
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="mb-3">
+													<label class="form-label">Price Type</label>
+													<input type="text" class="form-control" value="">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label">Description</label>
+											<div class="summernote"></div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="input-block mb-0">
+											<label class="form-label">Upload Files</label>
+											<input class="form-control" type="file">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="d-flex align-items-center justify-content-end">
+									<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
+									<button class="btn btn-primary" type="submit">Save</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane fade" id="member1" role="tabpanel" aria-labelledby="member-tab1" tabindex="0">
+						<form action="projects.html">
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label me-2">Team Members</label>
+											<input class="input-tags form-control" placeholder="Add new" type="text" data-role="tagsinput" name="Label" value="Jerald,Andrew,Philip,Davis">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label me-2">Team Leader</label>
+											<input class="input-tags form-control" placeholder="Add new" type="text" data-role="tagsinput" name="Label" value="Hendry,James">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label me-2">Project Manager</label>
+											<input class="input-tags form-control" placeholder="Add new" type="text" data-role="tagsinput" name="Label" value="Dwight">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div>
+											<label class="form-label">Tags</label>
+											<input class="input-tags form-control" placeholder="Add new" type="text" data-role="tagsinput" name="Label" value="Collab,Promotion,Rated">
+										</div>
+									</div>
+
+									<div class="col-md-12">
+										<div class="mb-3">
+											<label class="form-label">Status</label>
+											<select class="select">
+												<option>Select</option>
+												<option selected>Active</option>
+												<option>Inactive</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="d-flex align-items-center justify-content-end">
+									<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
+									<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#success_modal">Save</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Edit Project -->
+
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+                    <i class="ti ti-trash-x fs-36"></i>
+                </span>
+                <h4 class="mb-1">Confirm Delete</h4>
+                <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
+                <div class="d-flex justify-content-center">
+                    <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
+                    <a href="projects-grid.html" class="btn btn-danger">Yes, Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Modal -->
