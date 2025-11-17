@@ -44,6 +44,9 @@
 	<!-- Datetimepicker CSS -->
 	<link rel="stylesheet" href="~/template/assets/css/bootstrap-datetimepicker.min.css">
 
+	<!-- Datatable CSS -->
+	<link rel="stylesheet" href="~/template/assets/css/dataTables.bootstrap5.min.css">
+
 	<!-- Bootstrap Tagsinput CSS -->
 	<link rel="stylesheet" href="~/template/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
 
@@ -186,7 +189,7 @@
 			<div class="main-header">
 
 				<div class="header-left">
-					<a href="index.html" class="logo">
+					<a href="/Home/Index" class="logo">
 						<img src="~/template/assets/img/Apparcus logo 2.jpg" alt="Logo">
 					</a>
 				</div>
@@ -206,126 +209,12 @@
 							<a id="toggle_btn" href="javascript:void(0);" class="btn btn-menubar me-1">
 								<i class="ti ti-arrow-bar-to-left"></i>
 							</a>
-							<!-- Search -->
-							<div class="input-group input-group-flat d-inline-flex me-1">
-								<span class="input-icon-addon">
-									<i class="ti ti-search"></i>
-								</span>
-								<input type="text" class="form-control" placeholder="Search in HRMS">
-								<span class="input-group-text">
-									<kbd>CTRL + / </kbd>
-								</span>
-							</div>
-							<!-- /Search -->
-							<div class="dropdown crm-dropdown">
-								<a href="#" class="btn btn-menubar me-1" data-bs-toggle="dropdown">
-									<i class="ti ti-layout-grid"></i>
-								</a>
-								<div class="dropdown-menu dropdown-lg dropdown-menu-start">
-									<div class="card mb-0 border-0 shadow-none">
-										<div class="card-header">
-											<h4>CRM</h4>
-										</div>
-										<div class="card-body pb-1">
-											<div class="row">
-												<div class="col-sm-6">
-													<a href="contacts.html" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-														<span class="d-flex align-items-center me-3">
-															<i class="ti ti-user-shield text-default me-2"></i>Contacts
-														</span>
-														<i class="ti ti-arrow-right"></i>
-													</a>
-													<a href="deals-grid.html" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-														<span class="d-flex align-items-center me-3">
-															<i class="ti ti-heart-handshake text-default me-2"></i>Deals
-														</span>
-														<i class="ti ti-arrow-right"></i>
-													</a>
-													<a href="pipeline.html" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-														<span class="d-flex align-items-center me-3">
-															<i class="ti ti-timeline-event-text text-default me-2"></i>Pipeline
-														</span>
-														<i class="ti ti-arrow-right"></i>
-													</a>
-												</div>
-												<div class="col-sm-6">
-													<a href="companies-grid.html" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-														<span class="d-flex align-items-center me-3">
-															<i class="ti ti-building text-default me-2"></i>Companies
-														</span>
-														<i class="ti ti-arrow-right"></i>
-													</a>
-													<a href="leads-grid.html" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-														<span class="d-flex align-items-center me-3">
-															<i class="ti ti-user-check text-default me-2"></i>Leads
-														</span>
-														<i class="ti ti-arrow-right"></i>
-													</a>
-													<a href="activity.html" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-														<span class="d-flex align-items-center me-3">
-															<i class="ti ti-activity text-default me-2"></i>Activities
-														</span>
-														<i class="ti ti-arrow-right"></i>
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<a href="profile-settings.html" class="btn btn-menubar">
-								<i class="ti ti-settings-cog"></i>
-							</a>
 						</div>
-
 
 						<div class="d-flex align-items-center">
 							<div class="me-1">
 								<a href="#" class="btn btn-menubar btnFullscreen">
 									<i class="ti ti-maximize"></i>
-								</a>
-							</div>
-							<div class="dropdown me-1">
-								<a href="#" class="btn btn-menubar" data-bs-toggle="dropdown">
-									<i class="ti ti-layout-grid-remove"></i>
-								</a>
-								<div class="dropdown-menu dropdown-menu-end">
-									<div class="card mb-0 border-0 shadow-none">
-										<div class="card-header">
-											<h4>Applications</h4>
-										</div>
-										<div class="card-body">
-											<a href="calendar.html" class="d-block pb-2">
-												<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-calendar text-gray-9"></i></span>Calendar
-											</a>
-											<a href="todo.html" class="d-block py-2">
-												<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-subtask text-gray-9"></i></span>To Do
-											</a>
-											<a href="notes.html" class="d-block py-2">
-												<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-notes text-gray-9"></i></span>Notes
-											</a>
-											<a href="file-manager.html" class="d-block py-2">
-												<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-folder text-gray-9"></i></span>File Manager
-											</a>
-											<a href="kanban-view.html" class="d-block py-2">
-												<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-layout-kanban text-gray-9"></i></span>Kanban
-											</a>
-											<a href="invoices.html" class="d-block py-2 pb-0">
-												<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-file-invoice text-gray-9"></i></span>Invoices
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="me-1">
-								<a href="chat.html" class="btn btn-menubar position-relative">
-									<i class="ti ti-brand-hipchat"></i>
-									<span class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
-								</a>
-							</div>
-							<div class="me-1">
-								<a href="email.html" class="btn btn-menubar">
-									<i class="ti ti-mail"></i>
 								</a>
 							</div>
 							<div class="me-1 notification_item">
@@ -482,7 +371,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- Mobile Menu -->
 				<div class="dropdown mobile-user-menu">
 					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -493,9 +381,7 @@
 					</div>
 				</div>
 				<!-- /Mobile Menu -->
-
 			</div>
-
 		</div>
 		<div class="container-fluid">
 			<main role="main" class="pb-3">
@@ -514,200 +400,16 @@
 				</a>
 			</div>
 			<!-- /Logo -->
-			<div class="modern-profile p-3 pb-0">
-				<div class="text-center rounded bg-light p-3 mb-4 user-profile">
-					<div class="avatar avatar-lg online mb-3">
-						<img src="~/template/assets/img/profiles/avatar-02.jpg" alt="Img" class="img-fluid rounded-circle">
-					</div>
-					<h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
-					<p class="fs-10">System Admin</p>
-				</div>
-				<div class="sidebar-nav mb-3">
-					<ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified bg-transparent" role="tablist">
-						<li class="nav-item"><a class="nav-link active border-0" href="#">Menu</a></li>
-						<li class="nav-item"><a class="nav-link border-0" href="chat.html">Chats</a></li>
-						<li class="nav-item"><a class="nav-link border-0" href="email.html">Inbox</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="sidebar-header p-3 pb-0 pt-2">
-				<div class="text-center rounded bg-light p-2 mb-4 sidebar-profile d-flex align-items-center">
-					<div class="avatar avatar-md onlin">
-						<img src="~/template/assets/img/profiles/avatar-02.jpg" alt="Img" class="img-fluid rounded-circle">
-					</div>
-					<div class="text-start sidebar-profile-info ms-2">
-						<h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
-						<p class="fs-10">System Admin</p>
-					</div>
-				</div>
-				<div class="input-group input-group-flat d-inline-flex mb-4">
-					<span class="input-icon-addon">
-						<i class="ti ti-search"></i>
-					</span>
-					<input type="text" class="form-control" placeholder="Search in HRMS">
-					<span class="input-group-text">
-						<kbd>CTRL + / </kbd>
-					</span>
-				</div>
-				<div class="d-flex align-items-center justify-content-between menu-item mb-3">
-					<div class="me-3">
-						<a href="calendar.html" class="btn btn-menubar">
-							<i class="ti ti-layout-grid-remove"></i>
-						</a>
-					</div>
-					<div class="me-3">
-						<a href="chat.html" class="btn btn-menubar position-relative">
-							<i class="ti ti-brand-hipchat"></i>
-							<span class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
-						</a>
-					</div>
-					<div class="me-3 notification-item">
-						<a href="activity.html" class="btn btn-menubar position-relative me-1">
-							<i class="ti ti-bell"></i>
-							<span class="notification-status-dot"></span>
-						</a>
-					</div>
-					<div class="me-0">
-						<a href="email.html" class="btn btn-menubar">
-							<i class="ti ti-message"></i>
-						</a>
-					</div>
-				</div>
-			</div>
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
 						<li class="menu-title"><span>MAIN MENU</span></li>
 						<li>
 							<ul>
-								<li class="submenu">
-									<a href="javascript:void(0);" class="active subdrop">
+								<li>
+									<a href="/Admin/Index" class="active">
 										<i class="ti ti-smart-home"></i>
 										<span>Dashboard</span>
-										<span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>
-										<span class="menu-arrow"></span>
-									</a>
-									<ul>
-										<li><a href="index.html" class="active">Admin Dashboard</a></li>
-										<li><a href="employee-dashboard.html">Employee Dashboard</a></li>
-										<li><a href="deals-dashboard.html">Deals Dashboard</a></li>
-										<li><a href="leads-dashboard.html">Leads Dashboard</a></li>
-									</ul>
-								</li>
-								<li class="submenu">
-									<a href="javascript:void(0);">
-										<i class="ti ti-layout-grid-add"></i><span>Applications</span>
-										<span class="menu-arrow"></span>
-									</a>
-									<ul>
-										<li><a href="chat.html">Chat</a></li>
-										<li class="submenu submenu-two">
-											<a href="call.html">Calls<span class="menu-arrow inside-submenu"></span></a>
-											<ul>
-												<li><a href="voice-call.html">Voice Call</a></li>
-												<li><a href="video-call.html">Video Call</a></li>
-												<li><a href="outgoing-call.html">Outgoing Call</a></li>
-												<li><a href="incoming-call.html">Incoming Call</a></li>
-												<li><a href="call-history.html">Call History</a></li>
-											</ul>
-										</li>
-										<li><a href="calendar.html">Calendar</a></li>
-										<li><a href="email.html">Email</a></li>
-										<li><a href="todo.html">To Do</a></li>
-										<li><a href="notes.html">Notes</a></li>
-										<li><a href="social-feed.html">Social Feed</a></li>
-										<li><a href="file-manager.html">File Manager</a></li>
-										<li><a href="kanban-view.html">Kanban</a></li>
-										<li><a href="invoices.html">Invoices</a></li>
-									</ul>
-								</li>
-								<li class="submenu">
-									<a href="#">
-										<i class="ti ti-user-star"></i><span>Super Admin</span>
-										<span class="menu-arrow"></span>
-									</a>
-									<ul>
-										<li><a href="dashboard.html">Dashboard</a></li>
-										<li><a href="companies.html">Companies</a></li>
-										<li><a href="subscription.html">Subscriptions</a></li>
-										<li><a href="packages.html">Packages</a></li>
-										<li><a href="domain.html">Domain</a></li>
-										<li><a href="purchase-transaction.html">Purchase Transaction</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li class="menu-title"><span>LAYOUT</span></li>
-						<li>
-							<ul>
-								<li>
-									<a href="layout-horizontal.html">
-										<i class="ti ti-layout-navbar"></i><span>Horizontal</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-detached.html">
-										<i class="ti ti-details"></i><span>Detached</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-modern.html">
-										<i class="ti ti-layout-board-split"></i><span>Modern</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-two-column.html">
-										<i class="ti ti-columns-2"></i><span>Two Column </span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-hovered.html">
-										<i class="ti ti-column-insert-left"></i><span>Hovered</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-box.html">
-										<i class="ti ti-layout-align-middle"></i><span>Boxed</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-horizontal-single.html">
-										<i class="ti ti-layout-navbar-inactive"></i><span>Horizontal Single</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-horizontal-overlay.html">
-										<i class="ti ti-layout-collage"></i><span>Horizontal Overlay</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-horizontal-box.html">
-										<i class="ti ti-layout-board"></i><span>Horizontal Box</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-horizontal-sidemenu.html">
-										<i class="ti ti-table"></i><span>Menu Aside</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-vertical-transparent.html">
-										<i class="ti ti-layout"></i><span>Transparent</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-without-header.html">
-										<i class="ti ti-layout-sidebar"></i><span>Without Header</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-rtl.html">
-										<i class="ti ti-text-direction-rtl"></i><span>RTL</span>
-									</a>
-								</li>
-								<li>
-									<a href="layout-dark.html">
-										<i class="ti ti-moon"></i><span>Dark</span>
 									</a>
 								</li>
 							</ul>
@@ -716,59 +418,13 @@
 						<li>
 							<ul>
 								<li>
-									<a href="clients-grid.html">
-										<i class="ti ti-users-group"></i><span>Clients</span>
+									<a href="/Admin/Users">
+										<i class="ti ti-users-group"></i><span>Users</span>
 									</a>
 								</li>
-								<li class="submenu">
-									<a href="javascript:void(0);">
+								<li>
+									<a href="/Project/Index">
 										<i class="ti ti-box"></i><span>Projects</span>
-										<span class="menu-arrow"></span>
-									</a>
-									<ul>
-										<li><a href="projects-grid.html">Projects</a></li>
-										<li><a href="tasks.html">Tasks</a></li>
-										<li><a href="task-board.html">Task Board</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li class="menu-title"><span>CRM</span></li>
-						<li>
-							<ul>
-								<li>
-									<a href="contacts-grid.html">
-										<i class="ti ti-user-shield"></i><span>Contacts</span>
-									</a>
-								</li>
-								<li>
-									<a href="companies-grid.html">
-										<i class="ti ti-building"></i><span>Companies</span>
-									</a>
-								</li>
-								<li>
-									<a href="deals-grid.html">
-										<i class="ti ti-heart-handshake"></i><span>Deals</span>
-									</a>
-								</li>
-								<li>
-									<a href="leads-grid.html">
-										<i class="ti ti-user-check"></i><span>Leads</span>
-									</a>
-								</li>
-								<li>
-									<a href="pipeline.html">
-										<i class="ti ti-timeline-event-text"></i><span>Pipeline</span>
-									</a>
-								</li>
-								<li>
-									<a href="analytics.html">
-										<i class="ti ti-graph"></i><span>Analytics</span>
-									</a>
-								</li>
-								<li>
-									<a href="activity.html">
-										<i class="ti ti-activity"></i><span>Activities</span>
 									</a>
 								</li>
 							</ul>
@@ -1600,6 +1256,12 @@
 	<!-- Slimscroll JS -->
 	<script src="~/template/assets/js/jquery.slimscroll.min.js"></script>
 
+
+	<!-- Datatable JS -->
+	<script src="~/template/assets/js/jquery.dataTables.min.js"></script>
+	<script src="~/template/assets/js/dataTables.bootstrap5.min.js"></script>
+
+
 	<!-- Chart JS -->
 	<script src="~/template/assets/plugins/apexchart/apexcharts.min.js"></script>
 	<script src="~/template/assets/plugins/apexchart/chart-data.js"></script>
@@ -1626,10 +1288,6 @@
 
 	<!-- Color Picker JS -->
 	<script src="~/template/assets/plugins/@@simonwep/pickr/pickr.es5.min.js"></script>
-
-	<!-- Datatable JS -->
-	<script src="~/template/assets/js/jquery.dataTables.min.js"></script>
-	<script src="~/template/assets/js/dataTables.bootstrap5.min.js"></script>
 
 	<!-- Custom JS -->
 	<script src="~/template/assets/js/todo.js"></script>

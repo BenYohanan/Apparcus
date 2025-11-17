@@ -218,6 +218,36 @@ function makeUserAdmin() {
 	});
 }
 
+function openRemoveAdminModal(id) {
+	$('#userIdToRemoveId').val(id);
+	$('#removeAdmin_modal').modal('show');
+}
+
+function removeUserAdmin() {
+	const userId = $('#userIdToRemoveId').val();
+	if (!userId) {
+		errorAlert("Invalid user ID");
+		return;
+	}
+
+	$.ajax({
+		url: '/Admin/RemoveUserAdmin',
+		type: 'POST',
+		data: { userId: userId },
+		success: function (response) {
+			if (!response.isError) {
+				var url = location.href;
+				newSuccessAlert(response.msg, url);
+			} else {
+				errorAlert(response.msg);
+			}
+		},
+		error: function () {
+			errorAlert("An error occurred while removing admin role.");
+		}
+	});
+}
+
 function openDeleteUserModal(userId) {
 	$('#userIdToDelete').val(userId);
 	$('#delete_modal').modal('show');

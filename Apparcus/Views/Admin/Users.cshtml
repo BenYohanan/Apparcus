@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Core.ViewModels.ApplicationUserViewModel>
 @{
-    ViewData["Title"] = "Researchers";
+    ViewData["Title"] = "Users";
 	Layout = ViewBag.Layout;
 }
 
@@ -19,11 +19,21 @@
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 	<div class="content">
-
 		<!-- Breadcrumb -->
 		<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
 			<div class="my-auto mb-2">
 				<h2 class="mb-1">Users</h2>
+				<nav>
+					<ol class="breadcrumb mb-0">
+						<li class="breadcrumb-item">
+							<a href="index.html"><i class="ti ti-smart-home"></i></a>
+						</li>
+						<li class="breadcrumb-item">
+							Dashboard
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">User</li>
+					</ol>
+				</nav>
 			</div>
 			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
 				<div class="mb-2">
@@ -40,11 +50,7 @@
 					<table class="table datatable">
 						<thead class="thead-light">
 							<tr>
-								<th class="no-sort">
-									<div class="form-check form-check-md">
-										<input class="form-check-input" type="checkbox" id="select-all">
-									</div>
-								</th>
+								<th>S/N</th>
 								<th>Full Name</th>
 								<th>Email</th>
 								<th>Phone Number</th>
@@ -71,6 +77,9 @@
 											<div class="action-icon d-inline-flex">
 												<a href="javascript:void(0);" onclick="openMakeAdminModal('@applicationUser.Id')" title="Make Admin">
 													<i class="ti ti-shield-check"></i>
+												</a>
+												<a href="javascript:void(0);" onclick="openRemoveAdminModal('@applicationUser.Id')" title="Remove as Admin">
+													<i class="ti ti-shield-x"></i>
 												</a>
 												<a href="javascript:void(0);" onclick="openChangePasswordModal('@applicationUser.Id')" title="Change Password"><i class="ti ti-lock-open"></i></a>
 												<a href="javascript:void(0);" onclick="openDeleteUserModal('@applicationUser.Id')" title="Delete"><i class="ti ti-trash"></i></a>
@@ -206,3 +215,22 @@
 	</div>
 </div>
 <!-- /Make admin Modal -->
+<!-- Remove Admin Modal -->
+<div class="modal fade" id="removeAdmin_modal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+					<i class="ti ti-shield-x fs-36"></i>
+				</span>
+				<h4 class="mb-1">Remove Admin</h4>
+				<input type="hidden" id="userIdToRemoveId" />
+				<p class="mb-3">Are you sure you want to remove this user as admin?</p>
+				<div class="d-flex justify-content-center">
+					<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
+					<a onclick="removeUserAdmin()" class="btn btn-danger">Proceed</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
