@@ -11,12 +11,13 @@ namespace Core.ViewModels
     public class ProjectViewModel
     {
         public int Id { get; set; }
-        public string? Title { get; set; }
+        public string? Name { get; set; }
         public string? Description { get; set; }
         public decimal? AmountNeeded { get; set; }
         public decimal? AmountObtained { get; set; }
         public bool Deleted { get; set; }
         public DateTime? DateCreated { get; set; }
         public string? CreatedById { get; set; }
+        public string? CreatedBy { get; set; }
     }
 }
