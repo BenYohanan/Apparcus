@@ -66,20 +66,20 @@
                                             <td>@project.Name</td>
                                             <td>@project.CreatedBy</td>
                                             <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-																<img class="border border-white" src="~/template/assets/img/profiles/avatar-03.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-																<img class="border border-white" src="~/template/assets/img/profiles/avatar-05.jpg" alt="img">
-                                                    </span>
-                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" href="javascript:void(0);">
-                                                        +1
-                                                    </a>
-                                                </div>
+                                                @if (project.ProjectSupporters.Any())
+                                                {
+                                                    <div class="avatar-list-stacked avatar-group-sm">
+                                                        @foreach (var item in project.ProjectSupporters)
+                                                        {
+                                                            <span class="avatar avatar-rounded">
+                                                                <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                }
+                                                <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" asp-controller="Project" asp-action="ProjectSupporters" asp-route-id="@project.Id">
+                                                    @project.ProjectSupporters.Count() +
+                                                </a>
                                             </td>
                                             <td>@project.AmountNeeded</td>
                                             <td>@project.AmountObtained</td>

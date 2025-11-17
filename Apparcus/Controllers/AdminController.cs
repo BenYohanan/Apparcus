@@ -65,19 +65,7 @@ namespace Apparcus.Controllers
             return ResponseHelper.JsonError($"Failed to promote user: {errors}");
         }
 
-		[HttpGet]
-		public async Task<IActionResult> ProjectSupporters(int id)
-		{
-			var project = await _context.Projects
-				.Include(p => p.ProjectSupporters)
-				.FirstOrDefaultAsync(p => p.Id == id);
-
-			if (project == null) return NotFound();
-
-			ViewBag.ProjectTitle = project.Title;
-			return View(project);
-		}
-
+		
 
         [HttpPost]
         public async Task<JsonResult> RemoveUserAdmin(string userId)

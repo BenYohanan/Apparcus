@@ -32,7 +32,8 @@ namespace Logic.Helpers
                     Deleted = c.Deleted,
                     DateCreated = c.DateCreated,
                     CreatedById = c.CreatedById,
-                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : ""
+                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
+                    ProjectSupporters = c.ProjectSupporters
                 })
                 .ToListAsync();
         }
