@@ -4,6 +4,7 @@ using Core.Models;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Apparcus.Controllers
 {
@@ -63,6 +64,20 @@ namespace Apparcus.Controllers
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
             return ResponseHelper.JsonError($"Failed to promote user: {errors}");
         }
+
+		[HttpGet]
+		public async Task<IActionResult> ProjectSupporters(int id)
+		{
+			var project = await _context.Projects
+				.Include(p => p.ProjectSupporters)
+				.FirstOrDefaultAsync(p => p.Id == id);
+
+			if (project == null) return NotFound();
+
+			ViewBag.ProjectTitle = project.Title;
+			return View(project);
+		}
+
 
         [HttpPost]
         public async Task<JsonResult> RemoveUserAdmin(string userId)
