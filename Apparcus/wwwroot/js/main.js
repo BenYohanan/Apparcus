@@ -192,7 +192,6 @@ function changePassword() {
 		}
 	});
 }
-
 function makeUserAdmin() {
 	const userId = $('#userIdToMakeId').val();
 	if (!userId) {
@@ -217,12 +216,10 @@ function makeUserAdmin() {
 		}
 	});
 }
-
 function openRemoveAdminModal(id) {
 	$('#userIdToRemoveId').val(id);
 	$('#removeAdmin_modal').modal('show');
 }
-
 function removeUserAdmin() {
 	const userId = $('#userIdToRemoveId').val();
 	if (!userId) {
@@ -247,7 +244,6 @@ function removeUserAdmin() {
 		}
 	});
 }
-
 function openDeleteUserModal(userId) {
 	$('#userIdToDelete').val(userId);
 	$('#delete_modal').modal('show');
@@ -278,3 +274,165 @@ function deleteUsers() {
 $(function () {
 	$(".select2").select2();
 });
+
+function saveProject() {
+	var $submitBtn = $("#submit_btn");
+	var originalText = $submitBtn.text();
+	$submitBtn.prop("disabled", true).text("Please wait...");
+	function restoreButton() {
+		$submitBtn.prop("disabled", false).text(originalText);
+	}
+	var data = {};
+	data.Name = $('#name').val();
+	data.Description = $('#description').val();
+	data.AmountNeeded = parseFloat($('#amountNeeded').val());
+	if (!data.Name) {
+		errorAlert("Name  is required.");
+		restoreButton();
+		return;
+	}
+	if (!data.AmountNeeded) {
+		errorAlert("Amount  is required.");
+		restoreButton();
+		return;
+	}
+
+	$.ajax({
+		type: 'POST',
+		url: '/Project/Create',
+		dataType: 'json',
+		data:
+		{
+			projectDetails: JSON.stringify(data)
+		},
+		success: function (result) {
+			if (!result.isError) {
+				var url = '/Project/Index';
+				successAlertWithRedirect(result.msg, url);
+			} else {
+				errorAlert(result.msg);
+				restoreButton();
+			}
+		},
+		error: function (ex) {
+			errorAlert("An error has occurred, try again. Please contact support if the error persists.");
+			restoreButton();
+		}
+	});
+}
+function getProjectById(id) {
+	$.ajax({
+		type: "GET",
+		url: "/Project/GetProjectById?id=" + id,
+		dataType: "json",
+		success: function (project) {
+			if (!project) {
+				errorAlert("Project not found.");
+				return;
+			}
+
+			$('#edit_projectId').val(project.id);
+			$('#edit_name').val(project.name);          
+			$('#edit_description').summernote('code', project.description);
+			$('#edit_amountNeeded').val(project.amountNeeded);
+
+			$('#edit_project').modal('show');
+		},
+		error: function () {
+			errorAlert("Failed to load project.");
+		}
+	});
+}
+
+
+function updateProject() {
+	var $submitBtn = $("#edit_submit_btn");
+	var originalText = $submitBtn.text();
+	$submitBtn.prop("disabled", true).text("Please wait...");
+
+	function restoreButton() {
+		$submitBtn.prop("disabled", false).text(originalText);
+	}
+
+	var data = {};
+	data.Id = parseInt($('#edit_projectId').val());        
+	data.Name = $('#edit_name').val();
+	data.Description = $('#edit_description').val();
+	data.AmountNeeded = parseFloat($('#edit_amountNeeded').val()); 
+
+	if (!data.Name) {
+		errorAlert("Name is required.");
+		restoreButton();
+		return;
+	}
+
+	if (!data.AmountNeeded) {
+		errorAlert("Amount Needed is required.");
+		restoreButton();
+		return;
+	}
+
+	$.ajax({
+		type: "POST",
+		url: "/Project/Edit",
+		dataType: "json",
+		data: {
+			projectDetails: JSON.stringify(data)
+		},
+		success: function (result) {
+			if (result.success) {
+				successAlertWithRedirect(result.message, "/Project/Index");
+			} else {
+				errorAlert(result.message);
+				restoreButton();
+			}
+		},
+		error: function () {
+			errorAlert("An error occurred. Please try again.");
+			restoreButton();
+		}
+	});
+}
+
+function confirmDeleteProject(id) {
+	$('#delete_projectId').val(id);
+	$('#delete_project_modal').modal('show');
+}
+
+function deleteProject() {
+	var $submitBtn = $("#delete_submit_btn");
+	var originalText = $submitBtn.text();
+	$submitBtn.prop("disabled", true).text("Deleting...");
+
+	function restoreButton() {
+		$submitBtn.prop("disabled", false).text(originalText);
+	}
+
+	var projectId = parseInt($('#delete_projectId').val());
+
+	if (!projectId) {
+		errorAlert("Invalid project ID.");
+		restoreButton();
+		return;
+	}
+
+	$.ajax({
+		type: "POST",
+		url: "/Project/Delete",
+		dataType: "json",
+		data: { id: projectId },
+		success: function (result) {
+			if (result.success) {
+				$('#delete_project_modal').modal('hide');
+				successAlertWithRedirect(result.message, "/Project/Index");
+			} else {
+				errorAlert(result.message);
+				restoreButton();
+			}
+		},
+		error: function () {
+			errorAlert("An error occurred. Please try again.");
+			restoreButton();
+		}
+	});
+}
