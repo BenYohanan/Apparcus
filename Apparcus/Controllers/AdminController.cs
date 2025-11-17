@@ -77,7 +77,6 @@ namespace Apparcus.Controllers
 			ViewBag.ProjectTitle = project.Title;
 			return View(project);
 		}
-	}
 
 
         [HttpPost]
