@@ -2,18 +2,18 @@
 using Core.Models;
 using Logic.IHelpers;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Logic.Helpers
 {
     public class ProjectHelper : IProjectHelper
     {
         private readonly AppDbContext _context;
+        private readonly IMonnifyHelper _monnifyHelper;
 
-        public ProjectHelper(AppDbContext context)
+        public ProjectHelper(AppDbContext context, IMonnifyHelper monnifyHelper)
         {
             _context = context;
+            _monnifyHelper = monnifyHelper;
         }
 
         public async Task<List<Project>> GetAllProjectsAsync()
@@ -28,6 +28,9 @@ namespace Logic.Helpers
         {
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
+
+            var va = await _monnifyHelper.CreateReservedAccountAsync(project);
+            _context.ProjectVirtualAccounts.Add(va);
             return project;
         }
     }
