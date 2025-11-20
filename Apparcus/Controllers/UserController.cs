@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using Core.ViewModels;
+using Logic.Helpers;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -9,15 +10,21 @@ namespace Apparcus.Controllers
     public class UserController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IProjectHelper _projectHelper;
 
-        public UserController(IUserHelper userHelper)
+        public UserController(IUserHelper userHelper, IProjectHelper projectHelper)
         {
             _userHelper = userHelper;
+            _projectHelper = projectHelper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+            var userId = _userHelper.GetCurrentUserId();
+
+            var projects = await _projectHelper.GetUserProjectsAsync(userId);
+            return View(projects);
         }
 
         [HttpPost]
