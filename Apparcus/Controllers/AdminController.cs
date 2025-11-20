@@ -2,6 +2,7 @@
 using Core.DbContext;
 using Core.Models;
 using Core.ViewModels;
+using Logic;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,43 +10,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Apparcus.Controllers
 {
-    public class AdminController(IProjectHelper projectHelper,IUserHelper userHelper, AppDbContext appDbContext, IEmailTemplateService emailTemplateService, UserManager<ApplicationUser> userManager) : Controller
+    public class AdminController(IUserHelper userHelper, AppDbContext appDbContext, IEmailTemplateService emailTemplateService, UserManager<ApplicationUser> userManager, IProjectHelper projectHelper) : Controller
     {
         private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly IUserHelper _userHelper = userHelper;
+        private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly AppDbContext _context = appDbContext;
         private readonly IEmailTemplateService _emailTemplateService = emailTemplateService;
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
-            var projectCount = _context.Projects.Where(p => !p.Deleted).Count();
-            var userCount = _context.ApplicationUsers.Where(u => !u.Deleted).Count();
-            ViewBag.ProjectCount = projectCount;
-            ViewBag.UserCount = userCount;
-            var totalSupporters = _context.ProjectSupporters
-             .Where(s => !s.Deleted)
-             .Select(s => s.Email)    
-             .Distinct()
-             .Count();
-            ViewBag.TotalSupporters = totalSupporters;
-            var topProjects = _context.Projects
-                .Include(p => p.CreatedBy)
-                .Where(p => !p.Deleted)
-                .OrderByDescending(p => p.AmountObtained) 
-                .Take(1) 
-                .Select(c => new ProjectViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Title,
-                    CreatedBy = c.CreatedBy.FullName,
-                    AmountNeeded = c.AmountNeeded,
-                    AmountObtained = c.AmountObtained,
-                    Deleted = c.Deleted
-                })
-                .ToList();
-            ViewBag.TopProjects = topProjects;
-            return View();
+            var projects = await _projectHelper.GetAllProjectsAsync().ConfigureAwait(false);
+            var data = new AdminDashboardDto
+            {
+                UserName = Utility.GetCurrentUser().FullName,
+                ProjectCount = projects.Count,
+                ClientCount = _userHelper.GetUsers().Count,
+                Projects = projects,
+                ContibutorsCount = _projectHelper.GetContributors().Count
+            };
+            return View(data);
         }
         [HttpGet]
         public IActionResult Users()
