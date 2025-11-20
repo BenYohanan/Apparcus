@@ -3,18 +3,18 @@ using Core.Models;
 using Core.ViewModels;
 using Logic.IHelpers;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Logic.Helpers
 {
     public class ProjectHelper : IProjectHelper
     {
         private readonly AppDbContext _context;
+        private readonly IMonnifyHelper _monnifyHelper;
 
-        public ProjectHelper(AppDbContext context)
+        public ProjectHelper(AppDbContext context, IMonnifyHelper monnifyHelper)
         {
             _context = context;
+            _monnifyHelper = monnifyHelper;
         }
 
         public async Task<List<ProjectViewModel>> GetAllProjectsAsync()
@@ -32,7 +32,8 @@ namespace Logic.Helpers
                     Deleted = c.Deleted,
                     DateCreated = c.DateCreated,
                     CreatedById = c.CreatedById,
-                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : ""
+                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
+                    ProjectSupporters = c.ProjectSupporters
                 })
                 .ToListAsync();
         }
@@ -50,6 +51,8 @@ namespace Logic.Helpers
 
             _context.Add(newProject);
             _context.SaveChanges();
+            //var va = _monnifyHelper.CreateReservedAccountAsync(newProject).Result;
+            //_context.Add(va);
             return true;
         }
 

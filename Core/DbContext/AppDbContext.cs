@@ -20,5 +20,8 @@ namespace Core.DbContext
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectSupporter> ProjectSupporters { get; set; }
         public DbSet<ProjectComment> ProjectComments { get; set; }
+        public DbSet<ProjectVirtualAccount> ProjectVirtualAccounts { get; set; }
+        public DbSet<ProjectBankAccount> ProjectBankAccounts { get; set; }
+
     }
 }

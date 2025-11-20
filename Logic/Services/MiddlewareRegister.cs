@@ -18,6 +18,7 @@ public static class MiddlewareRegister
         services.AddScoped<IUserHelper, UserHelper>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+        services.AddScoped<IMonnifyHelper, MonnifyHelper>();
         services.AddScoped<IProjectHelper, ProjectHelper>();
         services.AddScoped<IDropdownHelper, DropdownHelper>();
         return services;

@@ -81,6 +81,20 @@ namespace Apparcus.Controllers
             return Json(project);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ProjectSupporters(int id)
+        {
+            var project = await _context.Projects
+                .Include(p => p.ProjectSupporters)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (project == null) return NotFound();
+
+            ViewBag.ProjectTitle = project.Title;
+            return View(project);
+        }
+
+
         [HttpPost]
         public IActionResult Edit(string projectDetails)
         {
