@@ -1,4 +1,138 @@
 ﻿
 @{
+	ViewData["Title"] = "Contribute";
+	Layout = "~/Views/Shared/_GuestLayout.cshtml";
 }
-<h4>Project View</h4>
+
+<div class="container col-md-9 pt-5">
+	<div class="content">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card pt-3">
+					<div class="card-body p-0">
+						<div class="text-center px-3 pb-3 border-bottom">
+							<div class="mb-3">
+								<h5 class="d-flex align-items-center justify-content-center mb-1">Stephan Peralt<i class="ti ti-discount-check-filled text-success ms-1"></i></h5>
+								<span class="badge badge-soft-dark fw-medium me-2">
+									<i class="ti ti-point-filled me-1"></i>Software Developer
+								</span>
+								<span class="badge badge-soft-secondary fw-medium">10+ years of Experience</span>
+							</div>
+							<div>
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="d-inline-flex align-items-center">
+										<i class="ti ti-id me-2"></i>
+										Client ID
+									</span>
+									<p class="text-dark">CLT-0024</p>
+								</div>
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="d-inline-flex align-items-center">
+										<i class="ti ti-star me-2"></i>
+										Team
+									</span>
+									<p class="text-dark">UI/UX Design</p>
+								</div>
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="d-inline-flex align-items-center">
+										<i class="ti ti-calendar-check me-2"></i>
+										Date Of Join
+									</span>
+									<p class="text-dark">1st Jan 2023</p>
+								</div>
+								<div class="row gx-2 mt-3">
+									<div class="col-6">
+										<div>
+											<a href="#" class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit me-1"></i>Support</a>
+										</div>
+									</div>
+									<div class="col-6">
+										<div>
+											<a href="#" class="btn btn-primary w-100"><i class="ti ti-message-heart me-1"></i>Message</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="accordion-item">
+					<div class="accordion-header">
+						<div class="accordion-button">
+							<div class="d-flex align-items-center flex-fill">
+								<h5>Project Description</h5>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-body">
+						<div class="accordion-body mt-2">
+							As an award winning designer, I deliver exceptional quality work and bring value to your brand! With 10 years of experience and 350+ projects completed worldwide with satisfied customers, I developed the 360° brand approach, which helped me to create numerous brands that are relevant, meaningful and loved.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+				<div class="contact-grids-tab p-0 mb-3">
+					<ul class="nav nav-underline" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="address-tab2" data-bs-toggle="tab" data-bs-target="#address2" type="button" role="tab" aria-selected="false">Contributors</button>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content" id="myTabContent3">
+					<div class="tab-pane fade show active" id="address2" role="tabpanel" aria-labelledby="address-tab2" tabindex="0">
+						<div class="row">
+							<div class="col-md-12 d-flex">
+								<div class="card flex-fill">
+									<div class="card-body">
+										<div class="row align-items-center">
+											<div class="col-md-8">
+												<div class="d-flex align-items-center">
+													<a href="project-details.html" class="flex-shrink-0 me-2">
+														<img src="~/template/assets/img/products/product-05.jpg" class="img-fluid rounded-circle" alt="img">
+													</a>
+													<div>
+														<h6 class="mb-1"><a href="project-details.html">Dell Laptop - #343556656</a></h6>
+														<div class="d-flex align-items-center">
+															<p><span class="text-primary">AST - 001<i class="ti ti-point-filled text-primary mx-1"></i></span>Contributed on 22 Nov, 2022 10:32AM </p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 d-flex">
+								<div class="card flex-fill mb-0">
+									<div class="card-body">
+										<div class="row align-items-center">
+											<div class="col-md-8">
+												<div class="d-flex align-items-center">
+													<a href="project-details.html" class="flex-shrink-0 me-2">
+														<img src="~/template/assets/img/products/product-06.jpg" class="img-fluid rounded-circle" alt="img">
+													</a>
+													<div>
+														<h6 class="mb-1"><a href="project-details.html">Bluetooth Mouse  - #478878</a></h6>
+														<div class="d-flex align-items-center">
+															<p><span class="text-primary">AST - 001<i class="ti ti-point-filled text-primary mx-1"></i></span>Contributed on 22 Nov, 2022 10:32AM </p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
