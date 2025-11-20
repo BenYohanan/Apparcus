@@ -2,12 +2,14 @@
 using Core.Models;
 using Core.ViewModels;
 using Logic.IHelpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apparcus.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly IUserHelper _userHelper;
