@@ -422,11 +422,19 @@
 										<i class="ti ti-users-group"></i><span>Users</span>
 									</a>
 								</li>
-								<li>
-									<a href="/Project/Index">
-										<i class="ti ti-box"></i><span>Projects</span>
-									</a>
-								</li>
+								@if (User.IsInRole("Admin"))
+								{
+									<li>
+										<a href="/Project/Index">
+											<i class="ti ti-box"></i><span>Projects</span>
+										</a>
+									</li>
+								}
+									<li>
+										<a href="/Project/UsersDashboard">
+											<i class="ti ti-box"></i><span>My Projects</span>
+										</a>
+									</li>
 							</ul>
 						</li>
 						<li class="menu-title"><span>HRM</span></li>

@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Apparcus.Controllers
 {
-    public class AdminController(IUserHelper userHelper, AppDbContext appDbContext, IEmailTemplateService emailTemplateService, UserManager<ApplicationUser> userManager) : Controller
+    public class AdminController(IProjectHelper projectHelper,IUserHelper userHelper, AppDbContext appDbContext, IEmailTemplateService emailTemplateService, UserManager<ApplicationUser> userManager) : Controller
     {
+        private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly IUserHelper _userHelper = userHelper;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly AppDbContext _context = appDbContext;

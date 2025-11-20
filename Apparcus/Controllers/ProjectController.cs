@@ -125,6 +125,92 @@ namespace Apparcus.Controllers
             return Json(new { success = true, message = "Project deleted successfully" });
         }
 
+        public async Task<IActionResult> UsersDashboard()
+        {
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+            var userId = _userHelper.GetCurrentUserId();
+
+            var projects = await _projectHelper.GetUserProjectsAsync(userId);
+            return View(projects);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Support(int id)
+        {
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+            var project = await _context.Projects
+                .Include(p => p.ProjectSupporters)
+                .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted);
+
+            if (project == null)
+            {
+                TempData["Error"] = "Project not found or has been deleted.";
+                return RedirectToAction("Index");
+            }
+
+            var vm = new SupportProjectViewModel
+            {
+                ProjectId = project.Id,
+                ProjectTitle = project.Title ?? "Untitled Project",
+                ProjectDescription = project.Description,
+                AmountNeeded = project.AmountNeeded ?? 0,
+                AmountObtained = project.AmountObtained ?? 0,
+                SupportersCount = project.ProjectSupporters?.Count(s => !s.Deleted) ?? 0
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Support(SupportProjectViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var project = await _context.Projects
+                    .Include(p => p.ProjectSupporters)
+                    .FirstOrDefaultAsync(p => p.Id == model.ProjectId);
+
+                if (project != null)
+                {
+                    model.ProjectTitle = project.Title ?? "Untitled";
+                    model.ProjectDescription = project.Description;
+                    model.AmountNeeded = project.AmountNeeded ?? 0;
+                    model.AmountObtained = project.AmountObtained ?? 0;
+                    model.SupportersCount = project.ProjectSupporters?.Count(s => !s.Deleted) ?? 0;
+                }
+                return View(model);
+            }
+
+            if (!decimal.TryParse(model.Amount.Replace(",", ""), out decimal amountValue) || amountValue <= 0)
+            {
+                ModelState.AddModelError("Amount", "Please enter a valid amount.");
+                return View(model);
+            }
+
+            var supporter = new ProjectSupporter
+            {
+                FullName = model.FullName.Trim(),
+                Email = model.Email.Trim().ToLower(),
+                Amount = amountValue.ToString("F2"),
+                PhoneNumber = model.PhoneNumber?.Trim(),
+                ProjectId = model.ProjectId
+            };
+
+            _context.ProjectSupporters.Add(supporter);
+
+            var projectToUpdate = await _context.Projects.FindAsync(model.ProjectId);
+            if (projectToUpdate != null)
+            {
+                projectToUpdate.AmountObtained = (projectToUpdate.AmountObtained ?? 0) + amountValue;
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Thank you, {model.FullName}! Your support of {amountValue:C} has been recorded!";
+            return RedirectToAction("Support", new { id = model.ProjectId });
+        }
+
 
     }
 }

@@ -2,16 +2,24 @@
 using Core.Models;
 using Core.ViewModels;
 using Logic.IHelpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Logic.Helpers
 {
-	public class UserHelper(AppDbContext db, UserManager<ApplicationUser> userManager) : IUserHelper
+	public class UserHelper(AppDbContext db, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : IUserHelper
 	{
 		private readonly AppDbContext db = db;
 		private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
+        public string GetCurrentUserId()
+        {
+            return _httpContextAccessor.HttpContext?.User?
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+        }
         public async Task<ApplicationUser?> FindByEmailAsync(string email)
 		{
 			return await db.ApplicationUsers

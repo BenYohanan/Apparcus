@@ -38,6 +38,27 @@ namespace Logic.Helpers
                 .ToListAsync();
         }
 
+        public async Task<List<ProjectViewModel>> GetUserProjectsAsync(string userId)
+        {
+            return await _context.Projects
+                .Include(p => p.CreatedBy)
+                .Where(p => p.CreatedById == userId && !p.Deleted)
+                .Select(c => new ProjectViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Title,
+                    Description = c.Description,
+                    AmountNeeded = c.AmountNeeded,
+                    AmountObtained = c.AmountObtained,
+                    Deleted = c.Deleted,
+                    DateCreated = c.DateCreated,
+                    CreatedById = c.CreatedById,
+                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
+                    ProjectSupporters = c.ProjectSupporters
+                })
+                .ToListAsync();
+        }
+
         public bool CreateProject(ProjectViewModel project)
         {
             var createdById = Utility.GetCurrentUser().Id;
