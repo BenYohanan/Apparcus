@@ -21,11 +21,11 @@ namespace Logic.Helpers
                 .FindFirstValue(ClaimTypes.NameIdentifier);
         }
         public async Task<ApplicationUser?> FindByEmailAsync(string email)
-		{
-			return await db.ApplicationUsers
-				.Where(s => s.Email == email && !s.Deleted)
-				.FirstOrDefaultAsync().ConfigureAwait(false);
-		}
+        {
+            return await db.ApplicationUsers
+                .Where(s => s.Email == email && !s.Deleted)
+                .FirstOrDefaultAsync().ConfigureAwait(false);
+        }
         public async Task<ApplicationUser?> FindByUserNameAsync(string userName)
         {
             return await db.ApplicationUsers
@@ -33,25 +33,25 @@ namespace Logic.Helpers
                 .FirstOrDefaultAsync().ConfigureAwait(false);
         }
         public string GetValidatedUrl(List<string> roles)
-		{
-			var roleUrlMap = new Dictionary<string, string>
-			{
-				{ SeedItems.SuperAdminRole, SeedItems.SuperAdminDashboard },
-				{ SeedItems.AdminRole, SeedItems.AdminDashboard },
-				{ SeedItems.UserRole, SeedItems.UserDashboard }
-			};
+        {
+            var roleUrlMap = new Dictionary<string, string>
+            {
+                { SeedItems.SuperAdminRole, SeedItems.SuperAdminDashboard },
+                { SeedItems.AdminRole, SeedItems.AdminDashboard },
+                { SeedItems.UserRole, SeedItems.UserDashboard }
+            };
 
-			foreach (var role in roles)
-			{
-				if (roleUrlMap.TryGetValue(role, out var url))
-				{
-					return url;
-				}
-			}
+            foreach (var role in roles)
+            {
+                if (roleUrlMap.TryGetValue(role, out var url))
+                {
+                    return url;
+                }
+            }
 
-			return "/Account/Login";
+            return "/Account/Login";
 
-		}
+        }
         public async Task<ApplicationUser?> RegisterUser(ApplicationUserViewModel applicationUserViewModel)
         {
             var user = new ApplicationUser
@@ -80,7 +80,7 @@ namespace Logic.Helpers
             var adminUsers = _userManager.GetUsersInRoleAsync(SeedItems.AdminRole).Result;
             var normalUsers = _userManager.GetUsersInRoleAsync(SeedItems.UserRole).Result;
 
-            var allUsers = adminUsers.Concat(normalUsers).DistinctBy(u => u.Id).Where(x=>!x.Deleted).ToList();
+            var allUsers = adminUsers.Concat(normalUsers).DistinctBy(u => u.Id).Where(x => !x.Deleted).ToList();
 
             return [.. allUsers.Select(r =>
             {
@@ -109,6 +109,26 @@ namespace Logic.Helpers
             }
             var isSuperAdmin = user.Roles.Contains(Constants.SuperAdminRole);
             return isSuperAdmin ? Constants.SuperAdminLayout : Constants.GeneralLayout;
+        }
+
+        public async Task<ApplicationUser?> CreateUserFromAdmin(ApplicationUserViewModel model)
+        {
+            var user = new ApplicationUser
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                UserName = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                DateOfBirth = model.DateOfBirth
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded) return null;
+
+            var role = model.IsAdmin ? SeedItems.AdminRole : SeedItems.UserRole;
+            var roleResult = await _userManager.AddToRoleAsync(user, role);
+            return roleResult.Succeeded ? user : null;
         }
 
     }

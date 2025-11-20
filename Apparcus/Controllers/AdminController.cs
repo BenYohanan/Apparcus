@@ -1,6 +1,7 @@
 ﻿using Apparcus.Models;
 using Core.DbContext;
 using Core.Models;
+using Core.ViewModels;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,37 @@ namespace Apparcus.Controllers
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly AppDbContext _context = appDbContext;
         private readonly IEmailTemplateService _emailTemplateService = emailTemplateService;
-
         public IActionResult Index()
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
+            var projectCount = _context.Projects.Where(p => !p.Deleted).Count();
+            var userCount = _context.ApplicationUsers.Where(u => !u.Deleted).Count();
+            ViewBag.ProjectCount = projectCount;
+            ViewBag.UserCount = userCount;
+            var totalSupporters = _context.ProjectSupporters
+             .Where(s => !s.Deleted)
+             .Select(s => s.Email)    
+             .Distinct()
+             .Count();
+            ViewBag.TotalSupporters = totalSupporters;
+            var topProjects = _context.Projects
+                .Include(p => p.CreatedBy)
+                .Where(p => !p.Deleted)
+                .OrderByDescending(p => p.AmountObtained) 
+                .Take(1) 
+                .Select(c => new ProjectViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Title,
+                    CreatedBy = c.CreatedBy.FullName,
+                    AmountNeeded = c.AmountNeeded,
+                    AmountObtained = c.AmountObtained,
+                    Deleted = c.Deleted
+                })
+                .ToList();
+            ViewBag.TopProjects = topProjects;
             return View();
         }
-
         [HttpGet]
         public IActionResult Users()
         {
@@ -29,7 +54,6 @@ namespace Apparcus.Controllers
             var users = _userHelper.GetUsers();
             return View(users);
         }
-
         [HttpPost]
         public async Task<IActionResult> ChangePassword(string userId, string newPassword)
         {
@@ -66,8 +90,18 @@ namespace Apparcus.Controllers
             return ResponseHelper.JsonError($"Failed to promote user: {errors}");
         }
 
-		
+        [HttpGet]
+        public async Task<IActionResult> ProjectSupporters(int id)
+        {
+            var project = await _context.Projects
+                .Include(p => p.ProjectSupporters)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
+            if (project == null) return NotFound();
+
+            ViewBag.ProjectTitle = project.Title;
+            return View(project);
+        }
         [HttpPost]
         public async Task<JsonResult> RemoveUserAdmin(string userId)
         {
@@ -86,8 +120,6 @@ namespace Apparcus.Controllers
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
             return ResponseHelper.JsonError($"Failed to remove admin role: {errors}");
         }
-
-
         [HttpPost]
         public JsonResult Delete(string userId)
         {

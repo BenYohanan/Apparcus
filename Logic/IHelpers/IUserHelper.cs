@@ -12,5 +12,7 @@ namespace Logic.IHelpers
         string GetValidatedUrl(List<string> roles);
         Task<ApplicationUser?> RegisterUser(ApplicationUserViewModel applicationUserViewModel);
         string GetCurrentUserId();
+        Task<ApplicationUser?> CreateUserFromAdmin(ApplicationUserViewModel model);
+
     }
 }
