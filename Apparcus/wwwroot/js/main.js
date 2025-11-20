@@ -436,3 +436,70 @@ function deleteProject() {
 		}
 	});
 }
+function addUser() {
+	var $submitBtn = $("#add_user_btn");
+	var originalText = $submitBtn.text();
+	$submitBtn.prop("disabled", true).text("Please wait...");
+
+	function restoreButton() {
+		$submitBtn.prop("disabled", false).text(originalText);
+	}
+
+	var data = {};
+	data.FirstName = $("#firstName").val().trim();
+	data.LastName = $("#lastName").val().trim();
+	data.Email = $("#email").val().trim();
+	data.PhoneNumber = $("#phoneNumber").val().trim();
+	data.DateOfBirth = $("#dob").val();
+	data.Password = $("#password").val();
+	data.ConfirmPassword = $("#confirmPassword").val();
+	data.IsAdmin = $("#isAdmin").val() === "true";
+
+	if (!data.FirstName) {
+		errorAlert("First Name is required.");
+		restoreButton();
+		return;
+	}
+	if (!data.LastName) {
+		errorAlert("Last Name is required.");
+		restoreButton();
+		return;
+	}
+	if (!data.Email) {
+		errorAlert("Email is required.");
+		restoreButton();
+		return;
+	}
+	if (!data.Password || !data.ConfirmPassword) {
+		errorAlert("Password and confirmation are required.");
+		restoreButton();
+		return;
+	}
+	if (data.Password !== data.ConfirmPassword) {
+		errorAlert("Passwords do not match.");
+		restoreButton();
+		return;
+	}
+
+	$.ajax({
+		type: "POST",
+		url: "/User/CreateFromAdmin",
+		dataType: "json",
+		data: { userDetails: JSON.stringify(data) },
+		success: function (result) {
+			if (result.success) {
+				successAlertWithRedirect(result.message, "/User/Index");
+			} else {
+				errorAlert(result.message);
+				restoreButton();
+			}
+		},
+		error: function () {
+			errorAlert("An error occurred, try again or contact support.");
+			restoreButton();
+		}
+	});
+}
+
+
+
