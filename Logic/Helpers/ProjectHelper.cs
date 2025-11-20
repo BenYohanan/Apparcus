@@ -51,8 +51,8 @@ namespace Logic.Helpers
 
             _context.Add(newProject);
             _context.SaveChanges();
-            //var va = _monnifyHelper.CreateReservedAccountAsync(newProject).Result;
-            //_context.Add(va);
+            var va = _monnifyHelper.CreateReservedAccountAsync(newProject).Result;
+            _context.Add(va);
             return true;
         }
 
@@ -72,6 +72,9 @@ namespace Logic.Helpers
             return true;
         }
 
-
+        public List<ProjectSupporter> GetContributors()
+        {
+            return [.. _context.ProjectSupporters.Where(ps => !ps.Deleted)];
+        }
     }
 }

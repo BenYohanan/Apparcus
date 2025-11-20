@@ -66,20 +66,34 @@
                                             <td>@project.Name</td>
                                             <td>@project.CreatedBy</td>
                                             <td>
-                                                @if (project.ProjectSupporters.Any())
-                                                {
-                                                    <div class="avatar-list-stacked avatar-group-sm">
-                                                        @foreach (var item in project.ProjectSupporters)
+                                                <div class="avatar-list-stacked avatar-group-sm">
+                                                    @if (project.ProjectSupporters.Any())
+                                                    {
+                                                        var supporters = project.ProjectSupporters.Take(3).ToList();
+                                                        var remainingCount = project.ProjectSupporters.Count - supporters.Count;
+
+                                                        @foreach (var supporter in supporters)
                                                         {
                                                             <span class="avatar avatar-rounded">
                                                                 <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
                                                             </span>
                                                         }
-                                                    </div>
-                                                }
-                                                <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" asp-controller="Project" asp-action="ProjectSupporters" asp-route-id="@project.Id">
-                                                    @project.ProjectSupporters.Count() +
-                                                </a>
+
+                                                        @if (remainingCount > 0)
+                                                        {
+                                                            <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
+                                                               asp-controller="Project"
+                                                               asp-action="ProjectSupporters"
+                                                               asp-route-id="@project.Id">
+                                                                +@remainingCount
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted fs-12">No supporters</span>
+                                                    }
+                                                </div>
                                             </td>
                                             <td>@project.AmountNeeded</td>
                                             <td>@project.AmountObtained</td>

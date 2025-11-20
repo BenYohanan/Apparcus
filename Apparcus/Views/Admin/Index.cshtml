@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Core.ViewModels.AdminDashboardDto
+
+@{
     Layout = ViewBag.Layout;
     ViewData["Title"] = "Index";
 }
@@ -9,44 +11,13 @@
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <a href="index.html"><i class="ti ti-smart-home"></i></a>
+                        <a href="#"><i class="ti ti-smart-home"></i></a>
                     </li>
                     <li class="breadcrumb-item">
                         Dashboard
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Admin Dashboard</li>
                 </ol>
             </nav>
-        </div>
-        <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-            <div class="me-2 mb-2">
-                <div class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-                        <i class="ti ti-file-export me-1"></i>Export
-                    </a>
-                    <ul class="dropdown-menu  dropdown-menu-end p-3">
-                        <li>
-                            <a href="javascript:void(0);" class="dropdown-item rounded-1"><i class="ti ti-file-type-pdf me-1"></i>Export as PDF</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);" class="dropdown-item rounded-1"><i class="ti ti-file-type-xls me-1"></i>Export as Excel </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mb-2">
-                <div class="input-icon w-120 position-relative">
-                    <span class="input-icon-addon">
-                        <i class="ti ti-calendar text-gray-9"></i>
-                    </span>
-                    <input type="text" class="form-control yearpicker" value="2025">
-                </div>
-            </div>
-            <div class="ms-2 head-icons">
-                <a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collapse" id="collapse-header">
-                    <i class="ti ti-chevrons-up"></i>
-                </a>
-            </div>
         </div>
     </div>
     <div class="card border-0 mb-4">
@@ -56,12 +27,12 @@
                     <img src="~/template/assets/img/profiles/avatar-31.jpg" class="rounded-circle" alt="img">
                 </span>
                 <div class="ms-3">
-                    <h3 class="mb-2">Welcome Back, Adrian <a href="javascript:void(0);" class="edit-icon"><i class="ti ti-edit fs-14"></i></a></h3>
+                    <h3 class="mb-2">Welcome Back, @Model.UserName <a href="javascript:void(0);" class="edit-icon"><i class="ti ti-edit fs-14"></i></a></h3>
                     <p>
                         You have
-                        <span class="text-primary text-decoration-underline">@ViewBag.ProjectCount</span> Projects
+                        <span class="text-primary text-decoration-underline">@Model.ProjectCount</span> Projects
                         &
-                        <span class="text-primary text-decoration-underline">@ViewBag.UserCount</span> Active Users
+                        <span class="text-primary text-decoration-underline">@Model.ClientCount</span> Active Users
                     </p>
                 </div>
             </div>
@@ -74,37 +45,54 @@
             </div>
         </div>
     </div>
-    <div class="row mb-4">
-        <div class="col-xl-4 col-lg-4 col-md-4 mb-3">
-            <div class="card border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0"> Projects</h5>
+    <div class="row">
+        <div class="row flex-fill">
+            <div class="col-md-3 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-body">
+                        <span class="avatar rounded-circle bg-secondary mb-2">
+                            <i class="ti ti-browser fs-16"></i>
+                        </span>
+                        <h6 class="fs-13 fw-medium text-default mb-1">Total No of Project's</h6>
+                        <h3 class="mb-3">@Model.ProjectCount </h3>
+                        <a asp-action="Index" asp-controller="Project" class="link-default">View All</a>
                     </div>
-                    <h2 class="mb-2">@ViewBag.ProjectCount</h2>
-                    <p class="text-muted mb-0">Events open for contributions</p>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-4 col-lg-4 col-md-4 mb-3">
-            <div class="card border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0"> Users</h5>
+            <div class="col-md-3 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-body">
+                        <span class="avatar rounded-circle bg-info mb-2">
+                            <i class="ti ti-users-group fs-16"></i>
+                        </span>
+                        <h6 class="fs-13 fw-medium text-default mb-1">Total No of Clients</h6>
+                        <h3 class="mb-3">@Model.ClientCount</h3>
+                        <a asp-controller="Admin" asp-action="Users" class="link-default">View All</a>
                     </div>
-                    <h2 class="mb-2">@ViewBag.UserCount</h2>
-                    <p class="text-muted mb-0">Users who have contributed recently</p>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-4 col-lg-4 col-md-4 mb-3">
-            <div class="card border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Supporters</h5>
+            <div class="col-md-3 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-body">
+                        <span class="avatar rounded-circle bg-success mb-2">
+                            <i class="ti ti-users-group fs-16"></i>
+                        </span>
+                        <h6 class="fs-13 fw-medium text-default mb-1">Contributors</h6>
+                        <h3 class="mb-3">@Model.ContibutorsCount </h3>
+                        <a href="#" class="link-default">View All</a>
                     </div>
-                    <h2 class="mb-2">@ViewBag.TotalSupporters</h2>
-                    <p class="text-muted mb-0">Unique individuals who have supported events</p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-body">
+                        <span class="avatar rounded-circle bg-purple mb-2">
+                            <i class="ti ti-moneybag fs-16"></i>
+                        </span>
+                        <h6 class="fs-13 fw-medium text-default mb-1">Earnings</h6>
+                        <h3 class="mb-3">₦21445</h3>
+                        <a href="#" class="link-default">View All</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,27 +117,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (ViewBag.TopProjects != null)
+                        @if (Model.Projects != null)
                         {
-                            foreach (var project in ViewBag.TopProjects)
+                            foreach (var project in Model.Projects)
                             {
                                 <tr>
                                     <td>@project.Name</td>
                                     <td>@project.CreatedBy</td>
-                                    <td>
+                                   <td>
                                         <div class="avatar-list-stacked avatar-group-sm">
-                                            <span class="avatar avatar-rounded">
-                                                <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
-                                            </span>
-                                            <span class="avatar avatar-rounded">
-                                                <img class="border border-white" src="~/template/assets/img/profiles/avatar-03.jpg" alt="img">
-                                            </span>
-                                            <span class="avatar avatar-rounded">
-                                                <img class="border border-white" src="~/template/assets/img/profiles/avatar-05.jpg" alt="img">
-                                            </span>
-                                            <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" href="javascript:void(0);">
-                                                +1
-                                            </a>
+                                            @if (project.ProjectSupporters.Any())
+                                            {
+                                                var supporters = project.ProjectSupporters.Take(3).ToList();
+                                                var remainingCount = project.ProjectSupporters.Count - supporters.Count;
+
+                                                @foreach (var supporter in supporters)
+                                                {
+                                                    <span class="avatar avatar-rounded">
+                                                        <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                    </span>
+                                                }
+
+                                                @if (remainingCount > 0)
+                                                {
+                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" 
+                                                       asp-controller="Project" 
+                                                       asp-action="ProjectSupporters" 
+                                                       asp-route-id="@project.Id">
+                                                        +@remainingCount
+                                                    </a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted fs-12">No supporters</span>
+                                            }
                                         </div>
                                     </td>
                                     <td>@project.AmountNeeded</td>
