@@ -116,7 +116,13 @@
                                                 <td>
                                                     <div class="action-icon d-inline-flex">
                                                         <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project" onclick='getProjectById(@project.Id)'><i class="ti ti-edit"></i></a>
-                                                        <a href="#" class="me-2"><i class="ti ti-share"></i></a>
+                                                        <a href="#"
+                                                           class="me-2"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#shareProjectModal"
+                                                           onclick="getProjectById(@project.Id)">
+                                                            <i class="ti ti-share"></i>
+                                                        </a>
                                                         <a href="#" class="text-danger" data-bs-toggle="modal" onclick='confirmDeleteProject(@project.Id)'>
                                                             <i class="ti ti-trash"></i>
                                                         </a>
@@ -132,7 +138,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="d-block d-md-none">
             <div class="row">
                 @if (Model != null)
@@ -153,7 +159,7 @@
                                                     <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='getProjectById(@project.Id)' data-bs-toggle="modal" data-bs-target="#edit_project"><i class="ti ti-edit me-2"></i>Edit</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='confirmDeleteProject(@project.Id)'><i class="ti ti-share me-2"></i>Share</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='getProjectById(@project.Id)'><i class="ti ti-share me-2"></i>Share</a>
                                                 </li>
                                                 <li>
                                                     <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='confirmDeleteProject(@project.Id)' data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash me-1"></i>Delete</a>
@@ -258,12 +264,12 @@
                     <input type="number" class="form-control" id="amountNeeded">
                 </div>
             </div>
-			<div class="modal-footer">
-				<div class="d-flex align-items-center justify-content-end">
-					<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
-					<button class="btn btn-primary" onclick="saveProject()" type="button" data-bs-toggle="modal">Save</button>
-				</div>
-			</div>
+            <div class="modal-footer">
+                <div class="d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveProject()" type="button" data-bs-toggle="modal">Save</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -318,3 +324,73 @@
     </div>
 </div>
 <!-- /Delete Modal -->
+
+
+<!-- Share Project Modal -->
+<div class="modal fade" id="shareProjectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Share Support Request
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="shareContent">
+                <h5 class="fw-bold" id="shareProjectTitle"></h5>
+                <p class="text-muted mb-3">
+                    <span id="shareProjectAmount" class="text-primary fw-bold"></span>
+                </p>
+
+                <div class="input-group mb-4">
+                    <input type="text" class="form-control" id="shareLinkInput" readonly>
+                    <button class="btn btn-outline-secondary" type="button" id="copyLinkBtn" title="Copy">
+                        <i class="ti ti-copy"></i>
+                    </button>
+                    <button class="btn btn-outline-secondary" type="button" id="openLinkBtn" title="Open">
+                        <i class="ti ti-external-link"></i>
+                    </button>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    <a href="#" target="_blank" class="btn btn-success btn-sm">
+                        <i class="ti ti-brand-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="#" target="_blank" class="btn btn-info btn-sm text-white">
+                        <i class="ti ti-brand-twitter"></i> Twitter
+                    </a>
+                    <a href="#" target="_blank" class="btn btn-primary btn-sm">
+                        <i class="ti ti-brand-facebook"></i> Facebook
+                    </a>
+                    <a href="#" target="_blank" class="btn btn-info btn-sm text-white">
+                        <i class="ti ti-brand-telegram"></i> Telegram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Copy to clipboard
+    document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
+        const input = document.getElementById('shareLinkInput');
+        input.select();
+        document.execCommand('copy');
+
+        const btn = document.getElementById('copyLinkBtn');
+        btn.innerHTML = '<i class="ti ti-check"></i>';
+        btn.classList.replace('btn-outline-secondary', 'btn-success');
+
+        setTimeout(() => {
+            btn.innerHTML = '<i class="ti ti-copy"></i>';
+            btn.classList.replace('btn-success', 'btn-outline-secondary');
+        }, 2000);
+    });
+
+    // Open link
+    document.getElementById('openLinkBtn')?.addEventListener('click', () => {
+        window.open(document.getElementById('shareLinkInput').value, '_blank');
+    });
+</script>

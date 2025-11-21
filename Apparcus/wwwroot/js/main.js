@@ -307,7 +307,7 @@ function saveProject() {
 		},
 		success: function (result) {
 			if (!result.isError) {
-				var url = '/Project/Index';
+				var url = window.location.href;
 				successAlertWithRedirect(result.msg, url);
 			} else {
 				errorAlert(result.msg);
@@ -331,12 +331,14 @@ function getProjectById(id) {
 				return;
 			}
 
+			var shareLink = `${location.protocol}/${location.host}/Guest/View/${project.id}`;
 			$('#edit_projectId').val(project.id);
 			$('#edit_name').val(project.name);          
+			$('#shareLinkInput').val(shareLink);          
+			$('#shareProjectTitle').text(project.name);          
+			$('#shareProjectAmount').text(`₦${project.amountNeeded}`);          
 			$('#edit_description').summernote('code', project.description);
-			$('#edit_amountNeeded').val(project.amountNeeded);
-
-			$('#edit_project').modal('show');
+			$('#edit_amountNeeded').val(project.amountNeeded);	
 		},
 		error: function () {
 			errorAlert("Failed to load project.");
@@ -381,7 +383,8 @@ function updateProject() {
 		},
 		success: function (result) {
 			if (result.success) {
-				successAlertWithRedirect(result.message, "/Project/Index");
+				var url = window.location.href;
+				successAlertWithRedirect(result.message, url);
 			} else {
 				errorAlert(result.message);
 				restoreButton();
@@ -423,8 +426,9 @@ function deleteProject() {
 		data: { id: projectId },
 		success: function (result) {
 			if (result.success) {
+				var url = window.location.href;
 				$('#delete_project_modal').modal('hide');
-				successAlertWithRedirect(result.message, "/Project/Index");
+				successAlertWithRedirect(result.message, url);
 			} else {
 				errorAlert(result.message);
 				restoreButton();

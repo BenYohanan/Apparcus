@@ -13,6 +13,7 @@ namespace Logic.IHelpers
         bool CreateProject(ProjectViewModel project);
         bool UpdateProject(ProjectViewModel project);
         List<ProjectSupporter> GetContributors();
+        Task<List<ProjectViewModel>> GetUserProjectsAsync(string userId);
         ProjectViewModel? GetAllProjectById(int id);
     }
 }

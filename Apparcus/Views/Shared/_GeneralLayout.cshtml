@@ -1,5 +1,5 @@
 ﻿@{
-	var randomStr = DateTime.Now.ToString().ToLower().Replace(":", "").Replace("pm", "").Replace("am", "");
+    var randomStr = DateTime.Now.ToString().ToLower().Replace(":", "").Replace("pm", "").Replace("am", "");
 }
 
 
@@ -13,55 +13,55 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewData["Title"] | Apparcus - Contribute to events from anywhere</title>
 
-	<meta name="description" content="SmartHR - An advanced Bootstrap 5 admin dashboard template for HRM and CRM. Ideal for managing employee records, payroll, attendance, recruitment, and team performance with an intuitive and responsive design. Perfect for HR teams and business managers looking to streamline workforce management.">
-	<meta name="keywords" content="HR dashboard template, HRM admin template, Bootstrap 5 HR dashboard, workforce management dashboard, employee management system, payroll dashboard, HR analytics, admin dashboard, CRM admin template, human resources management, HR admin template, team management dashboard, recruitment dashboard, employee attendance system, performance management, HR CRM, HR dashboard HTML, Bootstrap HR template, employee engagement, HR software, project management dashboard">
-	<meta name="author" content="Dreams Technologies">
-	<meta name="robots" content="index, follow">
+    <meta name="description" content="SmartHR - An advanced Bootstrap 5 admin dashboard template for HRM and CRM. Ideal for managing employee records, payroll, attendance, recruitment, and team performance with an intuitive and responsive design. Perfect for HR teams and business managers looking to streamline workforce management.">
+    <meta name="keywords" content="HR dashboard template, HRM admin template, Bootstrap 5 HR dashboard, workforce management dashboard, employee management system, payroll dashboard, HR analytics, admin dashboard, CRM admin template, human resources management, HR admin template, team management dashboard, recruitment dashboard, employee attendance system, performance management, HR CRM, HR dashboard HTML, Bootstrap HR template, employee engagement, HR software, project management dashboard">
+    <meta name="author" content="Dreams Technologies">
+    <meta name="robots" content="index, follow">
 
-	<!-- Apple Touch Icon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="~/template/assets/img/apple-touch-icon.png">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/template/assets/img/apple-touch-icon.png">
 
-	<!-- Favicon -->
-	<link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="icon">
-	<link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="apple-touch-icon">
+    <!-- Favicon -->
+    <link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="icon">
+    <link href="~/leadpage/assets/img/Apparcus logo.jpg" rel="apple-touch-icon">
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="~/template/assets/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/template/assets/css/bootstrap.min.css">
 
-	<!-- Feather CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/icons/feather/feather.css">
+    <!-- Feather CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/icons/feather/feather.css">
 
-	<!-- Tabler Icon CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/tabler-icons/tabler-icons.css">
+    <!-- Tabler Icon CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/tabler-icons/tabler-icons.css">
 
-	<!-- Select2 CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/select2/css/select2.min.css">
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/select2/css/select2.min.css">
 
-	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="~/template/assets/plugins/fontawesome/css/all.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/template/assets/plugins/fontawesome/css/all.min.css">
 
-	<!-- Datetimepicker CSS -->
-	<link rel="stylesheet" href="~/template/assets/css/bootstrap-datetimepicker.min.css">
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="~/template/assets/css/bootstrap-datetimepicker.min.css">
 
-	<!-- Datatable CSS -->
-	<link rel="stylesheet" href="~/template/assets/css/dataTables.bootstrap5.min.css">
+    <!-- Datatable CSS -->
+    <link rel="stylesheet" href="~/template/assets/css/dataTables.bootstrap5.min.css">
 
-	<!-- Bootstrap Tagsinput CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+    <!-- Bootstrap Tagsinput CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
 
-	<!-- Summernote CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/summernote/summernote-lite.min.css">
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/summernote/summernote-lite.min.css">
 
-	<!-- Daterangepikcer CSS -->
-	<link rel="stylesheet" href="~/template/assets/plugins/daterangepicker/daterangepicker.css">
+    <!-- Daterangepikcer CSS -->
+    <link rel="stylesheet" href="~/template/assets/plugins/daterangepicker/daterangepicker.css">
 
-	<!-- Color Picker Css -->
-	<link rel="stylesheet" href="~/template/assets/plugins/flatpickr/flatpickr.min.css">
-	<link rel="stylesheet" href="~/template/assets/plugins/@@simonwep/pickr/themes/nano.min.css">
-	<link href="~/css/sweetalert2.css" rel="stylesheet" />
-	<!-- Main CSS -->
-	<link rel="stylesheet" href="~/template/assets/css/style.css">
+    <!-- Color Picker Css -->
+    <link rel="stylesheet" href="~/template/assets/plugins/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="~/template/assets/plugins/@@simonwep/pickr/themes/nano.min.css">
+    <link href="~/css/sweetalert2.css" rel="stylesheet" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/template/assets/css/style.css">
 
 	<script>
 		function errorAlert(message) {
@@ -73,94 +73,94 @@
 			})
 		}
 
-		function infoAlert(message) {
-			Swal.fire({
-				icon: 'info',
-				text: message,
-				timer: 30000,
-				confirmButtonColor: "#0f0f2c",
-			})
-		}
+        function infoAlert(message) {
+            Swal.fire({
+                icon: 'info',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
 
-		function infoAlertWithStyles(message) {
-			Swal.fire({
-				title: 'Incomplete Payment',
-				icon: 'info',
-				text: message,
-				confirmButtonColor: "#0f0f2c",
-			})
-		}
-		function newInfoAlert(message, url) {
-			Swal.fire({
-				icon: 'info',
-				text: message,
-				timer: 30000,
-				confirmButtonColor: "#0f0f2c",
-			}).then((isConfirm) => {
-				if (isConfirm) {
-					location.href = url;
-				}
-			})
-		}
-		function successAlert(message) {
-			Swal.fire({
-				icon: 'success',
-				text: message,
-				timer: 30000,
-				confirmButtonColor: "#0f0f2c",
-			})
-		}
+        function infoAlertWithStyles(message) {
+            Swal.fire({
+                title: 'Incomplete Payment',
+                icon: 'info',
+                text: message,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
+        function newInfoAlert(message, url) {
+            Swal.fire({
+                icon: 'info',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    location.href = url;
+                }
+            })
+        }
+        function successAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            })
+        }
 
-		function newErrorAlert(message, url) {
-			Swal.fire({
-				icon: 'error',
-				text: message,
-				timer: 30000,
-				confirmButtonColor: "#0f0f2c",
-			}).then(function () {
-				location.href = url;
-			})
-		}
+        function newErrorAlert(message, url) {
+            Swal.fire({
+                icon: 'error',
+                text: message,
+                timer: 30000,
+                confirmButtonColor: "#0f0f2c",
+            }).then(function () {
+                location.href = url;
+            })
+        }
 
-		function newSuccessAlert(message, url) {
-			Swal.fire({
-				icon: 'success',
-				text: message,
-				confirmButtonColor: "#0f0f2c",
-			}).then((isConfirm) => {
-				if (isConfirm) {
-					location.reload(url);
-				}
-			})
+        function newSuccessAlert(message, url) {
+            Swal.fire({
+                icon: 'success',
+                text: message,
+                confirmButtonColor: "#0f0f2c",
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    location.reload(url);
+                }
+            })
 
-		}
-		function successAlertWithRedirect(message, url) {
-			Swal.fire({
-				title: "Success",
-				text: message,
-				icon: "success",
-				timer: 30000,
-				overlay: "background - color: rgba(43, 165, 137, 0.45)",
-				confirmButtonColor: "#0f0f2c",
-			}).then(function () {
+        }
+        function successAlertWithRedirect(message, url) {
+            Swal.fire({
+                title: "Success",
+                text: message,
+                icon: "success",
+                timer: 30000,
+                overlay: "background - color: rgba(43, 165, 137, 0.45)",
+                confirmButtonColor: "#0f0f2c",
+            }).then(function () {
 
-				location.href = url;
-			})
-		}
+                location.href = url;
+            })
+        }
 
-		function successAlertWithFunction(message, action) {
-			Swal.fire({
-				title: "Success",
-				text: message,
-				icon: "success",
-				timer: 30000,
-				overlay: "background - color: rgba(43, 165, 137, 0.45)",
-				confirmButtonColor: "#0f0f2c",
-			}).then(function () {
-				action;
-			})
-		}
-	</script>
+        function successAlertWithFunction(message, action) {
+            Swal.fire({
+                title: "Success",
+                text: message,
+                icon: "success",
+                timer: 30000,
+                overlay: "background - color: rgba(43, 165, 137, 0.45)",
+                confirmButtonColor: "#0f0f2c",
+            }).then(function () {
+                action;
+            })
+        }
+    </script>
 </head>
 
 <body>
@@ -178,156 +178,156 @@
 					</span>
 				</a>
 
-				<div class="header-user">
-					<div class="nav user-menu nav-list">
+                <div class="header-user">
+                    <div class="nav user-menu nav-list">
 
-						<div class="me-auto d-flex align-items-center" id="header-search">
-							<a id="toggle_btn" href="javascript:void(0);" class="btn btn-menubar me-1">
-								<i class="ti ti-arrow-bar-to-left"></i>
-							</a>
-						</div>
+                        <div class="me-auto d-flex align-items-center" id="header-search">
+                            <a id="toggle_btn" href="javascript:void(0);" class="btn btn-menubar me-1">
+                                <i class="ti ti-arrow-bar-to-left"></i>
+                            </a>
+                        </div>
 
-						<div class="d-flex align-items-center">
-							<div class="me-1">
-								<a href="#" class="btn btn-menubar btnFullscreen">
-									<i class="ti ti-maximize"></i>
-								</a>
-							</div>
-							<div class="me-1 notification_item">
-								<a href="#" class="btn btn-menubar position-relative me-1" id="notification_popup"
-								   data-bs-toggle="dropdown">
-									<i class="ti ti-bell"></i>
-									<span class="notification-status-dot"></span>
-								</a>
-								<div class="dropdown-menu dropdown-menu-end notification-dropdown p-4">
-									<div class="d-flex align-items-center justify-content-between border-bottom p-0 pb-3 mb-3">
-										<h4 class="notification-title">Notifications (2)</h4>
-										<div class="d-flex align-items-center">
-											<a href="#" class="text-primary fs-15 me-3 lh-1">Mark all as read</a>
-											<div class="dropdown">
-												<a href="javascript:void(0);" class="bg-white dropdown-toggle"
-												   data-bs-toggle="dropdown">
-													<i class="ti ti-calendar-due me-1"></i>Today
-												</a>
-												<ul class="dropdown-menu mt-2 p-3">
-													<li>
-														<a href="javascript:void(0);" class="dropdown-item rounded-1">
-															This Week
-														</a>
-													</li>
-													<li>
-														<a href="javascript:void(0);" class="dropdown-item rounded-1">
-															Last Week
-														</a>
-													</li>
-													<li>
-														<a href="javascript:void(0);" class="dropdown-item rounded-1">
-															Last Month
-														</a>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="noti-content">
-										<div class="d-flex flex-column">
-											<div class="border-bottom mb-3 pb-3">
-												<a href="activity.html">
-													<div class="d-flex">
-														<span class="avatar avatar-lg me-2 flex-shrink-0">
-															<img src="~/template/assets/img/profiles/avatar-27.jpg" alt="Profile">
-														</span>
-														<div class="flex-grow-1">
-															<p class="mb-1">
-																<span class="text-dark fw-semibold">Shawn</span>
-																performance in Math is below the threshold.
-															</p>
-															<span>Just Now</span>
-														</div>
-													</div>
-												</a>
-											</div>
-											<div class="border-bottom mb-3 pb-3">
-												<a href="activity.html" class="pb-0">
-													<div class="d-flex">
-														<span class="avatar avatar-lg me-2 flex-shrink-0">
-															<img src="~/template/assets/img/profiles/avatar-23.jpg" alt="Profile">
-														</span>
-														<div class="flex-grow-1">
-															<p class="mb-1">
-																<span class="text-dark fw-semibold">Sylvia</span> added
-																appointment on 02:00 PM
-															</p>
-															<span>10 mins ago</span>
-															<div class="d-flex justify-content-start align-items-center mt-1">
-																<span class="btn btn-light btn-sm me-2">Deny</span>
-																<span class="btn btn-primary btn-sm">Approve</span>
-															</div>
-														</div>
-													</div>
-												</a>
-											</div>
-											<div class="border-bottom mb-3 pb-3">
-												<a href="activity.html">
-													<div class="d-flex">
-														<span class="avatar avatar-lg me-2 flex-shrink-0">
-															<img src="~/template/assets/img/profiles/avatar-25.jpg" alt="Profile">
-														</span>
-														<div class="flex-grow-1">
-															<p class="mb-1">New student record <span class="text-dark fw-semibold"> George</span> is created by <span class="text-dark fw-semibold">Teressa</span></p>
-															<span>2 hrs ago</span>
-														</div>
-													</div>
-												</a>
-											</div>
-											<div class="border-0 mb-3 pb-0">
-												<a href="activity.html">
-													<div class="d-flex">
-														<span class="avatar avatar-lg me-2 flex-shrink-0">
-															<img src="assets/img/profiles/avatar-01.jpg" alt="Profile">
-														</span>
-														<div class="flex-grow-1">
-															<p class="mb-1">A new teacher record for <span class="text-dark fw-semibold">Elisa</span> </p>
-															<span>09:45 AM</span>
-														</div>
-													</div>
-												</a>
-											</div>
-										</div>
-									</div>
-									<div class="d-flex p-0">
-										<a href="#" class="btn btn-light w-100 me-2">Cancel</a>
-										<a href="activity.html" class="btn btn-primary w-100">View All</a>
-									</div>
-								</div>
-							</div>
-							<div class="dropdown profile-dropdown">
-								<a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
-								   data-bs-toggle="dropdown">
-									<span class="avatar avatar-sm online">
-										<img src="~/template/assets/img/profiles/avatar-12.jpg" alt="Img" class="img-fluid rounded-circle">
-									</span>
-								</a>
-								<div class="dropdown-menu shadow-none">
-									<div class="card mb-0">
-										<div class="card-header">
-											<div class="d-flex align-items-center">
-												<span class="avatar avatar-lg me-2 avatar-rounded">
-													<img src="~/template/assets/img/profiles/avatar-12.jpg" alt="img">
-												</span>
-												<div>
-													<h5 class="mb-0">Kevin Larry</h5>
-													<p class="fs-12 fw-medium mb-0">warren@example.com</p>
-												</div>
-											</div>
-										</div>
-										<div class="card-body">
-											<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="profile.html">
-												<i class="ti ti-user-circle me-1"></i>My Profile
-											</a>
-											<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="bussiness-settings.html">
-												<i class="ti ti-settings me-1"></i>Settings
-											</a>
+                        <div class="d-flex align-items-center">
+                            <div class="me-1">
+                                <a href="#" class="btn btn-menubar btnFullscreen">
+                                    <i class="ti ti-maximize"></i>
+                                </a>
+                            </div>
+                            <div class="me-1 notification_item">
+                                <a href="#" class="btn btn-menubar position-relative me-1" id="notification_popup"
+                                   data-bs-toggle="dropdown">
+                                    <i class="ti ti-bell"></i>
+                                    <span class="notification-status-dot"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end notification-dropdown p-4">
+                                    <div class="d-flex align-items-center justify-content-between border-bottom p-0 pb-3 mb-3">
+                                        <h4 class="notification-title">Notifications (2)</h4>
+                                        <div class="d-flex align-items-center">
+                                            <a href="#" class="text-primary fs-15 me-3 lh-1">Mark all as read</a>
+                                            <div class="dropdown">
+                                                <a href="javascript:void(0);" class="bg-white dropdown-toggle"
+                                                   data-bs-toggle="dropdown">
+                                                    <i class="ti ti-calendar-due me-1"></i>Today
+                                                </a>
+                                                <ul class="dropdown-menu mt-2 p-3">
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">
+                                                            This Week
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">
+                                                            Last Week
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">
+                                                            Last Month
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="noti-content">
+                                        <div class="d-flex flex-column">
+                                            <div class="border-bottom mb-3 pb-3">
+                                                <a href="activity.html">
+                                                    <div class="d-flex">
+                                                        <span class="avatar avatar-lg me-2 flex-shrink-0">
+                                                            <img src="~/template/assets/img/profiles/avatar-27.jpg" alt="Profile">
+                                                        </span>
+                                                        <div class="flex-grow-1">
+                                                            <p class="mb-1">
+                                                                <span class="text-dark fw-semibold">Shawn</span>
+                                                                performance in Math is below the threshold.
+                                                            </p>
+                                                            <span>Just Now</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="border-bottom mb-3 pb-3">
+                                                <a href="activity.html" class="pb-0">
+                                                    <div class="d-flex">
+                                                        <span class="avatar avatar-lg me-2 flex-shrink-0">
+                                                            <img src="~/template/assets/img/profiles/avatar-23.jpg" alt="Profile">
+                                                        </span>
+                                                        <div class="flex-grow-1">
+                                                            <p class="mb-1">
+                                                                <span class="text-dark fw-semibold">Sylvia</span> added
+                                                                appointment on 02:00 PM
+                                                            </p>
+                                                            <span>10 mins ago</span>
+                                                            <div class="d-flex justify-content-start align-items-center mt-1">
+                                                                <span class="btn btn-light btn-sm me-2">Deny</span>
+                                                                <span class="btn btn-primary btn-sm">Approve</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="border-bottom mb-3 pb-3">
+                                                <a href="activity.html">
+                                                    <div class="d-flex">
+                                                        <span class="avatar avatar-lg me-2 flex-shrink-0">
+                                                            <img src="~/template/assets/img/profiles/avatar-25.jpg" alt="Profile">
+                                                        </span>
+                                                        <div class="flex-grow-1">
+                                                            <p class="mb-1">New student record <span class="text-dark fw-semibold"> George</span> is created by <span class="text-dark fw-semibold">Teressa</span></p>
+                                                            <span>2 hrs ago</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="border-0 mb-3 pb-0">
+                                                <a href="activity.html">
+                                                    <div class="d-flex">
+                                                        <span class="avatar avatar-lg me-2 flex-shrink-0">
+                                                            <img src="assets/img/profiles/avatar-01.jpg" alt="Profile">
+                                                        </span>
+                                                        <div class="flex-grow-1">
+                                                            <p class="mb-1">A new teacher record for <span class="text-dark fw-semibold">Elisa</span> </p>
+                                                            <span>09:45 AM</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex p-0">
+                                        <a href="#" class="btn btn-light w-100 me-2">Cancel</a>
+                                        <a href="activity.html" class="btn btn-primary w-100">View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown profile-dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
+                                   data-bs-toggle="dropdown">
+                                    <span class="avatar avatar-sm online">
+                                        <img src="~/template/assets/img/profiles/avatar-12.jpg" alt="Img" class="img-fluid rounded-circle">
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu shadow-none">
+                                    <div class="card mb-0">
+                                        <div class="card-header">
+                                            <div class="d-flex align-items-center">
+                                                <span class="avatar avatar-lg me-2 avatar-rounded">
+                                                    <img src="~/template/assets/img/profiles/avatar-12.jpg" alt="img">
+                                                </span>
+                                                <div>
+                                                    <h5 class="mb-0">Kevin Larry</h5>
+                                                    <p class="fs-12 fw-medium mb-0">warren@example.com</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="profile.html">
+                                                <i class="ti ti-user-circle me-1"></i>My Profile
+                                            </a>
+                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="bussiness-settings.html">
+                                                <i class="ti ti-settings me-1"></i>Settings
+                                            </a>
 
 											<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="profile-settings.html">
 												<i class="ti ti-circle-arrow-up me-1"></i>My Account
@@ -374,27 +374,44 @@
 						<li class="menu-title"><span>MAIN MENU</span></li>
 						<li>
 							<ul>
-								<li>
-									<a href="/Admin/Index" class="active">
-										<i class="ti ti-smart-home"></i>
-										<span>Dashboard</span>
-									</a>
-								</li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a href="/Admin/Index" class="active">
+                                            <i class="ti ti-smart-home"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="/User/Index" class="active">
+                                        <i class="ti ti-smart-home"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
 							</ul>
 						</li>
 						<li class="menu-title"><span>PROJECTS</span></li>
 						<li>
 							<ul>
-								<li>
-									<a href="/Admin/Users">
-										<i class="ti ti-users-group"></i><span>Users</span>
-									</a>
-								</li>
-								<li>
-									<a href="/Project/Index">
-										<i class="ti ti-box"></i><span>Projects</span>
-									</a>
-								</li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a href="/Admin/Users">
+                                            <i class="ti ti-users-group"></i><span>Users</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Project/Index">
+                                            <i class="ti ti-box"></i><span>Projects</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="/User/MyProject">
+                                        <i class="ti ti-box"></i><span>Projects</span>
+                                    </a>
+                                </li>
 							</ul>
 						</li>
 					</ul>
@@ -407,55 +424,55 @@
 	<!-- jQuery -->
 	<script src="~/template/assets/js/jquery-3.7.1.min.js"></script>
 
-	<!-- Bootstrap Core JS -->
-	<script src="~/template/assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Core JS -->
+    <script src="~/template/assets/js/bootstrap.bundle.min.js"></script>
 
-	<!-- Feather Icon JS -->
-	<script src="~/template/assets/js/feather.min.js"></script>
+    <!-- Feather Icon JS -->
+    <script src="~/template/assets/js/feather.min.js"></script>
 
-	<!-- Slimscroll JS -->
-	<script src="~/template/assets/js/jquery.slimscroll.min.js"></script>
-
-
-	<!-- Datatable JS -->
-	<script src="~/template/assets/js/jquery.dataTables.min.js"></script>
-	<script src="~/template/assets/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Slimscroll JS -->
+    <script src="~/template/assets/js/jquery.slimscroll.min.js"></script>
 
 
-	<!-- Chart JS -->
-	<script src="~/template/assets/plugins/apexchart/apexcharts.min.js"></script>
-	<script src="~/template/assets/plugins/apexchart/chart-data.js"></script>
+    <!-- Datatable JS -->
+    <script src="~/template/assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/template/assets/js/dataTables.bootstrap5.min.js"></script>
 
-	<!-- Chart JS -->
-	<script src="~/template/assets/plugins/chartjs/chart.min.js"></script>
-	<script src="~/template/assets/plugins/chartjs/chart-data.js"></script>
 
-	<!-- Datetimepicker JS -->
-	<script src="~/template/assets/js/moment.js"></script>
-	<script src="~/template/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- Chart JS -->
+    <script src="~/template/assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="~/template/assets/plugins/apexchart/chart-data.js"></script>
 
-	<!-- Daterangepikcer JS -->
-	<script src="~/template/assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Chart JS -->
+    <script src="~/template/assets/plugins/chartjs/chart.min.js"></script>
+    <script src="~/template/assets/plugins/chartjs/chart-data.js"></script>
 
-	<!-- Summernote JS -->
-	<script src="~/template/assets/plugins/summernote/summernote-lite.min.js"></script>
+    <!-- Datetimepicker JS -->
+    <script src="~/template/assets/js/moment.js"></script>
+    <script src="~/template/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-	<!-- Bootstrap Tagsinput JS -->
-	<script src="~/template/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+    <!-- Daterangepikcer JS -->
+    <script src="~/template/assets/plugins/daterangepicker/daterangepicker.js"></script>
 
-	<!-- Select2 JS -->
-	<script src="~/template/assets/plugins/select2/js/select2.min.js"></script>
+    <!-- Summernote JS -->
+    <script src="~/template/assets/plugins/summernote/summernote-lite.min.js"></script>
 
-	<!-- Color Picker JS -->
-	<script src="~/template/assets/plugins/@@simonwep/pickr/pickr.es5.min.js"></script>
+    <!-- Bootstrap Tagsinput JS -->
+    <script src="~/template/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 
-	<!-- Custom JS -->
-	<script src="~/template/assets/js/todo.js"></script>
-	<script src="~/template/assets/js/theme-colorpicker.js"></script>
-	<script src="~/template/assets/js/script.js"></script>
-	<script src="~/js/sweetalert2.all.min.js"></script>
-	<script src="~/js/main.js?v=@randomStr"></script>
-	@RenderSection("Scripts", required: false)
+    <!-- Select2 JS -->
+    <script src="~/template/assets/plugins/select2/js/select2.min.js"></script>
+
+    <!-- Color Picker JS -->
+    <script src="~/template/assets/plugins/@@simonwep/pickr/pickr.es5.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/template/assets/js/todo.js"></script>
+    <script src="~/template/assets/js/theme-colorpicker.js"></script>
+    <script src="~/template/assets/js/script.js"></script>
+    <script src="~/js/sweetalert2.all.min.js"></script>
+    <script src="~/js/main.js?v=@randomStr"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>
