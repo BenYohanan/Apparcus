@@ -10,7 +10,7 @@ namespace Apparcus.Controllers
         [HttpGet]
         public IActionResult View(int id)
         {
-           var project = _projectHelper.GetAllProjectById(id);
+           var project = _projectHelper.GetProjectById(id);
             return View(project);
         }
 

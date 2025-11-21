@@ -107,7 +107,7 @@ namespace Logic.Helpers
             return [.. _context.ProjectSupporters.Where(ps => !ps.Deleted)];
         }
 
-        public ProjectViewModel? GetAllProjectById(int id)
+        public ProjectViewModel? GetProjectById(int id)
         {
             return _context.Projects
                 .Include(p => p.CreatedBy)
