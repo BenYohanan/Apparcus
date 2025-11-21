@@ -14,5 +14,6 @@ namespace Logic.IHelpers
         bool UpdateProject(ProjectViewModel project);
         List<ProjectSupporter> GetContributors();
         Task<List<ProjectViewModel>> GetUserProjectsAsync(string userId);
+        ProjectViewModel? GetAllProjectById(int id);
     }
 }

@@ -4,12 +4,14 @@ using Core.Models;
 using Core.ViewModels;
 using Logic;
 using Logic.IHelpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apparcus.Controllers
 {
+    [Authorize]
     public class AdminController(IUserHelper userHelper, AppDbContext appDbContext, IEmailTemplateService emailTemplateService, UserManager<ApplicationUser> userManager, IProjectHelper projectHelper) : Controller
     {
         private readonly IProjectHelper _projectHelper = projectHelper;
