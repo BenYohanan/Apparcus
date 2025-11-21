@@ -14,6 +14,7 @@ namespace Apparcus.Controllers
     [Authorize]
     public class AdminController(IUserHelper userHelper, AppDbContext appDbContext, IEmailTemplateService emailTemplateService, UserManager<ApplicationUser> userManager, IProjectHelper projectHelper) : Controller
     {
+        private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly IUserHelper _userHelper = userHelper;
         private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly UserManager<ApplicationUser> _userManager = userManager;

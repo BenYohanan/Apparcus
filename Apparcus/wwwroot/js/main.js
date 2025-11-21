@@ -307,7 +307,7 @@ function saveProject() {
 		},
 		success: function (result) {
 			if (!result.isError) {
-				var url = '/Project/Index';
+				var url = window.location.href;
 				successAlertWithRedirect(result.msg, url);
 			} else {
 				errorAlert(result.msg);
@@ -381,7 +381,8 @@ function updateProject() {
 		},
 		success: function (result) {
 			if (result.success) {
-				successAlertWithRedirect(result.message, "/Project/Index");
+				var url = window.location.href;
+				successAlertWithRedirect(result.message, url);
 			} else {
 				errorAlert(result.message);
 				restoreButton();
@@ -423,8 +424,9 @@ function deleteProject() {
 		data: { id: projectId },
 		success: function (result) {
 			if (result.success) {
+				var url = window.location.href;
 				$('#delete_project_modal').modal('hide');
-				successAlertWithRedirect(result.message, "/Project/Index");
+				successAlertWithRedirect(result.message, url);
 			} else {
 				errorAlert(result.message);
 				restoreButton();
