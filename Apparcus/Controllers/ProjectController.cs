@@ -194,7 +194,7 @@ namespace Apparcus.Controllers
             {
                 FullName = model.FullName.Trim(),
                 Email = model.Email.Trim().ToLower(),
-                Amount = amountValue.ToString("F2"),
+                Amount = amountValue,
                 PhoneNumber = model.PhoneNumber?.Trim(),
                 ProjectId = model.ProjectId
             };

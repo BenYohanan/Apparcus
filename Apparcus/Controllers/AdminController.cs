@@ -16,7 +16,6 @@ namespace Apparcus.Controllers
     {
         private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly IUserHelper _userHelper = userHelper;
-        private readonly IProjectHelper _projectHelper = projectHelper;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly AppDbContext _context = appDbContext;
         private readonly IEmailTemplateService _emailTemplateService = emailTemplateService;

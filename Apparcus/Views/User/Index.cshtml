@@ -1,4 +1,4 @@
-﻿@model Core.ViewModels.ApplicationUserViewModel
+﻿@model Core.ViewModels.UserDashboardDto
 @{
     ViewData["Title"] = "Dashboard";
     Layout = ViewBag.Layout;
@@ -9,7 +9,7 @@
         <!-- Breadcrumb -->
         <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
             <div class="my-auto mb-2">
-                <h2 class="mb-1">Welcome back, @Model.FirstName!</h2>
+                <h2 class="mb-1">Welcome back, @Model.FullName</h2>
                 <nav>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
@@ -20,25 +20,13 @@
                     </ol>
                 </nav>
             </div>
-            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-                <div class="input-icon w-120 position-relative mb-2">
-                    <span class="input-icon-addon"><i class="ti ti-calendar text-gray-9"></i></span>
-                    <input type="text" class="form-control" value="@DateTime.Now:dd MMM yyyy" readonly>
-                </div>
-                <div class="ms-2 head-icons">
-                    <a href="javascript:void(0);" data-bs-toggle="tooltip" title="Collapse" id="collapse-header">
-                        <i class="ti ti-chevrons-up"></i>
-                    </a>
-                </div>
-            </div>
         </div>
         <!-- /Breadcrumb -->
         <!-- Welcome Alert -->
         <div class="alert bg-success-transparent alert-dismissible fade show mb-4">
             <i class="ti ti-confetti me-2"></i>
-            Great to see you again! You have created <strong>@ViewBag.TotalProjects</strong> project(s)
-            and supported <strong>@ViewBag.TotalSupported</strong> amazing causes with a total of
-            <strong>₦@ViewBag.TotalRaised</strong>.
+            Great to see you again! You have created <strong>@Model.ProjectCount</strong> project(s) amazing causes with a total of
+            <strong>₦@Model.TotalEarnings</strong>.
             <button type="button" class="btn-close fs-14" data-bs-dismiss="alert"><i class="ti ti-x"></i></button>
         </div>
 
@@ -67,23 +55,12 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <span class="d-block mb-1 fs-13">Phone Number</span>
-                            <p class="text-gray-9">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Not provided" : Model.PhoneNumber)</p>
+                            <p class="text-gray-9">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "" : Model.PhoneNumber)</p>
                         </div>
                         <div class="mb-3">
                             <span class="d-block mb-1 fs-13">Email Address</span>
                             <p class="text-gray-9">@Model.Email</p>
                         </div>
-                        <div class="mb-3">
-                            <span class="d-block mb-1 fs-13">Member Since</span>
-                            <p class="text-gray-9">@Model.DateRegistered?.ToString("dd MMM yyyy")</p>
-                        </div>
-                        @if (Model.DateOfBirth.HasValue)
-                        {
-                            <div>
-                                <span class="d-block mb-1 fs-13">Date of Birth</span>
-                                <p class="text-gray-9">@Model.DateOfBirth.Value.ToString("dd MMMM yyyy")</p>
-                            </div>
-                        }
                     </div>
                 </div>
             </div>
@@ -103,21 +80,21 @@
                                 <div class="mb-4">
                                     <p class="d-flex align-items-center justify-content-center justify-content-md-start">
                                         <i class="ti ti-circle-filled fs-10 text-primary me-2"></i>
-                                        <span class="text-gray-9">@ViewBag.TotalProjects</span>
+                                        <span class="text-gray-9">@Model.ProjectCount</span>
                                         <span class="ms-2 text-muted">Projects Created</span>
                                     </p>
                                 </div>
                                 <div class="mb-4">
                                     <p class="d-flex align-items-center justify-content-center justify-content-md-start">
                                         <i class="ti ti-circle-filled fs-10 text-success me-2"></i>
-                                        <span class="text-gray-9">@ViewBag.TotalSupported</span>
+                                        <span class="text-gray-9">@Model.ContibutorsCount</span>
                                         <span class="ms-2 text-muted">Projects Supported</span>
                                     </p>
                                 </div>
                                 <div class="mb-4">
                                     <p class="d-flex align-items-center justify-content-center justify-content-md-start">
                                         <i class="ti ti-circle-filled fs-10 text-warning me-2"></i>
-                                        <span class="text-gray-9">@ViewBag.TotalRaised</span>
+                                        <span class="text-gray-9">@Model.TotalEarnings</span>
                                         <span class="ms-2 text-muted">Total Contributed</span>
                                     </p>
                                 </div>
@@ -146,19 +123,19 @@
                         <div class="row text-center">
                             <div class="col-12 mb-4">
                                 <div class="bg-light-primary rounded-3 p-3">
-                                    <h4 class="text-primary mb-1">@ViewBag.TotalProjects</h4>
+									<h4 class="text-primary mb-1">@Model.ProjectCount</h4>
                                     <small class="text-muted">Active Projects</small>
                                 </div>
                             </div>
                             <div class="col-12 mb-4">
                                 <div class="bg-light-success rounded-3 p-3">
-                                    <h4 class="text-success mb-1">@ViewBag.TotalSupported</h4>
+									<h4 class="text-success mb-1">@Model.ContibutorsCount</h4>
                                     <small class="text-muted">Supported</small>
                                 </div>
                             </div>
                             <div class="col-12 mb-4">
                                 <div class="bg-light-warning rounded-3 p-3">
-                                    <h4 class="text-warning mb-1">₦@ViewBag.TotalRaised</h4>
+									<h4 class="text-warning mb-1">₦@Model.TotalEarnings</h4>
                                     <small class="text-muted">Total Given</small>
                                 </div>
                             </div>
