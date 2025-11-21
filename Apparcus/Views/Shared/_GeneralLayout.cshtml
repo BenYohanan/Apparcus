@@ -406,27 +406,44 @@
 						<li class="menu-title"><span>MAIN MENU</span></li>
 						<li>
 							<ul>
-								<li>
-									<a href="/Admin/Index" class="active">
-										<i class="ti ti-smart-home"></i>
-										<span>Dashboard</span>
-									</a>
-								</li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a href="/Admin/Index" class="active">
+                                            <i class="ti ti-smart-home"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="/User/Index" class="active">
+                                        <i class="ti ti-smart-home"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
 							</ul>
 						</li>
 						<li class="menu-title"><span>PROJECTS</span></li>
 						<li>
 							<ul>
-								<li>
-									<a href="/Admin/Users">
-										<i class="ti ti-users-group"></i><span>Users</span>
-									</a>
-								</li>
-								<li>
-									<a href="/Project/Index">
-										<i class="ti ti-box"></i><span>Projects</span>
-									</a>
-								</li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a href="/Admin/Users">
+                                            <i class="ti ti-users-group"></i><span>Users</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Project/Index">
+                                            <i class="ti ti-box"></i><span>Projects</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="/User/MyProject">
+                                        <i class="ti ti-box"></i><span>Projects</span>
+                                    </a>
+                                </li>
 							</ul>
 						</li>
 					</ul>
