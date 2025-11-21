@@ -139,42 +139,5 @@ namespace Apparcus.Controllers
             return ResponseHelper.JsonSuccess("Project deleted successfully");
         }
 
-        public async Task<IActionResult> UsersDashboard()
-        {
-            ViewBag.Layout = _userHelper.GetRoleLayout();
-            var userId = _userHelper.GetCurrentUserId();
-
-            var projects = await _projectHelper.GetUserProjectsAsync(userId);
-            return View(projects);
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> Support(int id)
-        {
-            ViewBag.Layout = _userHelper.GetRoleLayout();
-            var project = await _context.Projects
-                .Include(p => p.ProjectSupporters)
-                .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted);
-
-            if (project == null)
-            {
-                TempData["Error"] = "Project not found or has been deleted.";
-                return RedirectToAction("Index");
-            }
-
-            var vm = new SupporterViewModel
-            {
-                ProjectId = project.Id,
-                ProjectTitle = project.Title ?? "Untitled Project",
-                ProjectDescription = project.Description,
-                AmountNeeded = project.AmountNeeded ?? 0,
-                AmountObtained = project.AmountObtained ?? 0,
-                SupportersCount = project.ProjectSupporters?.Count(s => !s.Deleted) ?? 0
-            };
-
-            return View(vm);
-        }
-
     }
 }
