@@ -331,12 +331,14 @@ function getProjectById(id) {
 				return;
 			}
 
+			var shareLink = `${location.protocol}/${location.host}/Guest/View/${project.id}`;
 			$('#edit_projectId').val(project.id);
 			$('#edit_name').val(project.name);          
+			$('#shareLinkInput').val(shareLink);          
+			$('#shareProjectTitle').text(project.name);          
+			$('#shareProjectAmount').text(`₦${project.amountNeeded}`);          
 			$('#edit_description').summernote('code', project.description);
-			$('#edit_amountNeeded').val(project.amountNeeded);
-
-			$('#edit_project').modal('show');
+			$('#edit_amountNeeded').val(project.amountNeeded);	
 		},
 		error: function () {
 			errorAlert("Failed to load project.");
