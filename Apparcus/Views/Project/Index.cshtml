@@ -16,7 +16,6 @@
 </style>
 <div class="page-wrapper">
     <div class="content">
-        <!-- Breadcrumb -->
         <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
             <div class="my-auto mb-2">
                 <h2 class="mb-1">Projects</h2>
@@ -38,100 +37,203 @@
                 </div>
             </div>
         </div>
-        <!-- /Breadcrumb -->
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="custom-datatable-filter table-responsive">
-                    <div class="table-responsive">
-                        <table class="table datatable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Name</th>
-                                    <th>Created By</th>
-                                    <th>Supporters</th>
-                                    <th>Amount Needed</th>
-                                    <th>Amount Obtained</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null)
-                                {
-                                    @foreach (var project in Model)
+
+        <div class="d-none d-md-block">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="custom-datatable-filter table-responsive">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Name</th>
+                                        <th>Created By</th>
+                                        <th>Supporters</th>
+                                        <th>Amount Needed</th>
+                                        <th>Amount Obtained</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
                                     {
-                                        <tr>
-                                            <td></td>
-                                            <td>@project.Name</td>
-                                            <td>@project.CreatedBy</td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    @if (project.ProjectSupporters.Any())
-                                                    {
-                                                        var supporters = project.ProjectSupporters.Take(3).ToList();
-                                                        var remainingCount = project.ProjectSupporters.Count - supporters.Count;
-
-                                                        @foreach (var supporter in supporters)
+                                        @foreach (var project in Model)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@project.Name</td>
+                                                <td>@project.CreatedBy</td>
+                                                <td>
+                                                    <div class="avatar-list-stacked avatar-group-sm">
+                                                        @if (project.ProjectSupporters.Any())
                                                         {
-                                                            <span class="avatar avatar-rounded">
-                                                                <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
-                                                            </span>
-                                                        }
+                                                            var supporters = project.ProjectSupporters.Take(3).ToList();
+                                                            var remainingCount = project.ProjectSupporters.Count - supporters.Count;
 
-                                                        @if (remainingCount > 0)
-                                                        {
-                                                            <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
-                                                               asp-controller="Project"
-                                                               asp-action="ProjectSupporters"
-                                                               asp-route-id="@project.Id">
-                                                                +@remainingCount
-                                                            </a>
+                                                            @foreach (var supporter in supporters)
+                                                            {
+                                                                <span class="avatar avatar-rounded">
+                                                                    <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                                </span>
+                                                            }
+
+                                                            @if (remainingCount > 0)
+                                                            {
+                                                                <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
+                                                                   asp-controller="Project"
+                                                                   asp-action="ProjectSupporters"
+                                                                   asp-route-id="@project.Id">
+                                                                    +@remainingCount
+                                                                </a>
+                                                            }
                                                         }
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="text-muted fs-12">No supporters</span>
-                                                    }
-                                                </div>
-                                            </td>
-                                            <td>@project.AmountNeeded</td>
-                                            <td>@project.AmountObtained</td>
-											@if (!project.Deleted)
-											{
-															<td>
-																<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-																	<i class="ti ti-point-filled me-1"></i>Active
-																</span>
-															</td>
-											}
-											else
-											{
-															<td>
-																<span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-																	<i class="ti ti-point-filled me-1"></i>Inactive
-																</span>
-															</td>
-											}
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project" onclick='getProjectById(@project.Id)'><i class="ti ti-edit"></i></a>
-                                                    <a href="#" class="me-2"><i class="ti ti-share"></i></a>
-                                                    <a href="#" class="text-danger" data-bs-toggle="modal" onclick='confirmDeleteProject(@project.Id)'>
-                                                        <i class="ti ti-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                        else
+                                                        {
+                                                            <span class="text-muted fs-12">No supporters</span>
+                                                        }
+                                                    </div>
+                                                </td>
+                                                <td>@project.AmountNeeded</td>
+                                                <td>@project.AmountObtained</td>
+                                                @if (!project.Deleted)
+                                                {
+                                                    <td>
+                                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                                            <i class="ti ti-point-filled me-1"></i>Active
+                                                        </span>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
+                                                            <i class="ti ti-point-filled me-1"></i>Inactive
+                                                        </span>
+                                                    </td>
+                                                }
+                                                <td>
+                                                    <div class="action-icon d-inline-flex">
+                                                        <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project" onclick='getProjectById(@project.Id)'><i class="ti ti-edit"></i></a>
+                                                        <a href="#" class="me-2"><i class="ti ti-share"></i></a>
+                                                        <a href="#" class="text-danger" data-bs-toggle="modal" onclick='confirmDeleteProject(@project.Id)'>
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
        
+        <div class="d-block d-md-none">
+            <div class="row">
+                @if (Model != null)
+                {
+                    @foreach (var project in Model)
+                    {
+                        <div class="col-xxl-3 col-lg-4 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <h6><a href="project-details.html">@project.Name</a></h6>
+                                        <div class="dropdown">
+                                            <a href="javascript:void(0);" class="d-inline-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='getProjectById(@project.Id)' data-bs-toggle="modal" data-bs-target="#edit_project"><i class="ti ti-edit me-2"></i>Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='confirmDeleteProject(@project.Id)'><i class="ti ti-share me-2"></i>Share</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='confirmDeleteProject(@project.Id)' data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash me-1"></i>Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 pb-3 border-bottom">
+                                        <p class="text-truncate line-clamb-3 mb-0">
+                                            @project.Description
+                                        </p>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                                        <div class="d-flex align-items-center file-name-icon">
+                                            <a href="javascript:void(0);" class="avatar avatar-sm avatar-rounded flex-shrink-0">
+                                                <img src="~/template/assets/img/users/user-39.jpg" class="img-fluid" alt="img">
+                                            </a>
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal fs-12"><a href="javascript:void(0);">@project.CreatedBy</a></h6>
+                                                <span class="fs-12 fw-normal ">Project Leader</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <span class="fs-12 fw-normal ">Deadline</span>
+                                                <p class="mb-0 fs-12">@project.DateCreated?.ToString("dd-MM-yyyy")</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <span class="avatar avatar-sm avatar-rounded bg-success-transparent flex-shrink-0 me-2">
+                                                <i class="ti ti-checklist text-success fs-16"></i>
+                                            </span>
+                                            <p>
+                                                <small>Total Contributed : </small>
+                                                <span class="text-dark">@project.ProjectSupporters.Count()</span>
+                                            </p>
+                                        </div>
+                                        <div class="avatar-list-stacked avatar-group-sm">
+                                            @if (project.ProjectSupporters.Any())
+                                            {
+                                                var supporters = project.ProjectSupporters.Take(3).ToList();
+                                                var remainingCount = project.ProjectSupporters.Count - supporters.Count;
+
+                                                @foreach (var supporter in supporters)
+                                                {
+                                                    <span class="avatar avatar-rounded">
+                                                        <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                    </span>
+                                                }
+
+                                                @if (remainingCount > 0)
+                                                {
+                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
+                                                       asp-controller="Project"
+                                                       asp-action="ProjectSupporters"
+                                                       asp-route-id="@project.Id">
+                                                        +@remainingCount
+                                                    </a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted fs-12">No supporters</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="col-md-12">
+                    <div class="text-center mb-4">
+                        <a href="#" class="btn btn-primary"><i class="ti ti-loader-3 me-1"></i>Load More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- Add Project Modal -->

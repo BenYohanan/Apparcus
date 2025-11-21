@@ -19,6 +19,9 @@ namespace Core.ViewModels
         public DateTime? DateCreated { get; set; }
         public string? CreatedById { get; set; }
         public string? CreatedBy { get; set; }
+        public string? CreatedByPhoneNumber { get; set; }
+        public string? CreatedByEmail { get; set; }
+        public DateTime? CreatedByDateJoined { get; set; }
         public virtual ICollection<ProjectSupporter>? ProjectSupporters { get; set; }
     }
 }

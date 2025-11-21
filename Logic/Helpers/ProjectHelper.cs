@@ -21,6 +21,7 @@ namespace Logic.Helpers
         {
             return await _context.Projects
                 .Include(p => p.CreatedBy)
+                .Include(p => p.ProjectSupporters)
                 .Where(p => !p.Deleted)
                 .Select(c => new ProjectViewModel
                 {
@@ -28,7 +29,7 @@ namespace Logic.Helpers
                     Name = c.Title,
                     Description = c.Description,
                     AmountNeeded = c.AmountNeeded,
-                    AmountObtained = c.AmountObtained,
+                    AmountObtained = c.AmountObtained ?? 0,
                     Deleted = c.Deleted,
                     DateCreated = c.DateCreated,
                     CreatedById = c.CreatedById,
@@ -75,6 +76,30 @@ namespace Logic.Helpers
         public List<ProjectSupporter> GetContributors()
         {
             return [.. _context.ProjectSupporters.Where(ps => !ps.Deleted)];
+        }
+
+        public ProjectViewModel? GetAllProjectById(int id)
+        {
+            return _context.Projects
+                .Include(p => p.CreatedBy)
+                .Include(p => p.ProjectSupporters)
+                .Where(p => !p.Deleted && p.Id == id)
+                .Select(c => new ProjectViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Title,
+                    Description = c.Description,
+                    AmountNeeded = c.AmountNeeded,
+                    AmountObtained = c.AmountObtained ?? 0,
+                    Deleted = c.Deleted,
+                    DateCreated = c.DateCreated,
+                    CreatedById = c.CreatedById,
+                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
+                    CreatedByDateJoined = c.CreatedBy != null ? c.CreatedBy.DateCreated : DateTime.MinValue,
+                    CreatedByEmail = c.CreatedBy != null ? c.CreatedBy.Email : "",
+                    CreatedByPhoneNumber = c.CreatedBy != null ? c.CreatedBy.PhoneNumber : "",
+                    ProjectSupporters = c.ProjectSupporters
+                }).FirstOrDefault();
         }
     }
 }

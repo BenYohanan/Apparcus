@@ -13,5 +13,6 @@ namespace Logic.IHelpers
         bool CreateProject(ProjectViewModel project);
         bool UpdateProject(ProjectViewModel project);
         List<ProjectSupporter> GetContributors();
+        ProjectViewModel? GetAllProjectById(int id);
     }
 }

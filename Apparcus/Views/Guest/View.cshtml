@@ -1,4 +1,4 @@
-﻿
+﻿@model Core.ViewModels.ProjectViewModel
 @{
 	ViewData["Title"] = "Contribute";
 	Layout = "~/Views/Shared/_GuestLayout.cshtml";
@@ -12,38 +12,38 @@
 					<div class="card-body p-0">
 						<div class="text-center px-3 pb-3 border-bottom">
 							<div class="mb-3">
-								<h5 class="d-flex align-items-center justify-content-center mb-1">Stephan Peralt<i class="ti ti-discount-check-filled text-success ms-1"></i></h5>
+								<h5 class="d-flex align-items-center justify-content-center mb-1">@Model.CreatedBy<i class="ti ti-discount-check-filled text-success ms-1"></i></h5>
 								<span class="badge badge-soft-dark fw-medium me-2">
-									<i class="ti ti-point-filled me-1"></i>Software Developer
+									<i class="ti ti-point-filled me-1"></i>@Model.CreatedByPhoneNumber
 								</span>
-								<span class="badge badge-soft-secondary fw-medium">10+ years of Experience</span>
+								<span class="badge badge-soft-secondary fw-medium">@Model.CreatedByEmail</span>
 							</div>
 							<div>
 								<div class="d-flex align-items-center justify-content-between mb-2">
 									<span class="d-inline-flex align-items-center">
 										<i class="ti ti-id me-2"></i>
-										Client ID
+										Amount Needed
 									</span>
-									<p class="text-dark">CLT-0024</p>
+									<p class="text-dark">₦@Model.AmountNeeded</p>
 								</div>
 								<div class="d-flex align-items-center justify-content-between mb-2">
 									<span class="d-inline-flex align-items-center">
 										<i class="ti ti-star me-2"></i>
-										Team
+										Amount Obtained
 									</span>
-									<p class="text-dark">UI/UX Design</p>
+									<p class="text-dark">₦@Model.AmountObtained</p>
 								</div>
 								<div class="d-flex align-items-center justify-content-between mb-2">
 									<span class="d-inline-flex align-items-center">
 										<i class="ti ti-calendar-check me-2"></i>
-										Date Of Join
+										Date Of Created
 									</span>
-									<p class="text-dark">1st Jan 2023</p>
+									<p class="text-dark">@Model.DateCreated?.ToString("dd-MM-yyyy")</p>
 								</div>
 								<div class="row gx-2 mt-3">
 									<div class="col-6">
 										<div>
-											<a href="#" class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit me-1"></i>Support</a>
+											<a href="#" class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#support"><i class="ti ti-edit me-1"></i>Support</a>
 										</div>
 									</div>
 									<div class="col-6">
@@ -62,13 +62,13 @@
 					<div class="accordion-header">
 						<div class="accordion-button">
 							<div class="d-flex align-items-center flex-fill">
-								<h5>Project Description</h5>
+								<h5>Project Description for @Model.Name</h5>
 							</div>
 						</div>
 					</div>
 					<div class="accordion-body">
 						<div class="accordion-body mt-2">
-							As an award winning designer, I deliver exceptional quality work and bring value to your brand! With 10 years of experience and 350+ projects completed worldwide with satisfied customers, I developed the 360° brand approach, which helped me to create numerous brands that are relevant, meaningful and loved.
+							@Model.Description
 						</div>
 					</div>
 				</div>
@@ -87,48 +87,33 @@
 				<div class="tab-content" id="myTabContent3">
 					<div class="tab-pane fade show active" id="address2" role="tabpanel" aria-labelledby="address-tab2" tabindex="0">
 						<div class="row">
-							<div class="col-md-12 d-flex">
-								<div class="card flex-fill">
-									<div class="card-body">
-										<div class="row align-items-center">
-											<div class="col-md-8">
-												<div class="d-flex align-items-center">
-													<a href="project-details.html" class="flex-shrink-0 me-2">
-														<img src="~/template/assets/img/products/product-05.jpg" class="img-fluid rounded-circle" alt="img">
-													</a>
-													<div>
-														<h6 class="mb-1"><a href="project-details.html">Dell Laptop - #343556656</a></h6>
+							@if (Model.ProjectSupporters.Any())
+							{
+								@foreach (var projectSupporter in Model.ProjectSupporters)
+								{
+									<div class="col-md-12 d-flex">
+										<div class="card flex-fill">
+											<div class="card-body">
+												<div class="row align-items-center">
+													<div class="col-md-8">
 														<div class="d-flex align-items-center">
-															<p><span class="text-primary">AST - 001<i class="ti ti-point-filled text-primary mx-1"></i></span>Contributed on 22 Nov, 2022 10:32AM </p>
+															<a href="project-details.html" class="flex-shrink-0 me-2">
+																<img src="~/template/assets/img/products/product-05.jpg" class="img-fluid rounded-circle" alt="img">
+															</a>
+															<div>
+																<h6 class="mb-1"><a href="project-details.html">@projectSupporter.FullName</a></h6>
+																<div class="d-flex align-items-center">
+																	<p><span class="text-primary">@projectSupporter.Amount<i class="ti ti-point-filled text-primary mx-1"></i></span>Contributed on @projectSupporter.DateCreated 22 Nov, 2022 10:32AM </p>
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-							<div class="col-md-12 d-flex">
-								<div class="card flex-fill mb-0">
-									<div class="card-body">
-										<div class="row align-items-center">
-											<div class="col-md-8">
-												<div class="d-flex align-items-center">
-													<a href="project-details.html" class="flex-shrink-0 me-2">
-														<img src="~/template/assets/img/products/product-06.jpg" class="img-fluid rounded-circle" alt="img">
-													</a>
-													<div>
-														<h6 class="mb-1"><a href="project-details.html">Bluetooth Mouse  - #478878</a></h6>
-														<div class="d-flex align-items-center">
-															<p><span class="text-primary">AST - 001<i class="ti ti-point-filled text-primary mx-1"></i></span>Contributed on 22 Nov, 2022 10:32AM </p>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+								}
+							}
 						</div>
 					</div>
 				</div>
@@ -136,3 +121,69 @@
 		</div>
 	</div>
 </div>
+
+<!-- Add Contribute -->
+<div class="modal fade" id="support">
+	<div class="modal-dialog modal-dialog-centered modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="row">
+					<h4 class="modal-title">Contribute for @Model.Name</h4>
+					<h4 class="modal-title text-primary">Amount Needed ₦@Model.AmountNeeded</h4>
+				</div>
+				<button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<i class="ti ti-x"></i>
+				</button>
+			</div>
+			<div class="modal-body pb-0">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mb-3">
+							<label class="form-label">Full Name <span class="text-danger">*</span></label>
+							<input type="text" id="fullName" class="form-control">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Phone Number <span class="text-danger">*</span></label>
+							<div class="input-icon-end position-relative">
+								<input type="text" id="phoneNumber" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Email <span class="text-warning">Optional</span></label>
+							<div class="input-icon-end position-relative">
+								<input type="text" id="email" class="form-control">
+							</div>
+						</div>
+					</div>
+					
+					<div class="revenues-content">
+						<div class="row align-items-end">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Amount <span class="text-danger">*</span></label>
+									<input type="text" id="ammount" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Amount raised</label>
+									<input type="text" disabled class="form-control" value="@Model.AmountObtained">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-primary">Proceed to Paystack</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Contribute -->
