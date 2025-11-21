@@ -27,7 +27,6 @@ namespace Logic.Services
         
         public void SendEmail(string toEmail, string subject, string message)
         {
-           
             var fromAddress = new EmailAddress
             {
                 Name = "Apparcus",

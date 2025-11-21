@@ -13,5 +13,14 @@ namespace Apparcus.Controllers
            var project = _projectHelper.GetAllProjectById(id);
             return View(project);
         }
+
+        [HttpGet]
+        public IActionResult Success(string reference)
+        {
+            if (string.IsNullOrEmpty(reference))
+                return Redirect("/");
+
+            return View();
+        }
     }
 }

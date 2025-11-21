@@ -9,12 +9,10 @@ namespace Logic.Helpers
     public class ProjectHelper : IProjectHelper
     {
         private readonly AppDbContext _context;
-        private readonly IMonnifyHelper _monnifyHelper;
 
-        public ProjectHelper(AppDbContext context, IMonnifyHelper monnifyHelper)
+        public ProjectHelper(AppDbContext context)
         {
             _context = context;
-            _monnifyHelper = monnifyHelper;
         }
 
         public async Task<List<ProjectViewModel>> GetAllProjectsAsync()
@@ -52,8 +50,6 @@ namespace Logic.Helpers
 
             _context.Add(newProject);
             _context.SaveChanges();
-            var va = _monnifyHelper.CreateReservedAccountAsync(newProject).Result;
-            _context.Add(va);
             return true;
         }
 
@@ -98,7 +94,7 @@ namespace Logic.Helpers
                     CreatedByDateJoined = c.CreatedBy != null ? c.CreatedBy.DateCreated : DateTime.MinValue,
                     CreatedByEmail = c.CreatedBy != null ? c.CreatedBy.Email : "",
                     CreatedByPhoneNumber = c.CreatedBy != null ? c.CreatedBy.PhoneNumber : "",
-                    ProjectSupporters = c.ProjectSupporters
+                    ProjectSupporters = c.ProjectSupporters.Where(x=>x.Amount > 0).ToList()
                 }).FirstOrDefault();
         }
     }

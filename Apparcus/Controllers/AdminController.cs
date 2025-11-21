@@ -29,6 +29,7 @@ namespace Apparcus.Controllers
                 ProjectCount = projects.Count,
                 ClientCount = _userHelper.GetUsers().Count,
                 Projects = projects,
+                TotalEarnings = _context.Contributions.Sum(x => x.Amount),
                 ContibutorsCount = _projectHelper.GetContributors().Count
             };
             return View(data);

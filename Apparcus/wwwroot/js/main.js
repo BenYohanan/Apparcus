@@ -501,5 +501,41 @@ function addUser() {
 	});
 }
 
+function contribute() {
+	var $submitBtn = $("#submit_btn");
+	$submitBtn.prop("disabled", true).text("Processing...");
 
+	const data = {
+		projectId: $("#projectId").val(),
+		fullName: $("#fullName").val(),
+		email: $("#email").val(),
+		phoneNumber: $("#phoneNumber").val(),
+		amount: $("#ammount").val()
+	};
+
+	if (!data.fullName || !data.phoneNumber || !data.amount || data.amount < 1) {
+		errorAlert("Please fill all required fields correctly.");
+		$btn.prop("disabled", false).text("Proceed to Paystack");
+		return;
+	}
+
+	$.ajax({
+		url: "/api/payment/initialize",
+		method: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(data),
+		success: function (result) {
+			$submitBtn.prop("disabled", false).text("Proceed to Paystack");
+			if (!result.isError) {
+				window.location = result.returnUrl;
+			} else {
+				errorAlert(result.msg);
+			}
+		},
+		error: function () {
+			errorAlert("An error occurred. Please try again.");
+			$submitBtn.prop("disabled", false).text("Proceed to Paystack");
+		}
+	});
+}
 

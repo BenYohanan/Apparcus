@@ -20,8 +20,10 @@ namespace Core.DbContext
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectSupporter> ProjectSupporters { get; set; }
         public DbSet<ProjectComment> ProjectComments { get; set; }
-        public DbSet<ProjectVirtualAccount> ProjectVirtualAccounts { get; set; }
-        public DbSet<ProjectBankAccount> ProjectBankAccounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Contribution> Contributions { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Withdrawal> Withdrawals { get; set; }
 
     }
 }

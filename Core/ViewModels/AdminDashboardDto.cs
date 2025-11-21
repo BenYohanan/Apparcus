@@ -11,7 +11,7 @@ namespace Core.ViewModels
         public int? ProjectCount { get; set; }
         public int? ClientCount { get; set; }
         public int? ContibutorsCount { get; set; }
-        public int? TotalEarnings { get; set; }
+        public decimal? TotalEarnings { get; set; }
         public string? UserName { get; set; }
         public List<ProjectViewModel>? Projects { get; set; }
     }
