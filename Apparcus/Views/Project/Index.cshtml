@@ -74,8 +74,13 @@
 
                                                             @foreach (var supporter in supporters)
                                                             {
+                                                                 
                                                                 <span class="avatar avatar-rounded">
-                                                                    <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                                    <a asp-controller="Project"
+                                                                       asp-action="Supporters"
+                                                                       asp-route-projectId="@project.Id">
+                                                                        <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                                    </a>
                                                                 </span>
                                                             }
 
@@ -83,8 +88,8 @@
                                                             {
                                                                 <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
                                                                    asp-controller="Project"
-                                                                   asp-action="ProjectSupporters"
-                                                                   asp-route-id="@project.Id">
+                                                                   asp-action="Supporters"
+                                                                   asp-route-projectId="@project.Id">
                                                                     +@remainingCount
                                                                 </a>
                                                             }
@@ -159,7 +164,7 @@
                                                     <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='getProjectById(@project.Id)' data-bs-toggle="modal" data-bs-target="#edit_project"><i class="ti ti-edit me-2"></i>Edit</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='getProjectById(@project.Id)'><i class="ti ti-share me-2"></i>Share</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item rounded-1" data-bs-toggle="modal" data-bs-target="#shareProjectModal" onclick='getProjectById(@project.Id)'><i class="ti ti-share me-2"></i>Share</a>
                                                 </li>
                                                 <li>
                                                     <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='confirmDeleteProject(@project.Id)' data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash me-1"></i>Delete</a>
@@ -206,9 +211,13 @@
                                                 var remainingCount = project.ProjectSupporters.Count - supporters.Count;
 
                                                 @foreach (var supporter in supporters)
-                                                {
+                                                { 
                                                     <span class="avatar avatar-rounded">
-                                                        <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                        <a asp-controller="Project"
+                                                           asp-action="Supporters"
+                                                           asp-route-projectId="@project.Id">
+                                                            <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                        </a>
                                                     </span>
                                                 }
 
@@ -216,8 +225,8 @@
                                                 {
                                                     <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
                                                        asp-controller="Project"
-                                                       asp-action="ProjectSupporters"
-                                                       asp-route-id="@project.Id">
+                                                       asp-action="Supporters"
+                                                       asp-route-projectId="@project.Id">
                                                         +@remainingCount
                                                     </a>
                                                 }

@@ -5,8 +5,6 @@ using Logic;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using System.Text.Json;
 
 namespace Apparcus.Controllers
@@ -29,6 +27,9 @@ namespace Apparcus.Controllers
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
             var projects = await _projectHelper.GetAllProjectsAsync().ConfigureAwait(false);
+            var contributors = _projectHelper.GetContributors();
+            var userProjectIds = projects.Select(p => p.Id).ToHashSet();
+            var contributorsCount = contributors.Count(c => userProjectIds.Contains(c.ProjectId));
             var user = Utility.GetCurrentUser();
             var userVm = new UserDashboardDto
             {
@@ -37,17 +38,10 @@ namespace Apparcus.Controllers
                 PhoneNumber = user.PhoneNumber,
                 ProjectCount = projects.Count,
                 Projects = projects,
-                ContibutorsCount = _projectHelper.GetContributors().Count
+                WalletBalance = _context.Wallets.Where(x => x.ProjectOwnerId == user.Id).Sum(x=>x.Balance),
+                ContibutorsCount = contributorsCount
             };
             return View(userVm);
-        }
-        public async Task<IActionResult> MyProject()
-        {
-            ViewBag.Layout = _userHelper.GetRoleLayout();
-            var userId = _userHelper.GetCurrentUserId();
-
-            var projects = await _projectHelper.GetUserProjectsAsync(userId);
-            return View(projects);
         }
 
         [HttpPost]

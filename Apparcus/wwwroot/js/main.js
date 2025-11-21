@@ -326,17 +326,11 @@ function getProjectById(id) {
 		url: "/Project/GetProjectById?id=" + id,
 		dataType: "json",
 		success: function (project) {
-			if (!project) {
-				errorAlert("Project not found.");
-				return;
-			}
-
-			var shareLink = `${location.protocol}/${location.host}/Guest/View/${project.id}`;
 			$('#edit_projectId').val(project.id);
-			$('#edit_name').val(project.name);          
-			$('#shareLinkInput').val(shareLink);          
-			$('#shareProjectTitle').text(project.name);          
-			$('#shareProjectAmount').text(`₦${project.amountNeeded}`);          
+			$('#edit_name').val(project.name);  
+			$('#shareLinkInput').val(project.supportLink);          
+			$('#shareProjectTitle').text(`Name: ${project.name}`);          
+			$('#shareProjectAmount').text(`Target Amount: ₦${project.amountNeeded}`);          
 			$('#edit_description').summernote('code', project.description);
 			$('#edit_amountNeeded').val(project.amountNeeded);	
 		},

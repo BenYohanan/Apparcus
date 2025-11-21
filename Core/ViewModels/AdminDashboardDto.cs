@@ -23,7 +23,7 @@ namespace Core.ViewModels
         public int? ProjectCount { get; set; }
         public int? ContibutorsCount { get; set; }
         public decimal? TotalEarnings { get; set; }
-        public string? WalletBalance { get; set; }
+        public decimal? WalletBalance { get; set; }
         public List<ProjectViewModel>? Projects { get; set; }
     }
 }

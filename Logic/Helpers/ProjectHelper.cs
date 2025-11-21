@@ -17,10 +17,21 @@ namespace Logic.Helpers
 
         public async Task<List<ProjectViewModel>> GetAllProjectsAsync()
         {
-            return await _context.Projects
+            var user = Utility.GetCurrentUser();
+            var request = AppHttpContext.Current.Request;
+            string baseUrl = $"{request.Scheme}://{request.Host}";
+
+            var query = _context.Projects
                 .Include(p => p.CreatedBy)
                 .Include(p => p.ProjectSupporters)
-                .Where(p => !p.Deleted)
+                .Where(p => !p.Deleted);
+
+            if (user.UserRole == Constants.UserRole) 
+            {
+                query = query.Where(p => p.CreatedById == user.Id);
+            }
+
+            return await query
                 .Select(c => new ProjectViewModel
                 {
                     Id = c.Id,
@@ -32,7 +43,8 @@ namespace Logic.Helpers
                     DateCreated = c.DateCreated,
                     CreatedById = c.CreatedById,
                     CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
-                    ProjectSupporters = c.ProjectSupporters
+                    ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList(),
+                    SupportLink = $"{baseUrl}/Guest/View/{c.Id}"
                 })
                 .ToListAsync();
         }

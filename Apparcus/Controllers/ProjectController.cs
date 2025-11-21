@@ -1,6 +1,8 @@
-﻿using Core.DbContext;
+﻿using Apparcus.Models;
+using Core.DbContext;
 using Core.Models;
 using Core.ViewModels;
+using Logic;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +33,6 @@ namespace Apparcus.Controllers
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
             ViewBag.UsersDropdown = await _dropdownHelper.GetAllUsersDropdownAsync();
-
             var projects = await _projectHelper.GetAllProjectsAsync();
             return View(projects);
         }
@@ -41,31 +42,33 @@ namespace Apparcus.Controllers
         {
             if (string.IsNullOrEmpty(projectDetails))
             {
-                return Json(new { success = false, message = "Invalid project details" });
+                return ResponseHelper.JsonError("Invalid project details");
             }
             var project = System.Text.Json.JsonSerializer.Deserialize<ProjectViewModel>(projectDetails);
             if (project == null)
             {
-                return Json(new { success = false, message = "Project details could not be processed" });
+                return ResponseHelper.JsonError("Project details could not be processed");
             }
             var existingProject = _context.Projects
                 .FirstOrDefault(p => p.Title == project.Name && !p.Deleted);
             if (existingProject != null)
             {
-                return Json(new { success = false, message = "Project with similar name exists" });
+                return ResponseHelper.JsonError("Project with name exists");
             }
 
             var isCreated = _projectHelper.CreateProject(project);
             if (isCreated)
             {
-                return Json(new { success = true, message = "Project created successfully" });
+                return ResponseHelper.JsonSuccess("Project created successfully");
             }
-            return Json(new { success = false, message = "Failed to create project" });
+            return ResponseHelper.JsonError("Failed to create project");
         }
 
         [HttpGet]
         public IActionResult GetProjectById(int id)
         {
+            var request = AppHttpContext.Current.Request;
+            string baseUrl = $"{request.Scheme}://{request.Host}";
             var project = _context.Projects
                 .Where(x => x.Id == id && !x.Deleted)
                 .Select(x => new ProjectViewModel
@@ -73,7 +76,8 @@ namespace Apparcus.Controllers
                     Id = x.Id,
                     Name = x.Title,
                     Description = x.Description,
-                    AmountNeeded = x.AmountNeeded
+                    AmountNeeded = x.AmountNeeded,
+                    SupportLink = $"{baseUrl}/Guest/View/{x.Id}"
                 })
                 .FirstOrDefault();
 
@@ -84,15 +88,23 @@ namespace Apparcus.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProjectSupporters(int id)
+        public IActionResult Supporters(int projectId)
         {
-            var project = await _context.Projects
-                .Include(p => p.ProjectSupporters)
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (project == null) return NotFound();
-
-            ViewBag.ProjectTitle = project.Title;
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+            var project = _context.ProjectSupporters
+                .Include(x => x.Project)
+                .Where(p => p.ProjectId == projectId && p.Amount > 0)
+                .Select(x => new SupporterViewModel
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    Email = x.Email,
+                    Amount = x.Amount,
+                    PhoneNumber = x.PhoneNumber,
+                    ProjectId = x.ProjectId,
+                    DateCreated = x.DateCreated,
+                    ProjectTitle = x.Project != null ? x.Project.Title : string.Empty
+                }).OrderByDescending(x => x.DateCreated).ToList();
             return View(project);
         }
 
@@ -101,17 +113,17 @@ namespace Apparcus.Controllers
         public IActionResult Edit(string projectDetails)
         {
             if (string.IsNullOrEmpty(projectDetails))
-                return Json(new { success = false, message = "Invalid project details" });
+                return ResponseHelper.JsonError("Invalid project details");
 
             var project = System.Text.Json.JsonSerializer.Deserialize<ProjectViewModel>(projectDetails);
             if (project == null)
-                return Json(new { success = false, message = "Project data could not be processed" });
+                return ResponseHelper.JsonError("Project data could not be processed");
 
             var updated = _projectHelper.UpdateProject(project);
             if (updated)
-                return Json(new { success = true, message = "Project updated successfully" });
+                return ResponseHelper.JsonSuccess("Project updated successfully");
 
-            return Json(new { success = false, message = "Failed to update project" });
+            return ResponseHelper.JsonError("Failed to update project");
         }
 
         [HttpPost]
@@ -119,12 +131,12 @@ namespace Apparcus.Controllers
         {
             var project = _context.Projects.FirstOrDefault(p => p.Id == id && !p.Deleted);
             if (project == null)
-                return Json(new { success = false, message = "Project not found" });
+                return ResponseHelper.JsonError("Project not found");
 
             project.Deleted = true; 
             _context.SaveChanges();
 
-            return Json(new { success = true, message = "Project deleted successfully" });
+            return ResponseHelper.JsonSuccess("Project deleted successfully");
         }
 
         public async Task<IActionResult> UsersDashboard()
@@ -151,7 +163,7 @@ namespace Apparcus.Controllers
                 return RedirectToAction("Index");
             }
 
-            var vm = new SupportProjectViewModel
+            var vm = new SupporterViewModel
             {
                 ProjectId = project.Id,
                 ProjectTitle = project.Title ?? "Untitled Project",
@@ -163,56 +175,6 @@ namespace Apparcus.Controllers
 
             return View(vm);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Support(SupportProjectViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                var project = await _context.Projects
-                    .Include(p => p.ProjectSupporters)
-                    .FirstOrDefaultAsync(p => p.Id == model.ProjectId);
-
-                if (project != null)
-                {
-                    model.ProjectTitle = project.Title ?? "Untitled";
-                    model.ProjectDescription = project.Description;
-                    model.AmountNeeded = project.AmountNeeded ?? 0;
-                    model.AmountObtained = project.AmountObtained ?? 0;
-                    model.SupportersCount = project.ProjectSupporters?.Count(s => !s.Deleted) ?? 0;
-                }
-                return View(model);
-            }
-
-            if (!decimal.TryParse(model.Amount.Replace(",", ""), out decimal amountValue) || amountValue <= 0)
-            {
-                ModelState.AddModelError("Amount", "Please enter a valid amount.");
-                return View(model);
-            }
-
-            var supporter = new ProjectSupporter
-            {
-                FullName = model.FullName.Trim(),
-                Email = model.Email.Trim().ToLower(),
-                Amount = amountValue,
-                PhoneNumber = model.PhoneNumber?.Trim(),
-                ProjectId = model.ProjectId
-            };
-
-            _context.ProjectSupporters.Add(supporter);
-
-            var projectToUpdate = await _context.Projects.FindAsync(model.ProjectId);
-            if (projectToUpdate != null)
-            {
-                projectToUpdate.AmountObtained = (projectToUpdate.AmountObtained ?? 0) + amountValue;
-            }
-
-            await _context.SaveChangesAsync();
-
-            TempData["Success"] = $"Thank you, {model.FullName}! Your support of {amountValue:C} has been recorded!";
-            return RedirectToAction("Support", new { id = model.ProjectId });
-        }
-
 
     }
 }
