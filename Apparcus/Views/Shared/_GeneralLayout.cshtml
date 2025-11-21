@@ -1,5 +1,8 @@
-﻿@{
+﻿@using Core.DbContext
+@using Logic
+@{
     var randomStr = DateTime.Now.ToString().ToLower().Replace(":", "").Replace("pm", "").Replace("am", "");
+    var user = Utility.GetCurrentUser();
 }
 
 
@@ -351,8 +354,8 @@
 				<div class="dropdown mobile-user-menu">
 					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<div class="dropdown-menu dropdown-menu-end">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="profile-settings.html">Settings</a>
+						<a class="dropdown-item" href="#">My Profile</a>
+						<a class="dropdown-item" href="#">Settings</a>
 						<a class="dropdown-item" href="login.html">Logout</a>
 					</div>
 				</div>
@@ -374,7 +377,7 @@
 						<li class="menu-title"><span>MAIN MENU</span></li>
 						<li>
 							<ul>
-                                @if (User.IsInRole("Admin"))
+                                @if (user.UserRole == Constants.AdminRole)
                                 {
                                     <li>
                                         <a href="/Admin/Index" class="active">
@@ -383,18 +386,21 @@
                                         </a>
                                     </li>
                                 }
-                                <li>
-                                    <a href="/User/Index" class="active">
-                                        <i class="ti ti-smart-home"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
+                                else
+                                {
+                                    <li>
+                                        <a href="/User/Index" class="active">
+                                            <i class="ti ti-smart-home"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                }
 							</ul>
 						</li>
 						<li class="menu-title"><span>PROJECTS</span></li>
 						<li>
 							<ul>
-                                @if (User.IsInRole("Admin"))
+                                @if (user.UserRole == Constants.AdminRole)
                                 {
                                     <li>
                                         <a href="/Admin/Users">
@@ -407,11 +413,14 @@
                                         </a>
                                     </li>
                                 }
-                                <li>
-                                    <a href="/User/MyProject">
-                                        <i class="ti ti-box"></i><span>Projects</span>
-                                    </a>
-                                </li>
+                                else
+                                {
+                                    <li>
+                                        <a href="/User/MyProject">
+                                            <i class="ti ti-box"></i><span>Projects</span>
+                                        </a>
+                                    </li>
+                                }
 							</ul>
 						</li>
 					</ul>
