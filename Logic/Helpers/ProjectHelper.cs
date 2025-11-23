@@ -130,5 +130,22 @@ namespace Logic.Helpers
                     ProjectSupporters = c.ProjectSupporters.Where(x=>x.Amount > 0).ToList()
                 }).FirstOrDefault();
         }
+
+        public async Task<List<PaymentDTO>> GetPaymentsByProjectId(int projectId)
+        {
+            return await _context.Contributions
+                .Include(p => p.ProjectSupporter)
+                .Include(p => p.Project)
+                .Where(p => p.ProjectId == projectId)
+                .Select(c => new PaymentDTO
+                {
+                    Contributor = c.ProjectSupporter.FullName,
+                    PaymentDate = c.Date,
+                    AmountPaid = c.Amount,
+                    InvoiceId = $"INV-{c.ProjectId}",
+                    PaymentType = "PayStack",
+                })
+                .ToListAsync();
+        }
     }
 }

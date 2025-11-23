@@ -1,0 +1,97 @@
+﻿@model List<Core.ViewModels.PaymentDTO>
+@{
+    ViewData["Title"] = "Payments";
+    Layout = ViewBag.Layout;
+}
+
+<style>
+
+	body {
+		counter-reset: Serial; /* / Set the Serial counter to 0 /*/
+	}
+
+	tr td:first-child:before {
+		counter-increment: Serial; /* / Increment the Serial counter /*/
+		content: counter(Serial); /*  / Display the counter /*/
+	}
+</style>
+
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+	<div class="content">
+
+		<!-- Breadcrumb -->
+		<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
+			<div class="my-auto mb-2">
+				<h2 class="mb-1">Payments For</h2>
+				<nav>
+					<ol class="breadcrumb mb-0">
+						<li class="breadcrumb-item">
+							<a href="index.html"><i class="ti ti-smart-home"></i></a>
+						</li>
+						<li class="breadcrumb-item">
+							Accounting
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+		<!-- /Breadcrumb -->
+
+		<div class="card">
+			<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
+				<h5>Payment List</h5>
+				<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+					<div class="me-3">
+						<div class="input-icon-end position-relative fw-bold">
+							Total: ₦@Model.Sum(payment => payment.AmountPaid)?.ToString("N2")
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0">
+				<div class="custom-datatable-filter table-responsive">
+					<table class="table datatable">
+						<thead class="thead-light">
+							<tr>
+								<th>S/N</th>
+								<th>Invoice ID</th>
+								<th>Contributor</th>
+								<th>Payment Type</th>
+								<th>Paid Date</th>
+								<th>Paid Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							 @if (Model != null)
+							{
+								@foreach (var payment in Model)
+								{
+									<tr>
+										<td></td>
+										<td><a href="invoice-details.html" class="link-info"> @payment.InvoiceId</a></td>
+										<td>
+											<div class="d-flex align-items-center file-name-icon">
+												<a href="#" class="avatar avatar-md avatar-rounded">
+													<img src="~/template/assets/img/users/user-39.jpg" class="img-fluid" alt="img">
+												</a>
+												<div class="ms-2">
+													<h6 class="fw-medium"><a href="#">@payment.Contributor</a></h6>
+												</div>
+											</div>
+										</td>
+										<td>@payment.PaymentType</td>
+										<td>@payment.PaymentDate?.ToString("dd-MM-yyyy")</td>
+										<td>₦@payment.AmountPaid</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- /Page Wrapper -->

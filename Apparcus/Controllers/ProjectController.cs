@@ -139,5 +139,12 @@ namespace Apparcus.Controllers
             return ResponseHelper.JsonSuccess("Project deleted successfully");
         }
 
+        public async Task<IActionResult> Payments(int projectId)
+        {
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+            var payments = await _projectHelper.GetPaymentsByProjectId(projectId);
+            return View(payments);
+        }
+
     }
 }
