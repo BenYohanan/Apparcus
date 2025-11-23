@@ -15,6 +15,6 @@ namespace Logic.IHelpers
         List<ProjectSupporter> GetContributors();
         Task<List<ProjectViewModel>> GetUserProjectsAsync(string userId);
         ProjectViewModel? GetProjectById(int id);
-        Task<List<PaymentDTO>> GetPaymentsByProjectId(int projectId);
+        ProjectPaymentDTO GetPaymentsByProjectId(int projectId);
     }
 }

@@ -131,21 +131,26 @@ namespace Logic.Helpers
                 }).FirstOrDefault();
         }
 
-        public async Task<List<PaymentDTO>> GetPaymentsByProjectId(int projectId)
+        public  ProjectPaymentDTO GetPaymentsByProjectId(int projectId)
         {
-            return await _context.Contributions
-                .Include(p => p.ProjectSupporter)
-                .Include(p => p.Project)
-                .Where(p => p.ProjectId == projectId)
-                .Select(c => new PaymentDTO
-                {
-                    Contributor = c.ProjectSupporter.FullName,
-                    PaymentDate = c.Date,
-                    AmountPaid = c.Amount,
-                    InvoiceId = $"INV-{c.ProjectId}",
-                    PaymentType = "PayStack",
-                })
-                .ToListAsync();
+            var projectPaymentDTO = new ProjectPaymentDTO();
+            var project = _context.Projects
+               .Where(p => p.Id == projectId)
+               .Include(p => p.Contributions)
+                    .ThenInclude(p => p.ProjectSupporter)
+               .FirstOrDefault();
+            if (project == null)
+                return projectPaymentDTO;
+            var contributions = project.Contributions;
+            projectPaymentDTO.ProjectName = project.Title;
+            projectPaymentDTO.Payments = [.. contributions.Select(c => new PaymentDTO
+            {
+                Contributor = c.ProjectSupporter?.FullName,
+                PaymentDate = c.Date,
+                AmountPaid = c.Amount,
+                Reference = c.PaystackReference
+            })];
+            return projectPaymentDTO;
         }
     }
 }

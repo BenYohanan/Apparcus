@@ -120,6 +120,7 @@
                                                 }
                                                 <td>
                                                     <div class="action-icon d-inline-flex">
+                                                        <a class="me-2" asp-controller="Project" asp-action="Supporters" asp-route-projectId="@project.Id"><i class="ti ti-users-group"></i></a>
                                                         <a class="me-2" asp-controller="Project" asp-action="Payments" asp-route-projectId="@project.Id"><i class="ti ti-file-dollar"></i></a>
                                                         <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project" onclick='getProjectById(@project.Id)'><i class="ti ti-edit"></i></a>
                                                         <a href="#"
@@ -161,6 +162,9 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end p-3">
+                                                <li>
+                                                    <a class="dropdown-item rounded-1" asp-controller="Project" asp-action="Supporters" asp-route-projectId="@project.Id"><i class="ti ti-users-group me-2"></i>Contributors</a>
+                                                </li>
                                                 <li>
                                                     <a class="dropdown-item rounded-1" asp-controller="Project" asp-action="Payments" asp-route-projectId="@project.Id"><i class="ti ti-file-dollar me-2"></i>Payments</a>
                                                 </li>

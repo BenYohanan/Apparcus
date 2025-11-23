@@ -11,7 +11,7 @@
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <a href="#"><i class="ti ti-smart-home"></i></a>
+                        <a href="javascript:void(0);"><i class="ti ti-smart-home"></i></a>
                     </li>
                     <li class="breadcrumb-item">
                         Dashboard
@@ -94,91 +94,6 @@
                         <a href="#" class="link-default">View All</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="card border-0 mb-4">
-        <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="mb-0">Top Projects</h5>
-            <a href="/Project/Index" class="text-primary">View All</a>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Created By</th>
-                            <th>Supporters</th>
-                            <th>Amount Needed</th>
-                            <th>Amount Obtained</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Projects != null)
-                        {
-                            foreach (var project in Model.Projects)
-                            {
-                                <tr>
-                                    <td>@project.Name</td>
-                                    <td>@project.CreatedBy</td>
-                                   <td>
-                                        <div class="avatar-list-stacked avatar-group-sm">
-                                            @if (project.ProjectSupporters.Any())
-                                            {
-                                                var supporters = project.ProjectSupporters.Take(3).ToList();
-                                                var remainingCount = project.ProjectSupporters.Count - supporters.Count;
-
-                                                @foreach (var supporter in supporters)
-                                                {
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
-                                                    </span>
-                                                }
-
-                                                @if (remainingCount > 0)
-                                                {
-                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium" 
-                                                       asp-controller="Project" 
-                                                       asp-action="ProjectSupporters" 
-                                                       asp-route-id="@project.Id">
-                                                        +@remainingCount
-                                                    </a>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <span class="text-muted fs-12">No supporters</span>
-                                            }
-                                        </div>
-                                    </td>
-                                    <td>@project.AmountNeeded</td>
-                                    <td>@project.AmountObtained</td>
-                                    <td>
-                                        @if (!project.Deleted)
-                                        {
-                                            <span class="badge bg-soft-success">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-soft-danger">Inactive</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <a href="/Project/Index" class="text-primary">
-                                            <i class="ti ti-eye me-2"></i>
-                                        </a>
-                                        <a href="#" class="text-danger" data-bs-toggle="modal" onclick='confirmDeleteProject(@project.Id)'>
-                                            <i class="ti ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

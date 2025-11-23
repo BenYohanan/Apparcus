@@ -27,6 +27,7 @@ namespace Core.Models
         [ForeignKey(nameof(CreatedById))]
         public virtual ApplicationUser? CreatedBy { get; set; }
         public virtual ICollection<ProjectSupporter>? ProjectSupporters { get; set; }
+        public virtual ICollection<Contribution>? Contributions { get; set; }
         public virtual ICollection<ProjectComment>? Comments { get; set; }
         public decimal? AmountRemaining => (AmountNeeded ?? 0) - (AmountObtained ?? 0);
     }

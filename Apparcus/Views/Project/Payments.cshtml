@@ -1,4 +1,4 @@
-﻿@model List<Core.ViewModels.PaymentDTO>
+﻿@model Core.ViewModels.ProjectPaymentDTO
 @{
     ViewData["Title"] = "Payments";
     Layout = ViewBag.Layout;
@@ -23,11 +23,11 @@
 		<!-- Breadcrumb -->
 		<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
 			<div class="my-auto mb-2">
-				<h2 class="mb-1">Payments For</h2>
+				<h2 class="mb-1">Payments For @Model.ProjectName</h2>
 				<nav>
 					<ol class="breadcrumb mb-0">
 						<li class="breadcrumb-item">
-							<a href="index.html"><i class="ti ti-smart-home"></i></a>
+							<a href="javascript:void(0);"><i class="ti ti-smart-home"></i></a>
 						</li>
 						<li class="breadcrumb-item">
 							Accounting
@@ -44,7 +44,7 @@
 				<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
 					<div class="me-3">
 						<div class="input-icon-end position-relative fw-bold">
-							Total: ₦@Model.Sum(payment => payment.AmountPaid)?.ToString("N2")
+							Total: ₦@Model.Payments?.Sum(payment => payment.AmountPaid)?.ToString("N2")
 						</div>
 					</div>
 				</div>
@@ -55,21 +55,20 @@
 						<thead class="thead-light">
 							<tr>
 								<th>S/N</th>
-								<th>Invoice ID</th>
+								<th>Reference ID</th>
 								<th>Contributor</th>
-								<th>Payment Type</th>
 								<th>Paid Date</th>
 								<th>Paid Amount</th>
 							</tr>
 						</thead>
 						<tbody>
-							 @if (Model != null)
+							 @if (Model.Payments != null)
 							{
-								@foreach (var payment in Model)
+								@foreach (var payment in Model.Payments)
 								{
 									<tr>
 										<td></td>
-										<td><a href="invoice-details.html" class="link-info"> @payment.InvoiceId</a></td>
+										<td>@payment.Reference</td>
 										<td>
 											<div class="d-flex align-items-center file-name-icon">
 												<a href="#" class="avatar avatar-md avatar-rounded">
@@ -80,7 +79,6 @@
 												</div>
 											</div>
 										</td>
-										<td>@payment.PaymentType</td>
 										<td>@payment.PaymentDate?.ToString("dd-MM-yyyy")</td>
 										<td>₦@payment.AmountPaid</td>
 									</tr>
