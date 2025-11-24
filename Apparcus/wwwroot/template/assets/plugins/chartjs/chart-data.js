@@ -618,9 +618,9 @@ var myRadarChart = new Chart(ctx, {
             {
                 label: 'Series 3', // Second series
                 data: [70, 43, 70, 90, 30, 30, 30, 40],
-                backgroundColor: '#F26522',
-                borderColor: '#F26522',
-                pointBackgroundColor: '#F26522',
+                backgroundColor: '#9333ea',
+                borderColor: '#9333ea',
+                pointBackgroundColor: '#9333ea',
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
                 pointHoverBorderColor: 'rgba(54, 162, 235, 1)',

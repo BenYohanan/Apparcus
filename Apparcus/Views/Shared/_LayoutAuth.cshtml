@@ -19,7 +19,6 @@
     <link href="~/leadpage/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
     <link href="~/leadpage/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
     <link href="~/leadpage/assets/css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/auth-style.css" />
     <link href="~/css/sweetalert2.css" rel="stylesheet" />
 
     <script>
@@ -28,7 +27,7 @@
                 icon: 'error',
                 text: message,
                 timer: 60000,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             })
         }
 
@@ -37,7 +36,7 @@
                 icon: 'info',
                 text: message,
                 timer: 30000,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             })
         }
 
@@ -46,7 +45,7 @@
                 title: 'Incomplete Payment',
                 icon: 'info',
                 text: message,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             })
         }
         function newInfoAlert(message, url) {
@@ -54,7 +53,7 @@
                 icon: 'info',
                 text: message,
                 timer: 30000,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             }).then((isConfirm) => {
                 if (isConfirm) {
                     location.href = url;
@@ -66,7 +65,7 @@
                 icon: 'success',
                 text: message,
                 timer: 30000,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             })
         }
 
@@ -75,7 +74,7 @@
                 icon: 'error',
                 text: message,
                 timer: 30000,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             }).then(function () {
                 location.href = url;
             })
@@ -85,7 +84,7 @@
             Swal.fire({
                 icon: 'success',
                 text: message,
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             }).then((isConfirm) => {
                 if (isConfirm) {
                     location.reload(url);
@@ -100,7 +99,7 @@
                 icon: "success",
                 timer: 30000,
                 overlay: "background - color: rgba(43, 165, 137, 0.45)",
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             }).then(function () {
 
                 location.href = url;
@@ -114,34 +113,41 @@
                 icon: "success",
                 timer: 30000,
                 overlay: "background - color: rgba(43, 165, 137, 0.45)",
-                confirmButtonColor: "#0f0f2c",
+                confirmButtonColor: "#9333ea",
             }).then(function () {
                 action;
             })
         }
     </script>
 </head>
-<body>
-    <video autoplay muted loop id="bg-video">
-        <source src="~/leadpage/assets/img/video/video-2.mp4" type="video/mp4">
-    </video>
-    <div id="video-overlay"></div>
- 
-    <header id="header" class="header fixed-top header-scrolled">
-        <div class="nav-wrap">
-            <div class="container d-flex align-items-center justify-content-between">
-                <a href="~/Home/Index" class="logo d-flex align-items-center">
-                    <img src="~/leadpage/assets/img/Apparcus logo.jpg" alt="Apparcus Logo" style="height:40px; margin-right:8px;" />
-                    <h1 class="sitename mb-0">Apparcus</h1>
+<body class="index-page">
+    <header id="header" class="header fixed-top">
+        <div class="container-fluid container-xl position-relative">
+            <div class="top-row d-flex align-items-center justify-content-between">
+                <a href="/Home/Index" class="logo d-flex align-items-center">
+                    <img src="~/leadpage/assets/img/Apparcus logo.jpg" alt="">
                 </a>
+
+                <div class="d-flex align-items-center">
+                    <div class="social-links">
+                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-wrap">
+            <div class="container d-flex justify-content-center position-relative">
                 <nav id="navmenu" class="navmenu d-flex align-items-center">
-                    <ul class="d-flex mb-0">
+                    <ul>
                         <li><a href="~/Home/Index" class="active">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Services</a></li>
                         <li><a href="~/Account/Login">Login</a></li>
                     </ul>
-                    <i class="mobile-nav-toggle d-xl-none bi bi-list ms-3"></i>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
             </div>
         </div>
@@ -160,20 +166,11 @@
                             <span class="sitename">Apparcus</span>
                         </a>
                         <p class="mb-4">
-                            Apparcus helps you move, manage, and grow your money securely — from instant transfers to digital wallets and business payments.
+                            Apparcus helps you move, manage, and grow your money securely from instant transfers to digital wallets and business payments.
                         </p>
-                        <div class="newsletter-form">
-                            <h6>Stay Updated</h6>
-                            <form>
-                                <div class="input-group">
-                                    <input type="email" name="email" class="form-control" placeholder="Enter your email">
-                                    <button class="btn btn-primary" type="submit"><i class="bi bi-send"></i></button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-6">
+                <div class="col-lg-4 col-6">
                     <div class="footer-links">
                         <h5>Company</h5>
                         <ul>
@@ -188,7 +185,7 @@
                         <h5>Get in Touch</h5>
                         <p><i class="bi bi-geo-alt"></i> 42 Allen Avenue, Lagos, Nigeria</p>
                         <p><i class="bi bi-envelope"></i> support@apparcus.com</p>
-                        <p><i class="bi bi-telephone"></i> +234 800 222 9988</p>
+                        <p><i class="bi bi-telephone"></i> +234 811 537 9302, +234 816 225 7343</p>
                         <div class="social-links mt-3">
                             <a href="#"><i class="bi bi-facebook"></i></a>
                             <a href="#"><i class="bi bi-twitter-x"></i></a>
