@@ -90,10 +90,11 @@ namespace Apparcus.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
         }
 
@@ -115,6 +116,6 @@ namespace Apparcus.Controllers
             return View(model);
         }
 
-        
+     
     }
 }
