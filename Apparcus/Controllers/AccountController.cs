@@ -80,7 +80,7 @@ namespace Apparcus.Controllers
             var request = HttpContext.Request;
             string baseUrl = $"{request.Scheme}://{request.Host}";
 
-            _emailTemplateService.SendRegistrationEmail(user, baseUrl);
+            _emailTemplateService.SendRegistrationEmail(createStaff, baseUrl);
             return ResponseHelper.JsonSuccess("Added successfully");
         }
 
