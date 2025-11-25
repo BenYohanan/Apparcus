@@ -3,6 +3,8 @@ using Core.Models;
 using Core.ViewModels;
 using Logic.IHelpers;
 using Microsoft.EntityFrameworkCore;
+using QRCoder;
+using System.Drawing;
 
 namespace Logic.Helpers
 {
@@ -26,7 +28,7 @@ namespace Logic.Helpers
                 .Include(p => p.ProjectSupporters)
                 .Where(p => !p.Deleted);
 
-            if (user.UserRole == Constants.UserRole) 
+            if (user.UserRole == Constants.UserRole)
             {
                 query = query.Where(p => p.CreatedById == user.Id);
             }
@@ -127,11 +129,11 @@ namespace Logic.Helpers
                     CreatedByDateJoined = c.CreatedBy != null ? c.CreatedBy.DateCreated : DateTime.MinValue,
                     CreatedByEmail = c.CreatedBy != null ? c.CreatedBy.Email : "",
                     CreatedByPhoneNumber = c.CreatedBy != null ? c.CreatedBy.PhoneNumber : "",
-                    ProjectSupporters = c.ProjectSupporters.Where(x=>x.Amount > 0).ToList()
+                    ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList()
                 }).FirstOrDefault();
         }
 
-        public  ProjectPaymentDTO GetPaymentsByProjectId(int projectId)
+        public ProjectPaymentDTO GetPaymentsByProjectId(int projectId)
         {
             var projectPaymentDTO = new ProjectPaymentDTO();
             var project = _context.Projects
@@ -151,6 +153,25 @@ namespace Logic.Helpers
                 Reference = c.PaystackReference
             })];
             return projectPaymentDTO;
+        }
+
+        public static byte[] GenerateQRCode(string link)
+        {
+            if (string.IsNullOrEmpty(link))
+            {
+                return null;
+            }
+
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(link, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(5);
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                qrCodeImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
         }
     }
 }
