@@ -3,11 +3,13 @@ using Core.DbContext;
 using Core.Models;
 using Core.ViewModels;
 using Logic;
+using Logic.Helpers;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Apparcus.Controllers
 {
@@ -84,6 +86,12 @@ namespace Apparcus.Controllers
             if (project == null)
                 return Json(null);
 
+            var qrBytes = ProjectHelper.GenerateQRCode(project.SupportLink);
+            if (qrBytes != null)
+            {
+                project.QRCodeBase64 = Convert.ToBase64String(qrBytes);
+            }
+
             return Json(project);
         }
 
@@ -133,7 +141,7 @@ namespace Apparcus.Controllers
             if (project == null)
                 return ResponseHelper.JsonError("Project not found");
 
-            project.Deleted = true; 
+            project.Deleted = true;
             _context.SaveChanges();
 
             return ResponseHelper.JsonSuccess("Project deleted successfully");
