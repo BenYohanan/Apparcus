@@ -26,5 +26,6 @@ namespace Core.Models
         public List<string?> Roles { get; set; }
         [NotMapped]
         public string? UserRole { get; set; }
+        public string? ProfilePictureUrl { get; set; }
     }
 }
