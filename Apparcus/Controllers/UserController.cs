@@ -64,6 +64,63 @@ namespace Apparcus.Controllers
 
             return Json(new { success = false, message = "Failed to create user" });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(IFormFile file, string FirstName, string LastName, string PhoneNumber)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            user.FirstName = FirstName?.Trim();
+            user.LastName = LastName?.Trim();
+            user.PhoneNumber = PhoneNumber?.Trim();
+
+            if (file != null && file.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "avatars");
+                Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                // ADD CACHE BUSTER HERE SO BROWSER DOESN'T CACHE OLD IMAGE
+                user.ProfilePictureUrl = "/uploads/avatars/" + uniqueFileName + "?v=" + DateTime.Now.Ticks;
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                // THIS IS THE KEY YOUR PROJECT USES EVERYWHERE
+                TempData["SuccessMessage"] = "Profile updated successfully!";
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+
     }
 }
 

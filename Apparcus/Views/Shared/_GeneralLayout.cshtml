@@ -297,41 +297,73 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- YOUR EXACT FAVORITE DROPDOWN - FINAL & BULLETPROOF -->
                             <div class="dropdown profile-dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
-                                   data-bs-toggle="dropdown">
-                                    <span class="avatar avatar-sm online">
-                                        <img src="~/template/assets/img/profiles/avatar-12.jpg" alt="Img" class="img-fluid rounded-circle">
+                                <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <span class="avatar avatar-sm online position-relative">
+                                        @if (!string.IsNullOrEmpty(user?.ProfilePictureUrl))
+                                        {
+                                            <img id="headerAvatar"
+                                                 src="@user.ProfilePictureUrl?t=@DateTime.Now.Ticks"
+                                                 alt="Profile"
+                                                 class="img-fluid rounded-circle">
+                                        }
+                                        else
+                                        {
+                                            <img id="headerAvatar"
+                                                 src="/template/assets/img/profiles/avatar-12.jpg"
+                                                 alt="Profile"
+                                                 class="img-fluid rounded-circle">
+                                        }
                                     </span>
                                 </a>
+
                                 <div class="dropdown-menu shadow-none">
                                     <div class="card mb-0">
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <span class="avatar avatar-lg me-2 avatar-rounded">
-                                                    <img src="~/template/assets/img/profiles/avatar-12.jpg" alt="img">
+                                                    @if (!string.IsNullOrEmpty(user?.ProfilePictureUrl))
+                                                    {
+                                                        <img id="dropdownBigAvatar"
+                                                             src="@user.ProfilePictureUrl?t=@DateTime.Now.Ticks"
+                                                             alt="Profile"
+                                                             class="img-fluid rounded-circle">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img id="dropdownBigAvatar"
+                                                             src="/template/assets/img/profiles/avatar-12.jpg"
+                                                             alt="Profile"
+                                                             class="img-fluid rounded-circle">
+                                                    }
                                                 </span>
                                                 <div>
-                                                    <h5 class="mb-0">@user.FullName</h5>
-                                                    <p class="fs-12 fw-medium mb-0">@user.Email</p>
+                                                    <h5 class="mb-0">@(user?.FullName ?? "User")</h5>
+                                                    <p class="fs-12 fw-medium mb-0 text-muted">@(user?.Email ?? "")</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="">
-                                                <i class="ti ti-user-circle me-1"></i>My Profile
-                                            </a>
-										</div>
-                                        <div class="card-footer">
-                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                               href="@Url.Action("LogOut", "Account")">
-                                                <i class="ti ti-login me-2"></i>Logout
+                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="/User/Profile">
+                                                My Profile
                                             </a>
                                         </div>
+                                        <div class="card-footer">
+                                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                                <button type="submit" class="dropdown-item text-danger border-0 bg-transparent p-0 text-start w-100 d-inline-flex align-items-center py-2">
+                                                    Logout
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-									</div>
-								</div>
-							</div>
+
+
+                            <!-- END -->
 						</div>
 					</div>
 				</div>
