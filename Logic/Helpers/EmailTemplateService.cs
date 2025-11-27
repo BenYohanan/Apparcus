@@ -29,7 +29,7 @@ namespace Logic.Helpers
                             Login Link: <a href='{loginLink}' style='color: #004aad;'>Login</a>.
                         </p>
                         <p style='color: #333333;'>
-                            Need help? Contact us at <a href='mailto:officialgreenpgms@gmail.com' style='color: #004aad;'>officialgreenpgms@gmail.com</a>.
+                            Need help? Contact us at <a href='mailto:support@apparcus.com' style='color: #004aad;'>support@apparcus.com</a>.
                         </p>
                         <p><b>Kind regards,</b><br/>Apparcus Team</p>
                     </div>

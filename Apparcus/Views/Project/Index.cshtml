@@ -74,7 +74,7 @@
 
                                                             @foreach (var supporter in supporters)
                                                             {
-                                                                 
+
                                                                 <span class="avatar avatar-rounded">
                                                                     <a asp-controller="Project"
                                                                        asp-action="Supporters"
@@ -168,7 +168,7 @@
                                                 <li>
                                                     <a class="dropdown-item rounded-1" asp-controller="Project" asp-action="Payments" asp-route-projectId="@project.Id"><i class="ti ti-file-dollar me-2"></i>Payments</a>
                                                 </li>
-                                                
+
                                                 <li>
                                                     <a href="javascript:void(0);" class="dropdown-item rounded-1" onclick='getProjectById(@project.Id)' data-bs-toggle="modal" data-bs-target="#edit_project"><i class="ti ti-edit me-2"></i>Edit</a>
                                                 </li>
@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="mb-3 pb-3 border-bottom">
                                         <p class="text-truncate line-clamb-3 mb-0">
-                                           @Html.Raw(project.Description)
+                                            @Html.Raw(project.Description)
                                         </p>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
@@ -220,7 +220,7 @@
                                                 var remainingCount = project.ProjectSupporters.Count - supporters.Count;
 
                                                 @foreach (var supporter in supporters)
-                                                { 
+                                                {
                                                     <span class="avatar avatar-rounded">
                                                         <a asp-controller="Project"
                                                            asp-action="Supporters"
@@ -357,31 +357,38 @@
 
             <div class="modal-body" id="shareContent">
                 <h5 class="fw-bold" id="shareProjectTitle"></h5>
-                <p class="text-muted mb-3">
+                <p class="text-muted mb-4">
                     <span id="shareProjectAmount" class="text-primary fw-bold"></span>
                 </p>
 
                 <div class="input-group mb-4">
                     <input type="text" class="form-control" id="shareLinkInput" readonly>
-                    <button class="btn btn-outline-secondary" type="button" id="copyLinkBtn" title="Copy">
+                    <button class="btn btn-outline-primary" type="button" id="copyLinkBtn" title="Copy Link">
                         <i class="ti ti-copy"></i>
                     </button>
-                    <button class="btn btn-outline-secondary" type="button" id="openLinkBtn" title="Open">
+                    <button class="btn btn-outline-primary" type="button" id="openLinkBtn" title="Open Link">
                         <i class="ti ti-external-link"></i>
+                    </button>
+                    <button class="btn btn-outline-primary" type="button" id="copyQrImageBtn" title="Copy QR Code as Image">
+                        <i class="ti ti-qrcode"></i>
                     </button>
                 </div>
 
-                <div class="d-flex flex-wrap gap-2 justify-content-center">
-                    <a href="#" target="_blank" class="btn btn-success btn-sm">
+                <!-- Hidden QR Image (only used for copying, not displayed) -->
+                <img id="qrCodeImage" src="" alt="QR Code" style="display: none !important;">
+
+                <!-- Social Share Buttons -->
+                <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+                    <a href="#" id="shareWhatsapp" target="_blank" class="btn btn-success btn-sm">
                         <i class="ti ti-brand-whatsapp"></i> WhatsApp
                     </a>
-                    <a href="#" target="_blank" class="btn btn-info btn-sm text-white">
+                    <a href="#" id="shareTwitter" target="_blank" class="btn btn-info btn-sm text-white">
                         <i class="ti ti-brand-twitter"></i> Twitter
                     </a>
-                    <a href="#" target="_blank" class="btn btn-primary btn-sm">
+                    <a href="#" id="shareFacebook" target="_blank" class="btn btn-primary btn-sm">
                         <i class="ti ti-brand-facebook"></i> Facebook
                     </a>
-                    <a href="#" target="_blank" class="btn btn-info btn-sm text-white">
+                    <a href="#" id="shareTelegram" target="_blank" class="btn btn-info btn-sm text-white">
                         <i class="ti ti-brand-telegram"></i> Telegram
                     </a>
                 </div>
@@ -390,25 +397,3 @@
     </div>
 </div>
 
-<script>
-    // Copy to clipboard
-    document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
-        const input = document.getElementById('shareLinkInput');
-        input.select();
-        document.execCommand('copy');
-
-        const btn = document.getElementById('copyLinkBtn');
-        btn.innerHTML = '<i class="ti ti-check"></i>';
-        btn.classList.replace('btn-outline-secondary', 'btn-success');
-
-        setTimeout(() => {
-            btn.innerHTML = '<i class="ti ti-copy"></i>';
-            btn.classList.replace('btn-success', 'btn-outline-secondary');
-        }, 2000);
-    });
-
-    // Open link
-    document.getElementById('openLinkBtn')?.addEventListener('click', () => {
-        window.open(document.getElementById('shareLinkInput').value, '_blank');
-    });
-</script>

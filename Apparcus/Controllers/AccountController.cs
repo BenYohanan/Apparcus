@@ -80,7 +80,7 @@ namespace Apparcus.Controllers
             var request = HttpContext.Request;
             string baseUrl = $"{request.Scheme}://{request.Host}";
 
-            _emailTemplateService.SendRegistrationEmail(user, baseUrl);
+            _emailTemplateService.SendRegistrationEmail(createStaff, baseUrl);
             return ResponseHelper.JsonSuccess("Added successfully");
         }
 
@@ -90,10 +90,11 @@ namespace Apparcus.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
         }
 
@@ -115,6 +116,6 @@ namespace Apparcus.Controllers
             return View(model);
         }
 
-        
+     
     }
 }
