@@ -23,6 +23,7 @@ namespace Core.ViewModels
         public string? CreatedByEmail { get; set; }
         public string? SupportLink { get; set; }
         public string? QRCodeBase64 { get; set; }
+        public string? OwnersProfilePic { get; set; }
         public DateTime? CreatedByDateJoined { get; set; }
         public virtual ICollection<ProjectSupporter>? ProjectSupporters { get; set; }
     }

@@ -12,6 +12,16 @@
 					<div class="card-body p-0">
 						<div class="text-center px-3 pb-3 border-bottom">
 							<div class="mb-3">
+								<a href="#" class="flex-shrink-0 me-2">
+									@if (!string.IsNullOrEmpty(Model.OwnersProfilePic))
+									{
+										<img src="@Model.OwnersProfilePic" class="img-fluid rounded-circle" width="100" alt="img">
+									}
+									else
+									{
+										<img src="~/template/assets/img/products/product-05.jpg" class="img-fluid rounded-circle" alt="img">
+									}
+								</a>
 								<h5 class="d-flex align-items-center justify-content-center mb-1">@Model.CreatedBy<i class="ti ti-discount-check-filled text-success ms-1"></i></h5>
 								<span class="badge badge-soft-dark fw-medium me-2">
 									<i class="ti ti-point-filled me-1"></i>@Model.CreatedByPhoneNumber
@@ -97,11 +107,11 @@
 												<div class="row align-items-center">
 													<div class="col-md-8">
 														<div class="d-flex align-items-center">
-															<a href="project-details.html" class="flex-shrink-0 me-2">
+															<a href="#" class="flex-shrink-0 me-2">
 																<img src="~/template/assets/img/products/product-05.jpg" class="img-fluid rounded-circle" alt="img">
 															</a>
 															<div>
-																<h6 class="mb-1"><a href="project-details.html">@projectSupporter.FullName</a></h6>
+																<h6 class="mb-1"><a href="#">@projectSupporter.FullName</a></h6>
 																<div class="d-flex align-items-center">
 																	<p><span class="text-primary">₦@projectSupporter.Amount<i class="ti ti-point-filled text-primary mx-1"></i></span> Contributed on @projectSupporter.DateCreated?.ToString("dd MMM, yyyy h:mm tt")</p>
 																</div>

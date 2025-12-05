@@ -129,6 +129,7 @@ namespace Logic.Helpers
                     CreatedByDateJoined = c.CreatedBy != null ? c.CreatedBy.DateCreated : DateTime.MinValue,
                     CreatedByEmail = c.CreatedBy != null ? c.CreatedBy.Email : "",
                     CreatedByPhoneNumber = c.CreatedBy != null ? c.CreatedBy.PhoneNumber : "",
+                    OwnersProfilePic = c.CreatedBy != null ? c.CreatedBy.ProfilePictureUrl : "",
                     ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList()
                 }).FirstOrDefault();
         }

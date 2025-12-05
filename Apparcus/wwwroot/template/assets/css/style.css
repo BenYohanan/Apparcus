@@ -1332,8 +1332,8 @@ button:focus {
   color: #FFF;
 }
 .btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary.focus, .btn.btn-primary:active, .btn.btn-primary.active {
-  background-color: rgb(222.1333333333, 80.4102564103, 13.0666666667);
-  border: 1px solid rgb(222.1333333333, 80.4102564103, 13.0666666667);
+  background-color: #9333ea;
+  border: 1px solid #9333ea;
   color: #FFF;
 }
 .btn.btn-secondary {
@@ -1342,8 +1342,8 @@ button:focus {
   color: #FFF;
 }
 .btn.btn-secondary:hover, .btn.btn-secondary:focus, .btn.btn-secondary.focus, .btn.btn-secondary:active, .btn.btn-secondary.active {
-  background-color: rgb(46.1272727273, 87.5636363636, 100.0727272727);
-  border: 1px solid rgb(46.1272727273, 87.5636363636, 100.0727272727);
+  background-color: #9333ea;
+  border: 1px solid #9333ea;
   color: #FFF;
 }
 .btn.btn-success {
@@ -1352,8 +1352,8 @@ button:focus {
   color: #FFF;
 }
 .btn.btn-success:hover, .btn.btn-success:focus, .btn.btn-success.focus, .btn.btn-success:active, .btn.btn-success.active {
-  background-color: rgb(2.4, 160.8, 72);
-  border: 1px solid rgb(2.4, 160.8, 72);
+  background-color: #9333ea;
+  border: 1px solid #9333ea;
   color: #FFF;
 }
 .btn.btn-info {
@@ -1362,8 +1362,8 @@ button:focus {
   color: #FFF;
 }
 .btn.btn-info:hover, .btn.btn-info:focus, .btn.btn-info.focus, .btn.btn-info:active, .btn.btn-info.active {
-  background-color: rgb(0, 111.0789473684, 241.2);
-  border: 1px solid rgb(0, 111.0789473684, 241.2);
+  background-color: #9333ea;
+  border: 1px solid #9333ea;
   color: #FFF;
 }
 .btn.btn-warning {
@@ -1432,8 +1432,8 @@ button:focus {
   color: #FFF;
 }
 .btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary.focus, .btn.btn-primary:active, .btn.btn-primary.active {
-  background-color: rgb(240.9696682464, 92.4819905213, 22.3303317536);
-  border: 1px solid rgb(240.9696682464, 92.4819905213, 22.3303317536);
+  background-color: #9333ea;
+  border: 1px solid #9333ea;
   color: #FFF;
 }
 .btn.btn-light {
@@ -1471,8 +1471,8 @@ button:focus {
   color: #FFF;
 }
 .btn.btn-linear-primary:hover, .btn.btn-linear-primary:focus, .btn.btn-linear-primary.focus, .btn.btn-linear-primary:active, .btn.btn-linear-primary.active {
-  background-color: rgb(240.9696682464, 92.4819905213, 22.3303317536);
-  border: 1px solid rgb(240.9696682464, 92.4819905213, 22.3303317536);
+  background-color: #9333ea;
+  border: 1px solid #9333ea;
   color: #FFF;
 }
 
