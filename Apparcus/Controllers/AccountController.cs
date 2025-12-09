@@ -1,4 +1,6 @@
-﻿using Apparcus.Models;
+﻿
+
+using Apparcus.Models;
 using Core.DbContext;
 using Core.Models;
 using Core.ViewModels;
@@ -9,12 +11,20 @@ using Newtonsoft.Json;
 
 namespace Apparcus.Controllers
 {
-    public class AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IUserHelper userHelper, IEmailTemplateService emailTemplateService) : Controller
+    public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
-        private readonly UserManager<ApplicationUser> _userManager = userManager;
-        private readonly IUserHelper _userHelper = userHelper;
-        private readonly IEmailTemplateService _emailTemplateService = emailTemplateService;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserHelper _userHelper;
+        private readonly IEmailTemplateService _emailTemplateService;
+
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IUserHelper userHelper, IEmailTemplateService emailTemplateService)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _userHelper = userHelper;
+            _emailTemplateService = emailTemplateService;
+        }
 
         [HttpGet]
         public IActionResult Login()
@@ -110,12 +120,77 @@ namespace Apparcus.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(string token)
+        public IActionResult ResetPassword(string token, string email)  // Added email parameter
         {
-            var model = new ResetPasswordViewModel { Token = token };
+            var model = new ResetPasswordViewModel { Token = token, Email = email };  // Pass email to model
             return View(model);
         }
 
-     
+        [HttpPost]
+        [HttpPost]
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { isError = true, msg = "Invalid email format." });
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            // For security, don't reveal if user exists—always pretend success
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var request = HttpContext.Request;
+                string baseUrl = $"{request.Scheme}://{request.Host}";
+                string resetUrl = $"{baseUrl}/Account/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(model.Email)}";
+
+                _emailTemplateService.SendPasswordResetEmail(user, resetUrl);
+            }
+
+            return Json(new
+            {
+                isError = false,
+                msg = "If an account with that email exists, a password reset link has been sent.",
+                returnUrl = "/Account/ForgotPasswordConfirmation"
+            });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ResetPassword(ResetPasswordViewModel model)  // Changed to use model binding
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new
+                {
+                    isError = true,
+                    msg = string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))
+                });
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);  // Use model.Email
+
+            if (user == null)
+                return Json(new { isError = true, msg = "Invalid request." });
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (result.Succeeded)
+            {
+                return Json(new
+                {
+                    isError = false,
+                    msg = "Password reset successful!",
+                    returnUrl = "/Account/Login"
+                });
+            }
+
+            return Json(new
+            {
+                isError = true,
+                msg = string.Join("; ", result.Errors.Select(e => e.Description))
+            });
+        }
     }
 }

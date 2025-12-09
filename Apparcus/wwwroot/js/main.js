@@ -597,3 +597,103 @@ document.getElementById('copyQrImageBtn')?.addEventListener('click', async () =>
         errorAlert("Copy failed. Try again or screenshot the QR.");
     }
 });
+
+
+function forgotPassword() {
+   
+    var $submitBtn = $("#forgot_submit_btn");
+    $submitBtn.prop("disabled", true).text("Please wait...");
+    var email = $('#email').val().trim();
+
+    if (!email) {
+        errorAlert("Email is required.");
+        $submitBtn.prop("disabled", false).text("Submit");
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/Account/ForgotPassword',
+        dataType: 'json',
+        data: { email: email },
+        success: function (result) {
+            $submitBtn.prop("disabled", false).text("Submit");
+
+            if (!result.isError) {
+                newSuccessAlert(result.msg, result.returnUrl || "/Account/Login");
+            } else {
+                errorAlert(result.msg);
+            }
+        },
+        error: function () {
+            $submitBtn.prop("disabled", false).text("Submit");
+            errorAlert("An error occurred. Please try again.");
+        }
+    });
+}
+
+function resetPassword() {
+  
+    var $submitBtn = $("#reset_submit_btn");
+    $submitBtn.prop("disabled", true).text("Please wait...");
+    var token = $('#token').val().trim();
+    var email = $('#email').val().trim();  // Added this to send email
+    var password = $('#password').val();
+    var confirmPassword = $('#confirmPassword').val();
+
+    if (!token) {
+        errorAlert("Invalid or missing reset token.");
+        $submitBtn.prop("disabled", false).text("Reset Password");
+        return;
+    }
+
+    if (!email) {
+        errorAlert("Invalid request.");
+        $submitBtn.prop("disabled", false).text("Reset Password");
+        return;
+    }
+
+    if (!password) {
+        errorAlert("Password is required.");
+        $submitBtn.prop("disabled", false).text("Reset Password");
+        return;
+    }
+
+    if (!confirmPassword) {
+        errorAlert("Please confirm your password.");
+        $submitBtn.prop("disabled", false).text("Reset Password");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        errorAlert("Passwords do not match.");
+        $submitBtn.prop("disabled", false).text("Reset Password");
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/Account/ResetPassword',
+        dataType: 'json',
+        data: {
+            token: token,
+            email: email,  // Added this
+            password: password,
+            confirmPassword: confirmPassword
+        },
+        success: function (result) {
+            $submitBtn.prop("disabled", false).text("Reset Password");
+
+            if (!result.isError) {
+                var url = result.returnUrl;
+                successAlertWithRedirect(result.msg, url);
+            } else {
+                errorAlert(result.msg);
+            }
+        },
+        error: function () {
+            $submitBtn.prop("disabled", false).text("Reset Password");
+            errorAlert("An error occurred. Please try again.");
+        }
+    });
+}
