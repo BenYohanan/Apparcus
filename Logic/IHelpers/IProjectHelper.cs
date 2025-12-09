@@ -16,5 +16,6 @@ namespace Logic.IHelpers
         Task<List<ProjectViewModel>> GetUserProjectsAsync(string userId);
         ProjectViewModel? GetProjectById(int id);
         ProjectPaymentDTO GetPaymentsByProjectId(int projectId);
+        bool AddComments(ProjectCommentsViewModel commentDetails);
     }
 }

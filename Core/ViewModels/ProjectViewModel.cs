@@ -26,5 +26,6 @@ namespace Core.ViewModels
         public string? OwnersProfilePic { get; set; }
         public DateTime? CreatedByDateJoined { get; set; }
         public virtual ICollection<ProjectSupporter>? ProjectSupporters { get; set; }
+        public virtual ICollection<ProjectComment>? Comments { get; set; }
     }
 }
