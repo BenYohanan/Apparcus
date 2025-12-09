@@ -45,5 +45,54 @@ namespace Logic.Helpers
                 return false;
             }
         }
+        public bool SendPasswordResetEmail(ApplicationUser user, string resetLink)
+        {
+            if (user == null || string.IsNullOrWhiteSpace(user.Email))
+            {
+                return false;
+            }
+
+            string subject = "Password Reset Request";
+            string message = $@"
+        <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;'>
+            <div style='background-color: #ffffff; padding: 20px; border: 1px solid #e0e0e0; text-align: center;'>
+                <h1 style='color: #004aad; font-size: 24px;'>Reset Your Password</h1>
+                <p style='color: #333333; font-size: 16px;'>
+                    Hello {user.FullName},<br/><br/>
+                    We received a request to reset your password. 
+                    If you made this request, click the button below. 
+                    If not, please ignore this email.
+                </p>
+
+                <a href='{resetLink}' 
+                   style='display: inline-block; background-color: #004aad; color: white; padding: 12px 20px; 
+                          text-decoration: none; border-radius: 5px; margin-top: 20px;'>
+                    Reset Password
+                </a>
+
+                <p style='color: #333333; margin-top: 20px;'>
+                    This link will expire in 30 minutes for your security.
+                </p>
+
+                <p style='color: #333333;'>
+                    Need help? Contact <a href='mailto:support@apparcus.com' style='color: #004aad;'>support@apparcus.com</a>.
+                </p>
+
+                <p><b>Kind regards,</b><br/>Apparcus Team</p>
+            </div>
+        </div>";
+
+            try
+            {
+                _emailService.CallHangfire(user.Email, subject, message);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
     }
 }
