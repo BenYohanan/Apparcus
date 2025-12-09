@@ -18,15 +18,12 @@ namespace Core.Models
 
         [Key]
         public int Id { get; set; }
+        public string? FullName { get; set; }
         public string? Comment { get; set; }
         public bool Deleted { get; set; }
         public DateTime DateCreated { get; set; }
         public int ProjectId { get; set; }
         [ForeignKey(nameof(ProjectId))]
-        public virtual Project Project { get; set; } = default!;
-        public int? ProjectSupporterId { get; set; }
-
-        [ForeignKey(nameof(ProjectSupporterId))]
-        public virtual ProjectSupporter? Supporter { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

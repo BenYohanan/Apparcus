@@ -3,6 +3,7 @@ using Core.DbContext;
 using Core.Models;
 using Core.ViewModels;
 using Logic;
+using Logic.Helpers;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -27,20 +28,23 @@ namespace Apparcus.Controllers
             {
                 UserName = Utility.GetCurrentUser().FullName,
                 ProjectCount = projects.Count,
-                ClientCount = _userHelper.GetUsers().Count,
+                ClientCount = _userHelper.GetUsers().ToList().Count,
                 Projects = projects,
                 TotalEarnings = _context.Contributions.Sum(x => x.Amount),
                 ContibutorsCount = _projectHelper.GetContributors().Count
             };
             return View(data);
         }
-        [HttpGet]
-        public IActionResult Users()
+        public IActionResult Users(IPageListModel<ApplicationUserViewModel> model, int page = 1)
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
-            var users = _userHelper.GetUsers();
-            return View(users);
+            var users = _userHelper.Users(model, page);
+            model.Model = users;
+            model.SearchAction = "Users";
+            model.SearchController = "Admin";
+            return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> ChangePassword(string userId, string newPassword)
         {

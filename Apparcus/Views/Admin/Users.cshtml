@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Core.ViewModels.ApplicationUserViewModel>
+﻿@using Core.ViewModels
+@model Core.ViewModels.IPageListModel<ApplicationUserViewModel>
 @{
     ViewData["Title"] = "Users";
 	Layout = ViewBag.Layout;
@@ -42,25 +43,26 @@
 			</div>
 		</div>
 		<!-- /Breadcrumb -->
-		
+		@Html.Partial("_PageSearcher", Model)
 		<!-- Clients list -->
-		<div class="card">
-			<div class="card-body p-0">
-				<div class="custom-datatable-filter table-responsive">
-					<table class="table datatable">
+		<div class="card-box">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-striped">
 						<thead class="thead-light">
 							<tr>
 								<th>S/N</th>
 								<th>Full Name</th>
 								<th>Email</th>
 								<th>Phone Number</th>
+								<th>Date Joined</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							@if (Model != null && Model.Count() > 0)
+							@if (Model != null && Model.Model.Count() > 0)
 							{
-								@foreach (var applicationUser in Model)
+								@foreach (var applicationUser in Model.Model)
 								{
 									<tr>
 										<td></td>
@@ -73,6 +75,7 @@
 										</td>
 										<td>@applicationUser.Email</td>
 										<td>@applicationUser.PhoneNumber</td>
+										<td>@applicationUser.DateRegistered?.ToString("dd/MMM/yyyy")</td>
 										<td>
 											<div class="action-icon d-inline-flex">
 												<a href="javascript:void(0);" onclick="openMakeAdminModal('@applicationUser.Id')" title="Make Admin">
@@ -95,6 +98,7 @@
 		</div>
 		<!-- /Clients list -->
 	</div>
+	@Html.Partial("_Pager", Model.Model)
 </div>
 <!-- /Page Wrapper -->
 <!-- Add Client -->

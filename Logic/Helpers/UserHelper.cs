@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace Logic.Helpers
 {
@@ -75,31 +77,92 @@ namespace Logic.Helpers
             }
             return null;
         }
-        public List<ApplicationUserViewModel> GetUsers()
+        public IPagedList<ApplicationUserViewModel> Users(IPageListModel<ApplicationUserViewModel> model, int page)
         {
-            var adminUsers = _userManager.GetUsersInRoleAsync(SeedItems.AdminRole).Result;
-            var normalUsers = _userManager.GetUsersInRoleAsync(SeedItems.UserRole).Result;
-
-            var allUsers = adminUsers.Concat(normalUsers).DistinctBy(u => u.Id).Where(x => !x.Deleted).ToList();
-
-            return [.. allUsers.Select(r =>
+            try
             {
-                bool isAdmin = adminUsers.Any(a => a.Id == r.Id);
+                var query = GetUsers();
 
-                return new ApplicationUserViewModel
+                if (!string.IsNullOrEmpty(model.Keyword))
                 {
-                    Id = r.Id,
-                    FirstName = r.FirstName,
-                    LastName = r.LastName,
-                    Email = r.Email,
-                    FullName = $"{r.FirstName} {r.LastName}",
-                    PhoneNumber = r.PhoneNumber,
-                    DateRegistered = r.DateCreated,
-                    DateOfBirth = r.DateOfBirth,
+                    var key = model.Keyword.ToLower();
+
+                    query = query.Where(x =>
+                        x.FirstName.ToLower().Contains(key) ||
+                        x.LastName.ToLower().Contains(key) ||
+                        x.Email.ToLower().Contains(key) ||
+                        x.PhoneNumber.ToLower().Contains(key) ||
+                        x.FullName.ToLower().Contains(key));
+                }
+
+                if (model.StartDate.HasValue)
+                {
+                    query = query.Where(x => x.DateRegistered >= model.StartDate);
+                }
+                if (model.EndDate.HasValue)
+                {
+                    query = query.Where(x => x.DateOfBirth <= model.EndDate);
+                }
+               
+                var logs = query
+                    .OrderByDescending(x => x.DateRegistered)
+                    .Select(r => new ApplicationUserViewModel
+                    {
+                        Id = r.Id,
+                        FirstName = r.FirstName,
+                        LastName = r.LastName,
+                        Email = r.Email,
+                        FullName = $"{r.FirstName} {r.LastName}",
+                        PhoneNumber = r.PhoneNumber,
+                        DateRegistered = r.DateRegistered,
+                        DateOfBirth = r.DateOfBirth,
+                        IsAdmin = r.IsAdmin
+                    }).ToPagedList(page, 25);
+                model.CanFilterByDeliveryStatus = true;
+
+                return logs;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public IQueryable<ApplicationUserViewModel> GetUsers()
+        {
+            var adminRoleId = db.Roles
+                .Where(r => r.Name == SeedItems.AdminRole)
+                .Select(r => r.Id)
+                .FirstOrDefault();
+
+            var userRoleId = db.Roles
+                .Where(r => r.Name == SeedItems.UserRole)
+                .Select(r => r.Id)
+                .FirstOrDefault();
+
+            var query =
+                from u in db.ApplicationUsers
+                where !u.Deleted
+                let isAdmin = db.UserRoles
+                    .Any(ur => ur.UserId == u.Id && ur.RoleId == adminRoleId)
+                let isUser = db.UserRoles
+                    .Any(ur => ur.UserId == u.Id && ur.RoleId == userRoleId)
+                where isAdmin || isUser
+                select new ApplicationUserViewModel
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    FullName = u.FirstName + " " + u.LastName,
+                    PhoneNumber = u.PhoneNumber,
+                    DateRegistered = u.DateCreated,
+                    DateOfBirth = u.DateOfBirth,
                     IsAdmin = isAdmin
                 };
-            })];
+
+            return query;
         }
+
         public string GetRoleLayout()
         {
             var user = Utility.GetCurrentUser();
