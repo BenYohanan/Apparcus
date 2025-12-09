@@ -697,3 +697,50 @@ function resetPassword() {
         }
     });
 }
+
+function comment() {
+    debugger;
+    var $submitBtn = $("#submit_btn");
+    var originalText = $submitBtn.text();
+    $submitBtn.prop("disabled", true).text("Please wait...");
+    function restoreButton() {
+        $submitBtn.prop("disabled", false).text(originalText);
+    }
+    var data = {};
+    data.FullName = $('#yourFullName').val();
+    data.Comment = $('#addComments').val();
+    data.ProjectId = $('#messageId').val();
+    if (!data.FullName) {
+        errorAlert("Name  is required.");
+        restoreButton();
+        return;
+    }
+    if (!data.Comment) {
+        errorAlert("Comment is required.");
+        restoreButton();
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/Guest/Comments',
+        dataType: 'json',
+        data:
+        {
+            commentContents: JSON.stringify(data)
+        },
+        success: function (result) {
+            if (!result.isError) {
+                var url = window.location.href;
+                successAlertWithRedirect(result.msg, url);
+            } else {
+                errorAlert(result.msg);
+                restoreButton();
+            }
+        },
+        error: function (ex) {
+            errorAlert("An error has occurred, try again. Please contact support if the error persists.");
+            restoreButton();
+        }
+    });
+}

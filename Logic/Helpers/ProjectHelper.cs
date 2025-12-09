@@ -208,6 +208,7 @@ namespace Logic.Helpers
                     CreatedByEmail = c.CreatedBy != null ? c.CreatedBy.Email : "",
                     CreatedByPhoneNumber = c.CreatedBy != null ? c.CreatedBy.PhoneNumber : "",
                     OwnersProfilePic = c.CreatedBy != null ? c.CreatedBy.ProfilePictureUrl : "",
+                    Comments = c.Comments,
                     ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList()
                 }).FirstOrDefault();
         }
@@ -251,6 +252,20 @@ namespace Logic.Helpers
                 qrCodeImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 return stream.ToArray();
             }
+        }
+
+        public bool AddComments(ProjectCommentsViewModel commentDetails)
+        {
+            var comments = new ProjectComment
+            {
+                Comment = commentDetails.Comment,
+                FullName = commentDetails.FullName,
+                ProjectId = commentDetails.ProjectId,
+            };
+
+            _context.Add(comments);
+            _context.SaveChanges();
+            return true;
         }
     }
 }
