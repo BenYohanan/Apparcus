@@ -45,6 +45,11 @@ namespace Apparcus.Models
         [Required]
         public string Token { get; set; }
 
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }  // Added this
+
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
