@@ -31,12 +31,15 @@ namespace Apparcus.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IPageListModel<ProjectViewModel> model, int page = 1)
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
             ViewBag.UsersDropdown = await _dropdownHelper.GetAllUsersDropdownAsync();
-            var projects = await _projectHelper.GetAllProjectsAsync();
-            return View(projects);
+            var projects =  _projectHelper.Projects(model, page);
+            model.Model = projects;
+            model.SearchAction = "Index";
+            model.SearchController = "Project";
+            return View(model);
         }
 
         [HttpPost]

@@ -26,7 +26,7 @@ namespace Apparcus.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
-            var projects = await _projectHelper.GetAllProjectsAsync().ConfigureAwait(false);
+            var projects = _projectHelper.GetAllProjects();
             var contributors = _projectHelper.GetContributors();
             var userProjectIds = projects.Select(p => p.Id).ToHashSet();
             var contributorsCount = contributors.Count(c => userProjectIds.Contains(c.ProjectId));
@@ -36,8 +36,8 @@ namespace Apparcus.Controllers
                 FullName = $"{user.FirstName} {user.LastName}".Trim(),
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                ProjectCount = projects.Count,
-                Projects = projects,
+                ProjectCount = projects.ToList().Count,
+                Projects = projects.ToList(),
                 WalletBalance = _context.Wallets.Where(x => x.ProjectOwnerId == user.Id).Sum(x=>x.Balance),
                 ContibutorsCount = contributorsCount
             };
