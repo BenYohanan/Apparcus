@@ -5,19 +5,98 @@ using Logic.IHelpers;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
 using System.Drawing;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace Logic.Helpers
 {
-    public class ProjectHelper : IProjectHelper
+    public class ProjectHelper(AppDbContext context) : IProjectHelper
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context = context;
 
-        public ProjectHelper(AppDbContext context)
+
+        public IPagedList<ProjectViewModel> Projects(IPageListModel<ProjectViewModel> model, int page)
         {
-            _context = context;
+            try
+            {
+                var user = Utility.GetCurrentUser();
+                var request = AppHttpContext.Current.Request;
+                string baseUrl = $"{request.Scheme}://{request.Host}";
+
+                var query = _context.Projects
+                    .Include(p => p.CreatedBy)
+                    .Where(p => !p.Deleted);
+
+                if (user.UserRole == Constants.UserRole)
+                {
+                    query = query.Where(p => p.CreatedById == user.Id);
+                }
+
+                if (!string.IsNullOrEmpty(model.Keyword))
+                {
+                    var key = model.Keyword.ToLower();
+
+                    query = query.Where(p =>
+                        p.Title.ToLower().Contains(key) ||
+                        p.CreatedBy.FirstName.ToLower().Contains(key) ||
+                        p.CreatedBy.LastName.ToLower().Contains(key) ||
+                        p.AmountNeeded.ToString().Contains(key) ||
+                        (p.AmountObtained ?? 0).ToString().Contains(key)
+                    );
+                }
+
+                if (model.EndDate.HasValue)
+                {
+                    query = query.Where(p => p.DateCreated <= model.EndDate.Value);
+                }
+
+                model.CanFilterByDeliveryStatus = true;
+
+                var projected = query.Select(c => new ProjectViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Title,
+                    Description = c.Description,
+                    AmountNeeded = c.AmountNeeded,
+                    AmountObtained = c.AmountObtained ?? 0,
+                    Deleted = c.Deleted,
+                    DateCreated = c.DateCreated,
+                    CreatedById = c.CreatedById,
+
+                    CreatedBy = c.CreatedBy.FirstName + " " + c.CreatedBy.LastName,
+
+                    ProjectSupporters = null,
+
+                    SupportLink = $"{baseUrl}/Guest/View/{c.Id}"
+                });
+
+                var paged = projected.ToPagedList(page, 25);
+
+                var projectIds = paged.Select(x => x.Id).ToList();
+
+                var supportersLookup = _context.ProjectSupporters
+                    .Where(s => projectIds.Contains(s.ProjectId) && s.Amount > 0)
+                    .GroupBy(s => s.ProjectId)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+
+                foreach (var item in paged)
+                {
+                    item.ProjectSupporters = supportersLookup.ContainsKey(item.Id)
+                        ? supportersLookup[item.Id]
+                        : new List<ProjectSupporter>();
+                }
+
+                return paged;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public async Task<List<ProjectViewModel>> GetAllProjectsAsync()
+
+
+        public IQueryable<ProjectViewModel> GetAllProjects()
         {
             var user = Utility.GetCurrentUser();
             var request = AppHttpContext.Current.Request;
@@ -33,23 +112,22 @@ namespace Logic.Helpers
                 query = query.Where(p => p.CreatedById == user.Id);
             }
 
-            return await query
-                .Select(c => new ProjectViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Title,
-                    Description = c.Description,
-                    AmountNeeded = c.AmountNeeded,
-                    AmountObtained = c.AmountObtained ?? 0,
-                    Deleted = c.Deleted,
-                    DateCreated = c.DateCreated,
-                    CreatedById = c.CreatedById,
-                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
-                    ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList(),
-                    SupportLink = $"{baseUrl}/Guest/View/{c.Id}"
-                })
-                .ToListAsync();
+            return query.Select(c => new ProjectViewModel
+            {
+                Id = c.Id,
+                Name = c.Title,
+                Description = c.Description,
+                AmountNeeded = c.AmountNeeded,
+                AmountObtained = c.AmountObtained ?? 0,
+                Deleted = c.Deleted,
+                DateCreated = c.DateCreated,
+                CreatedById = c.CreatedById,
+                CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
+                ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList(),
+                SupportLink = $"{baseUrl}/Guest/View/{c.Id}"
+            });
         }
+
 
         public async Task<List<ProjectViewModel>> GetUserProjectsAsync(string userId)
         {
@@ -66,7 +144,7 @@ namespace Logic.Helpers
                     Deleted = c.Deleted,
                     DateCreated = c.DateCreated,
                     CreatedById = c.CreatedById,
-                    CreatedBy = c.CreatedBy != null ? c.CreatedBy.FullName : "",
+                    CreatedBy = c.CreatedBy.FirstName + " " + c.CreatedBy.LastName,
                     ProjectSupporters = c.ProjectSupporters
                 })
                 .ToListAsync();

@@ -4,12 +4,13 @@ using Core.Models;
 using Core.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Logic.IHelpers
 {
     public interface IProjectHelper
     {
-        Task<List<ProjectViewModel>> GetAllProjectsAsync();
+        IQueryable<ProjectViewModel> GetAllProjects();
         bool CreateProject(ProjectViewModel project);
         bool UpdateProject(ProjectViewModel project);
         List<ProjectSupporter> GetContributors();
@@ -17,5 +18,6 @@ namespace Logic.IHelpers
         ProjectViewModel? GetProjectById(int id);
         ProjectPaymentDTO GetPaymentsByProjectId(int projectId);
         bool AddComments(ProjectCommentsViewModel commentDetails);
+        IPagedList<ProjectViewModel> Projects(IPageListModel<ProjectViewModel> model, int page);
     }
 }

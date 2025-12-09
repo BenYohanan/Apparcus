@@ -23,13 +23,13 @@ namespace Apparcus.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
-            var projects = await _projectHelper.GetAllProjectsAsync().ConfigureAwait(false);
+            var projects = _projectHelper.GetAllProjects();
             var data = new AdminDashboardDto
             {
                 UserName = Utility.GetCurrentUser().FullName,
-                ProjectCount = projects.Count,
+                ProjectCount = projects.ToList().Count,
                 ClientCount = _userHelper.GetUsers().ToList().Count,
-                Projects = projects,
+                Projects = projects.ToList(),
                 TotalEarnings = _context.Contributions.Sum(x => x.Amount),
                 ContibutorsCount = _projectHelper.GetContributors().Count
             };

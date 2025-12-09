@@ -120,13 +120,12 @@ namespace Apparcus.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(string token, string email)  // Added email parameter
+        public IActionResult ResetPassword(string token, string email)
         {
-            var model = new ResetPasswordViewModel { Token = token, Email = email };  // Pass email to model
+            var model = new ResetPasswordViewModel { Token = token, Email = email };
             return View(model);
         }
 
-        [HttpPost]
         [HttpPost]
         public async Task<JsonResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -137,7 +136,6 @@ namespace Apparcus.Controllers
 
             var user = await _userManager.FindByEmailAsync(model.Email);
 
-            // For security, don't reveal if user exists—always pretend success
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -158,7 +156,7 @@ namespace Apparcus.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> ResetPassword(ResetPasswordViewModel model)  // Changed to use model binding
+        public async Task<JsonResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -169,7 +167,7 @@ namespace Apparcus.Controllers
                 });
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);  // Use model.Email
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user == null)
                 return Json(new { isError = true, msg = "Invalid request." });
