@@ -49,6 +49,17 @@ function registerUser() {
     var $submitBtn = $("#submit_btn");
     $submitBtn.prop("disabled", true).text("Please wait...");
 
+    $("#checkboxWarning").hide();
+
+    if (!$('#privacyCheck').is(':checked') ||
+        !$('#nameCheck').is(':checked') ||
+        !$('#promoCheck').is(':checked')) {
+
+        $("#checkboxWarning").show();
+        $submitBtn.prop("disabled", false).text("Sign Up");
+        return;
+    }
+
     var email = $('#email').val().trim();
     var firstName = $('#firstName').val().trim();
     var password = $('#password').val();
@@ -83,7 +94,7 @@ function registerUser() {
         $submitBtn.prop("disabled", false).text("Register");
         return;
     }
-
+ 
     var data = {
         Email: email,
         PhoneNumber: phone,
@@ -121,6 +132,18 @@ function registerUser() {
 function registerUser() {
     var data = {};
     $("#submit_btn").prop("disabled", true).text("Please wait...");
+
+    $("#checkboxWarning").hide();
+
+   
+    if (!$('#privacyCheck').is(':checked') ||
+        !$('#nameCheck').is(':checked') ||
+        !$('#promoCheck').is(':checked')) {
+
+        $("#checkboxWarning").show();
+        $submitBtn.prop("disabled", false).text("Sign Up");
+        return;
+    }
     data.Email = $('#email').val();
     data.PhoneNumber = $('#phone').val();
     data.FirstName = $('#firstName').val();
