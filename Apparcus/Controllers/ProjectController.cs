@@ -98,26 +98,56 @@ namespace Apparcus.Controllers
             return Json(project);
         }
 
+
         [HttpGet]
-        public IActionResult Supporters(int projectId)
+        public IActionResult Supporters(int projectId, IPageListModel<SupporterViewModel> model, int page = 1)
         {
             ViewBag.Layout = _userHelper.GetRoleLayout();
-            var project = _context.ProjectSupporters
-                .Include(x => x.Project)
-                .Where(p => p.ProjectId == projectId && p.Amount > 0)
-                .Select(x => new SupporterViewModel
-                {
-                    Id = x.Id,
-                    FullName = x.FullName,
-                    Email = x.Email,
-                    Amount = x.Amount,
-                    PhoneNumber = x.PhoneNumber,
-                    ProjectId = x.ProjectId,
-                    DateCreated = x.DateCreated,
-                    ProjectTitle = x.Project != null ? x.Project.Title : string.Empty
-                }).OrderByDescending(x => x.DateCreated).ToList();
-            return View(project);
+
+            // Preserve projectId in pagination
+            ViewData["projectId"] = projectId;
+
+            // Setup search
+            model.SearchAction = "Supporters";
+            model.SearchController = "Project";
+            model.CanFilterByDateRange = true;
+
+            var supporters = _projectHelper.GetProjectSupportersPaged(projectId, model, page);
+            model.Model = supporters;
+
+            var projectTitle = _context.Projects
+                .Where(p => p.Id == projectId && !p.Deleted)
+                .Select(p => p.Title)
+                .FirstOrDefault() ?? "Project Supporters";
+
+            ViewBag.ProjectTitle = projectTitle;
+
+            return View(model);
         }
+
+
+        [HttpGet]
+        public IActionResult Payments(int projectId, IPageListModel<PaymentDTO> model, int page = 1)
+        {
+            if (projectId <= 0) return NotFound();
+
+            ViewBag.Layout = _userHelper.GetRoleLayout();
+
+            model.SearchAction = "Payments";
+            model.SearchController = "Project";
+            model.CanFilterByDateRange = true;
+
+            var payments = _projectHelper.GetPaymentsPaged(projectId, model, page);
+            model.Model = payments;
+
+            ViewBag.ProjectName = _context.Projects
+                .Where(p => p.Id == projectId && !p.Deleted)
+                .Select(p => p.Title)
+                .FirstOrDefault() ?? "Project Payments";
+
+            return View(model);
+        }
+
 
 
         [HttpPost]

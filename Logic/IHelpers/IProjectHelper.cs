@@ -18,5 +18,7 @@ namespace Logic.IHelpers
         ProjectViewModel? GetProjectById(int id);
         ProjectPaymentDTO GetPaymentsByProjectId(int projectId);
         IPagedList<ProjectViewModel> Projects(IPageListModel<ProjectViewModel> model, int page);
+        IPagedList<SupporterViewModel> GetProjectSupportersPaged(int projectId, IPageListModel<SupporterViewModel> filter, int page = 1, int pageSize = 10);
+        IPagedList<PaymentDTO> GetPaymentsPaged(int projectId, IPageListModel<PaymentDTO> filter, int page = 1, int pageSize = 20);
     }
 }

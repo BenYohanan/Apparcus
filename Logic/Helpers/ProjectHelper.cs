@@ -212,6 +212,82 @@ namespace Logic.Helpers
                 }).FirstOrDefault();
         }
 
+        public IPagedList<SupporterViewModel> GetProjectSupportersPaged(int projectId, IPageListModel<SupporterViewModel> filter, int page = 1, int pageSize = 10)
+        {
+            var query = _context.ProjectSupporters
+                .Include(x => x.Project)
+                .Where(p => p.ProjectId == projectId && p.Amount > 0 && !p.Deleted);
+
+            if (!string.IsNullOrWhiteSpace(filter.Keyword))
+            {
+                var keyword = filter.Keyword.ToLower();
+                query = query.Where(x =>
+                    x.FullName.ToLower().Contains(keyword) ||
+                    x.Email.ToLower().Contains(keyword) ||
+                    (x.PhoneNumber != null && x.PhoneNumber.Contains(keyword)));
+            }
+
+            if (filter.StartDate.HasValue)
+            {
+                query = query.Where(x => x.DateCreated >= filter.StartDate.Value.Date);
+            }
+
+            if (filter.EndDate.HasValue)
+            {
+                query = query.Where(x => x.DateCreated <= filter.EndDate.Value.Date.AddDays(1).AddSeconds(-1));
+            }
+
+            var result = query
+                .OrderByDescending(x => x.DateCreated)
+                .Select(x => new SupporterViewModel
+                {
+                    Id = x.Id,
+                    ProjectId = x.ProjectId,
+                    FullName = x.FullName,
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+                    Amount = x.Amount,
+                    DateCreated = x.DateCreated,
+                    ProjectTitle = x.Project != null ? x.Project.Title : "Unknown Project"
+                });
+
+            return result.ToPagedList(page, pageSize);
+        }
+
+
+        public IPagedList<PaymentDTO> GetPaymentsPaged(int projectId, IPageListModel<PaymentDTO> filter, int page = 1, int pageSize = 20)
+        {
+            var query = _context.Contributions
+                .Include(c => c.ProjectSupporter)
+                .Where(c => c.ProjectId == projectId)
+                .Select(c => new PaymentDTO
+                {
+                    Reference = c.PaystackReference,
+                    Contributor = c.ProjectSupporter != null ? c.ProjectSupporter.FullName : "Unknown Contributor",
+                    AmountPaid = c.Amount,
+                    PaymentDate = c.Date
+                });
+
+            if (!string.IsNullOrWhiteSpace(filter.Keyword))
+            {
+                var keyword = filter.Keyword.ToLower();
+                query = query.Where(x =>
+                    x.Contributor.ToLower().Contains(keyword) ||
+                    (x.Reference != null && x.Reference.Contains(keyword)));
+            }
+
+            if (filter.StartDate.HasValue)
+                query = query.Where(x => x.PaymentDate >= filter.StartDate.Value.Date);
+
+            if (filter.EndDate.HasValue)
+                query = query.Where(x => x.PaymentDate <= filter.EndDate.Value.Date.AddDays(1).AddSeconds(-1));
+
+            return query
+                .OrderByDescending(x => x.PaymentDate)
+                .ToPagedList(page, pageSize);
+        }
+
+
         public ProjectPaymentDTO GetPaymentsByProjectId(int projectId)
         {
             var projectPaymentDTO = new ProjectPaymentDTO();

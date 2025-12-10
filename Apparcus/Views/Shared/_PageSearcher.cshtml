@@ -33,6 +33,7 @@
 <div class="card-box">
     @using (Html.BeginForm(Model.SearchAction, Model.SearchController, FormMethod.Get, new { @class = "form-inline search-form" }))
     {
+        <input type="hidden" name="projectId" value="@Context.Request.Query["projectId"]" />
      
         <div class="form-group search-item">
             <label class="focus-label">Keyword:</label>
@@ -76,7 +77,10 @@
         
         <div class="mx-md-3 p-1 offset-1">
             <button type="submit" class="btn btn-success mx-2" value="Search">Search</button>
-            <button type="submit" class="btn mx-1" style="background-color:#007bff;color:white" onclick="resetSearchFields(this);">Reset</button>
+            <button type="button" class="btn mx-1" style="background-color:#007bff;color:white"
+                    onclick="window.location.href='@Url.Action(Model.SearchAction, Model.SearchController, new { projectId = Context.Request.Query["projectId"] })'">
+                Reset
+            </button>
         </div>
     }
 </div>
