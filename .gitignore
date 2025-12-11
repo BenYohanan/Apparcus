@@ -11,3 +11,7 @@
 /Logic/obj
 /Apparcus/Properties/launchSettings.json
 /Apparcus/wwwroot/uploads/avatars
+/Apparcus/bin/Release/net8.0
+/Core/bin/Release/net8.0
+/Logic/bin/Release/net8.0
+/Apparcus/Properties/PublishProfiles
