@@ -12,13 +12,17 @@ namespace Core.Models
     {
         [Key]
         public int Id { get; set; }
-        public string? ProjectOwnerId { get; set; }
-        [ForeignKey(nameof(ProjectOwnerId))]
-        public virtual ApplicationUser? ProjectOwner { get; set; }
+
+        public int ProjectId { get; set; }
+        [ForeignKey(nameof(ProjectId))]
+        public virtual Project? Project { get; set; }
+
         public decimal Amount { get; set; }
         public string? RecipientCode { get; set; }
         public string? TransferReference { get; set; }
-        public string? Status { get; set; } 
+        public string? Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
+
+
 }

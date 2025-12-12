@@ -238,10 +238,18 @@ namespace Core.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProjectOwnerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("ProjectOwnerId");
 
@@ -262,8 +270,8 @@ namespace Core.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProjectOwnerId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
 
                     b.Property<string>("RecipientCode")
                         .HasColumnType("nvarchar(max)");
@@ -276,7 +284,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectOwnerId");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Withdrawals");
                 });
@@ -507,6 +515,9 @@ namespace Core.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
@@ -577,20 +588,30 @@ namespace Core.Migrations
 
             modelBuilder.Entity("Core.Models.Wallet", b =>
                 {
+                    b.HasOne("Core.Models.Project", "Project")
+                        .WithMany("Wallets")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Models.ApplicationUser", "ProjectOwner")
                         .WithMany()
                         .HasForeignKey("ProjectOwnerId");
+
+                    b.Navigation("Project");
 
                     b.Navigation("ProjectOwner");
                 });
 
             modelBuilder.Entity("Core.Models.Withdrawal", b =>
                 {
-                    b.HasOne("Core.Models.ApplicationUser", "ProjectOwner")
+                    b.HasOne("Core.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectOwnerId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ProjectOwner");
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -651,6 +672,8 @@ namespace Core.Migrations
                     b.Navigation("Contributions");
 
                     b.Navigation("ProjectSupporters");
+
+                    b.Navigation("Wallets");
                 });
 
             modelBuilder.Entity("Core.Models.ProjectSupporter", b =>

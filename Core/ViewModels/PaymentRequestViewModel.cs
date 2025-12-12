@@ -45,7 +45,7 @@ namespace Core.ViewModels
         public string Email { get; set; } 
     }
     public class PaystackMetadata { 
-        public int ProjectId { get; set; } 
+        public int? ProjectId { get; set; } 
         public string FullName { get; set; } 
         public string Phone { get; set; } 
         public int? SupporterId { get; set; } 
@@ -60,20 +60,40 @@ namespace Core.ViewModels
         public string currency { get; set; } = "NGN";
     }
 
-    public class PaystackCreateRecipientResponse { public bool Status { get; set; } public string Message { get; set; } public PaystackRecipientData Data { get; set; } }
-    public class PaystackRecipientData { public string Recipient_code { get; set; } public string Details { get; set; } }
+    public class PaystackCreateRecipientResponse 
+    { 
+        public bool Status { get; set; }
+        public string Message { get; set; } 
+        public PaystackRecipientData Data { get; set; } 
+    }
+    public class PaystackRecipientData 
+    { 
+        public string? Recipient_code { get; set; } 
+        public string? Details { get; set; } 
+    }
 
     public class CreateTransferRequest
     {
-        public string source { get; set; } = "balance";
-        public decimal amount { get; set; } 
-        public string recipient { get; set; }
-        public string reason { get; set; }
+        public string? source { get; set; } = "balance";
+        public decimal? amount { get; set; } 
+        public string? recipient { get; set; }
+        public string? reason { get; set; }
+    }
+    public class PaystackInitiateTransferResponse
+    {
+        public bool Status { get; set; }
+        public string? Message { get; set; }
+        public TransferData? Data { get; set; }
     }
 
-    public class PaystackInitiateTransferResponse { public bool Status { get; set; } public string Message { get; set; } public object Data { get; set; } }
+    public class TransferData
+    {
+        public string? Reference { get; set; }
+        public string? Status { get; set; }
+    }
+
     public class VerifyPaymentRequest
     {
-        public string Reference { get; set; } = string.Empty;
+        public string? Reference { get; set; } 
     }
 }

@@ -37,7 +37,7 @@ namespace Apparcus.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 ProjectCount = projects.ToList().Count,
-                Projects = projects.ToList(),
+                Projects = [.. projects],
                 WalletBalance = _context.Wallets.Where(x => x.ProjectOwnerId == user.Id).Sum(x=>x.Balance),
                 ContibutorsCount = contributorsCount
             };

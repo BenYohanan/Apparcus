@@ -15,6 +15,13 @@ namespace Core.Models
         public string? ProjectOwnerId { get; set; }
         [ForeignKey(nameof(ProjectOwnerId))]
         public virtual ApplicationUser? ProjectOwner { get; set; }
+        public int ProjectId { get; set; }
+        [ForeignKey(nameof(ProjectId))]
+        public virtual Project? Project { get; set; }
+
         public decimal Balance { get; set; } = 0m;
+
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
+
 }

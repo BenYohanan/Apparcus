@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251117115439_addedMonifyTbl")]
-    partial class addedMonifyTbl
+    [Migration("20251212085541_projectSetup")]
+    partial class projectSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,38 @@ namespace Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Core.Models.Contribution", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaystackReference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjectSupporterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectSupporterId");
+
+                    b.ToTable("Contributions");
+                });
 
             modelBuilder.Entity("Core.Models.DropDown", b =>
                 {
@@ -86,36 +118,6 @@ namespace Core.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("Core.Models.ProjectBankAccount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccountNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BankCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("ProjectBankAccounts");
-                });
-
             modelBuilder.Entity("Core.Models.ProjectComment", b =>
                 {
                     b.Property<int>("Id")
@@ -132,6 +134,9 @@ namespace Core.Migrations
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -156,8 +161,8 @@ namespace Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Amount")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal?>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
@@ -184,7 +189,7 @@ namespace Core.Migrations
                     b.ToTable("ProjectSupporters");
                 });
 
-            modelBuilder.Entity("Core.Models.ProjectVirtualAccount", b =>
+            modelBuilder.Entity("Core.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -192,32 +197,99 @@ namespace Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AccountNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal?>("AmountPaid")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("AccountReference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BankName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDisabled")
-                        .HasColumnType("bit");
+                    b.Property<decimal?>("PlatformFee")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReservationReference")
+                    b.Property<decimal?>("ProjectOwnerReceives")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProjectSupporterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectVirtualAccounts");
+                    b.HasIndex("ProjectSupporterId");
+
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("Core.Models.Wallet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectOwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectOwnerId");
+
+                    b.ToTable("Wallets");
+                });
+
+            modelBuilder.Entity("Core.Models.Withdrawal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransferReference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Withdrawals");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -446,7 +518,25 @@ namespace Core.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Core.Models.Contribution", b =>
+                {
+                    b.HasOne("Core.Models.Project", "Project")
+                        .WithMany("Contributions")
+                        .HasForeignKey("ProjectId");
+
+                    b.HasOne("Core.Models.ProjectSupporter", "ProjectSupporter")
+                        .WithMany()
+                        .HasForeignKey("ProjectSupporterId");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectSupporter");
                 });
 
             modelBuilder.Entity("Core.Models.Project", b =>
@@ -458,15 +548,6 @@ namespace Core.Migrations
                     b.Navigation("CreatedBy");
                 });
 
-            modelBuilder.Entity("Core.Models.ProjectBankAccount", b =>
-                {
-                    b.HasOne("Core.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("Core.Models.ProjectComment", b =>
                 {
                     b.HasOne("Core.Models.Project", "Project")
@@ -475,13 +556,11 @@ namespace Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Models.ProjectSupporter", "Supporter")
+                    b.HasOne("Core.Models.ProjectSupporter", null)
                         .WithMany("Comments")
                         .HasForeignKey("ProjectSupporterId");
 
                     b.Navigation("Project");
-
-                    b.Navigation("Supporter");
                 });
 
             modelBuilder.Entity("Core.Models.ProjectSupporter", b =>
@@ -495,11 +574,45 @@ namespace Core.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("Core.Models.ProjectVirtualAccount", b =>
+            modelBuilder.Entity("Core.Models.Transaction", b =>
                 {
                     b.HasOne("Core.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
+
+                    b.HasOne("Core.Models.ProjectSupporter", "ProjectSupporter")
+                        .WithMany()
+                        .HasForeignKey("ProjectSupporterId");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectSupporter");
+                });
+
+            modelBuilder.Entity("Core.Models.Wallet", b =>
+                {
+                    b.HasOne("Core.Models.Project", "Project")
+                        .WithMany("Wallets")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Models.ApplicationUser", "ProjectOwner")
+                        .WithMany()
+                        .HasForeignKey("ProjectOwnerId");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectOwner");
+                });
+
+            modelBuilder.Entity("Core.Models.Withdrawal", b =>
+                {
+                    b.HasOne("Core.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Project");
                 });
@@ -559,7 +672,11 @@ namespace Core.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Contributions");
+
                     b.Navigation("ProjectSupporters");
+
+                    b.Navigation("Wallets");
                 });
 
             modelBuilder.Entity("Core.Models.ProjectSupporter", b =>

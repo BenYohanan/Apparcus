@@ -78,7 +78,7 @@
 					</div>
 					<div class="accordion-body">
 						<div class="accordion-body mt-2">
-							@Model.Description
+						@Html.Raw(Model.Description)
 						</div>
 					</div>
 				</div>
@@ -206,7 +206,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Email <span class="text-warning">Optional</span></label>
+							<label class="form-label">Email <span class="text-danger">*</span></label>
 							<div class="input-icon-end position-relative">
 								<input type="text" id="email" class="form-control">
 							</div>
