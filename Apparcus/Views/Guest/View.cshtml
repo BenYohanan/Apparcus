@@ -229,6 +229,22 @@
 							</div>
 						</div>
 					</div>
+					@foreach (var field in Model.CustomFields)
+					{
+						<div class="mb-3">
+							<label class="form-label">
+								@field.FieldName
+								@if (field.IsRequired)
+								{
+									<span class="text-danger">*</span>
+								}
+							</label>
+
+							<input type="@field.FieldType"
+								   class="form-control dynamic-field"
+								   data-field-id="@field.Id" />
+						</div>
+					}
 				</div>
 			</div>
 			<div class="modal-footer">

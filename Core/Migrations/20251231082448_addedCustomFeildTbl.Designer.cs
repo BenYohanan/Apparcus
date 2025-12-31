@@ -4,6 +4,7 @@ using Core.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251231082448_addedCustomFeildTbl")]
+    partial class addedCustomFeildTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,9 +194,6 @@ namespace Core.Migrations
                     b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProjectSupporterId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
@@ -202,8 +202,6 @@ namespace Core.Migrations
                     b.HasIndex("ProjectCustomFieldId");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("ProjectSupporterId");
 
                     b.ToTable("ProjectCustomFieldValues");
                 });
@@ -639,15 +637,9 @@ namespace Core.Migrations
                         .WithMany()
                         .HasForeignKey("ProjectId");
 
-                    b.HasOne("Core.Models.ProjectSupporter", "ProjectSupporter")
-                        .WithMany()
-                        .HasForeignKey("ProjectSupporterId");
-
                     b.Navigation("Project");
 
                     b.Navigation("ProjectCustomField");
-
-                    b.Navigation("ProjectSupporter");
                 });
 
             modelBuilder.Entity("Core.Models.ProjectSupporter", b =>

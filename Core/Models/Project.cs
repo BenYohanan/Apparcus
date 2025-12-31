@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Models
 {
@@ -30,6 +25,7 @@ namespace Core.Models
         public virtual ICollection<Contribution>? Contributions { get; set; }
         public virtual ICollection<ProjectComment>? Comments { get; set; }
         public virtual ICollection<Wallet>? Wallets { get; set; }
+        public virtual ICollection<ProjectCustomField> CustomFields { get; set; }
         public decimal? AmountRemaining => (AmountNeeded ?? 0) - (AmountObtained ?? 0);
     }
 }

@@ -7,10 +7,9 @@ using Newtonsoft.Json;
 
 namespace Apparcus.Controllers
 {
-    public class GuestController(IProjectHelper projectHelper, AppDbContext context) : Controller
+    public class GuestController(IProjectHelper projectHelper) : Controller
     {
         private readonly IProjectHelper _projectHelper = projectHelper;
-        private readonly AppDbContext _context = context;
 
         [HttpGet]
         public IActionResult View(int id)

@@ -149,20 +149,33 @@ namespace Logic.Helpers
                 })
                 .ToListAsync();
         }
-
         public bool CreateProject(ProjectViewModel project)
         {
-            var createdById = Utility.GetCurrentUser().Id;
             var newProject = new Project
             {
                 Title = project.Name,
                 Description = project.Description,
                 AmountNeeded = project.AmountNeeded,
-                CreatedById = createdById
+                CreatedById = Utility.GetCurrentUser().Id
             };
 
-            _context.Add(newProject);
+            _context.Projects.Add(newProject);
             _context.SaveChanges();
+
+            if (project.CustomFields != null && project.CustomFields.Any())
+            {
+                foreach (var field in project.CustomFields)
+                {
+                    _context.Add(new ProjectCustomField
+                    {
+                        ProjectId = newProject.Id,
+                        FieldName = field.FieldName,
+                        FieldType = field.FieldType,
+                        IsRequired = field.IsRequired
+                    });
+                }
+                _context.SaveChanges();
+            }
             return true;
         }
 
@@ -192,6 +205,7 @@ namespace Logic.Helpers
             return _context.Projects
                 .Include(p => p.CreatedBy)
                 .Include(p => p.ProjectSupporters)
+                .Include(p => p.CustomFields)
                 .Where(p => !p.Deleted && p.Id == id)
                 .Select(c => new ProjectViewModel
                 {
@@ -209,7 +223,14 @@ namespace Logic.Helpers
                     CreatedByPhoneNumber = c.CreatedBy != null ? c.CreatedBy.PhoneNumber : "",
                     OwnersProfilePic = c.CreatedBy != null ? c.CreatedBy.ProfilePictureUrl : "",
                     Comments = c.Comments,
-                    ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList()
+                    ProjectSupporters = c.ProjectSupporters.Where(x => x.Amount > 0).ToList(),
+                    CustomFields = c.CustomFields.Select(f => new ProjectCustomFieldVM
+                    {
+                        Id = f.Id,                    
+                        FieldName = f.FieldName,
+                        FieldType = f.FieldType,
+                        IsRequired = f.IsRequired
+                    }).ToList()
                 }).FirstOrDefault();
         }
 

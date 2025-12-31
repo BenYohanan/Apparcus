@@ -309,13 +309,27 @@ function saveProject() {
     data.Name = $('#name').val();
     data.Description = $('#description').val();
     data.AmountNeeded = parseFloat($('#amountNeeded').val());
+
+    data.CustomFields = [];
+
+    $('.custom-field-row').each(function () {
+        var fieldName = $(this).find('.field-name').val();
+        if (!fieldName) return;
+
+        data.CustomFields.push({
+            FieldName: fieldName,
+            FieldType: $(this).find('.field-type').val(),
+            IsRequired: $(this).find('.field-required').is(':checked')
+        });
+    });
+
     if (!data.Name) {
-        errorAlert("Name  is required.");
+        errorAlert("Name is required.");
         restoreButton();
         return;
     }
     if (!data.AmountNeeded) {
-        errorAlert("Amount  is required.");
+        errorAlert("Amount is required.");
         restoreButton();
         return;
     }
@@ -324,8 +338,7 @@ function saveProject() {
         type: 'POST',
         url: '/Project/Create',
         dataType: 'json',
-        data:
-        {
+        data: {
             projectDetails: JSON.stringify(data)
         },
         success: function (result) {
@@ -337,8 +350,8 @@ function saveProject() {
                 restoreButton();
             }
         },
-        error: function (ex) {
-            errorAlert("An error has occurred, try again. Please contact support if the error persists.");
+        error: function () {
+            errorAlert("An error has occurred, try again.");
             restoreButton();
         }
     });
@@ -533,17 +546,33 @@ function contribute() {
     var $submitBtn = $("#submit_btn");
     $submitBtn.prop("disabled", true).text("Processing...");
 
+    let customFieldValues = [];
+
+    $('.dynamic-field').each(function () {
+        const value = $(this).val();
+        const fieldId = $(this).data('field-id');
+
+        if (fieldId) {
+            customFieldValues.push({
+                projectCustomFieldId: fieldId,
+                value: value
+            });
+        }
+    });
+
     const data = {
         projectId: $("#projectId").val(),
         fullName: $("#fullName").val(),
         email: $("#email").val(),
         phoneNumber: $("#phoneNumber").val(),
-        amount: $("#ammount").val()
+        amount: $("#ammount").val(),
+
+        customFieldValues: customFieldValues
     };
 
     if (!data.fullName || !data.phoneNumber || !data.amount || data.amount < 1) {
         errorAlert("Please fill all required fields correctly.");
-        $btn.prop("disabled", false).text("Proceed to Paystack");
+        $submitBtn.prop("disabled", false).text("Proceed to Paystack");
         return;
     }
 
@@ -766,4 +795,31 @@ function comment() {
             restoreButton();
         }
     });
+}
+function addCustomField() {
+    $('#customFieldsContainer').append(`
+        <div class="row g-2 mb-2 custom-field-row">
+            <div class="col-md-5">
+                <input type="text" class="form-control field-name"
+                       placeholder="Field name (e.g. Room Number)">
+            </div>
+            <div class="col-md-4">
+                <select class="form-control field-type">
+                    <option value="text">Text</option>
+                    <option value="number">Number</option>
+                    <option value="email">Email</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check mt-2">
+                    <input class="form-check-input field-required" type="checkbox">
+                    <label class="form-check-label">Required</label>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-sm btn-danger"
+                        onclick="$(this).closest('.custom-field-row').remove()">×</button>
+            </div>
+        </div>
+    `);
 }

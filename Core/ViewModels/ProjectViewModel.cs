@@ -1,10 +1,4 @@
 ﻿using Core.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.ViewModels
 {
@@ -27,5 +21,13 @@ namespace Core.ViewModels
         public DateTime? CreatedByDateJoined { get; set; }
         public virtual ICollection<ProjectSupporter>? ProjectSupporters { get; set; }
         public virtual ICollection<ProjectComment>? Comments { get; set; }
+        public List<ProjectCustomFieldVM>? CustomFields { get; set; }
+    }
+    public class ProjectCustomFieldVM
+    {
+        public int? Id { get; set; }
+        public string? FieldName { get; set; }
+        public string? FieldType { get; set; }
+        public bool IsRequired { get; set; }
     }
 }

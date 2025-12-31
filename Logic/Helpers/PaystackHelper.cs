@@ -31,7 +31,8 @@ namespace Logic.Helpers
                     projectId = model.ProjectId,
                     fullName = model.FullName,
                     phone = model.PhoneNumber,
-                    supporterId = model.ProjectSupporterId
+                    supporterId = model.ProjectSupporterId,
+                    customFields = model.CustomFieldValues
                 }
             };
 

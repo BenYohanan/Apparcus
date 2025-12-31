@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,14 @@ namespace Core.ViewModels
         public string? callbackUrl { get; set; }
         public string? Email { get; set; }
         public decimal Amount { get; set; }
+        public List<ProjectCustomFieldValueVM>? CustomFieldValues { get; set; }
     }
-
+    public class ProjectCustomFieldValueVM
+    {
+        public int? ProjectCustomFieldId { get; set; }
+        public string? Value { get; set; }
+        public string FieldName { get; set; } = string.Empty;
+    }
     public class PaystackInitResponse {
         public bool Status { get; set; } 
         public string Message { get; set; } 
@@ -48,7 +55,8 @@ namespace Core.ViewModels
         public int? ProjectId { get; set; } 
         public string FullName { get; set; } 
         public string Phone { get; set; } 
-        public int? SupporterId { get; set; } 
+        public int? SupporterId { get; set; }
+        public List<ProjectCustomFieldValueVM> CustomFields { get; set; } = new List<ProjectCustomFieldValueVM>();
     }
 
     public class CreateRecipientRequest

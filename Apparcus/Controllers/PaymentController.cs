@@ -4,6 +4,7 @@ using Core.Models;
 using Core.ViewModels;
 using Logic.IHelpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 [Route("api/payment")]
@@ -89,6 +90,21 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
             ProjectSupporterId = supporterId,
             Date = DateTime.UtcNow
         });
+
+        if (data.Metadata.CustomFields != null && data.Metadata.CustomFields.Any())
+        {
+            var projectData = data.Metadata;
+            foreach (var field in data.Metadata.CustomFields)
+            {
+                _context.ProjectCustomFieldValues.Add(new ProjectCustomFieldValue
+                {
+                    ProjectId = projectData.ProjectId,
+                    ProjectSupporterId = projectData.SupporterId,
+                    ProjectCustomFieldId = field.ProjectCustomFieldId.Value,
+                    Value = field.Value
+                });
+            }
+        }
 
         decimal fee = 9m;
         decimal ownerGets = Math.Max(0, amount - fee);
