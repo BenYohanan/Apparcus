@@ -127,7 +127,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
 
         if (project != null)
         {
-            project.AmountObtained =+ amount;
+            project.AmountObtained += amount;
 
             var wallet = await _context.Wallets
                 .FirstOrDefaultAsync(w => w.ProjectId == project.Id);
@@ -143,7 +143,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
                 _context.Wallets.Add(wallet);
             }
 
-            wallet.Balance =+ ownerGets;
+            wallet.Balance += ownerGets;
 
             if (!string.IsNullOrEmpty(project.CreatedBy.Email))
             {
