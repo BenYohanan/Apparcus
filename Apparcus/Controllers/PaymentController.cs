@@ -80,7 +80,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
         if (supporter == null)
             return ResponseHelper.ErrorMsg();
 
-        supporter.Amount =+ amount;
+        supporter.Amount += amount;
 
         _context.Contributions.Add(new Contribution
         {
