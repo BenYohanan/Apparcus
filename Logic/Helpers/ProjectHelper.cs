@@ -83,7 +83,7 @@ namespace Logic.Helpers
                 {
                     item.ProjectSupporters = supportersLookup.ContainsKey(item.Id)
                         ? supportersLookup[item.Id]
-                        : new List<ProjectSupporter>();
+                        : [];
                 }
 
                 return paged;

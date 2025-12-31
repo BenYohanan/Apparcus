@@ -80,7 +80,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
         if (supporter == null)
             return ResponseHelper.ErrorMsg();
 
-        supporter.Amount += amount;
+        supporter.Amount =+ amount;
 
         _context.Contributions.Add(new Contribution
         {
@@ -127,7 +127,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
 
         if (project != null)
         {
-            project.AmountObtained += amount;
+            project.AmountObtained =+ amount;
 
             var wallet = await _context.Wallets
                 .FirstOrDefaultAsync(w => w.ProjectId == project.Id);
@@ -143,7 +143,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
                 _context.Wallets.Add(wallet);
             }
 
-            wallet.Balance += ownerGets;
+            wallet.Balance =+ ownerGets;
 
             if (!string.IsNullOrEmpty(project.CreatedBy.Email))
             {
@@ -206,7 +206,7 @@ public class PaymentController(AppDbContext context, IPaystackHelper paystackHel
         if (resp == null || !resp.Status)
             return BadRequest(resp.Message);
 
-        wallet.Balance -= req.Amount;
+        wallet.Balance =- req.Amount;
 
         var withdrawal = new Withdrawal
         {
