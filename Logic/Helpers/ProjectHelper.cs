@@ -238,7 +238,9 @@ namespace Logic.Helpers
         {
             var query = _context.ProjectSupporters
                 .Include(x => x.Project)
-                .Where(p => p.ProjectId == projectId && p.Amount > 0 && !p.Deleted);
+                .Include(x => x.ProjectCustomFieldValues)
+                    .ThenInclude(v => v.ProjectCustomField)
+                .Where(x => x.ProjectId == projectId && x.Amount > 0 && !x.Deleted);
 
             if (!string.IsNullOrWhiteSpace(filter.Keyword))
             {
@@ -250,14 +252,10 @@ namespace Logic.Helpers
             }
 
             if (filter.StartDate.HasValue)
-            {
                 query = query.Where(x => x.DateCreated >= filter.StartDate.Value.Date);
-            }
 
             if (filter.EndDate.HasValue)
-            {
                 query = query.Where(x => x.DateCreated <= filter.EndDate.Value.Date.AddDays(1).AddSeconds(-1));
-            }
 
             var result = query
                 .OrderByDescending(x => x.DateCreated)
@@ -268,9 +266,21 @@ namespace Logic.Helpers
                     FullName = x.FullName,
                     Email = x.Email,
                     PhoneNumber = x.PhoneNumber,
-                    Amount = x.Amount,
+                    Amount = x.Amount ?? 0,
                     DateCreated = x.DateCreated,
-                    ProjectTitle = x.Project != null ? x.Project.Title : "Unknown Project"
+                    ProjectTitle = x.Project != null ? x.Project.Title : "",
+
+                    CustomFields = x.ProjectCustomFieldValues
+                                    .Where(v => !string.IsNullOrWhiteSpace(v.Value))
+                                    .Select(v => new ProjectCustomFieldValueVM
+                                    {
+                                        ProjectCustomFieldId = v.ProjectCustomFieldId,
+                                        FieldName = v.ProjectCustomField != null
+                                            ? v.ProjectCustomField.FieldName
+                                            : "",
+                                        Value = v.Value
+                                    })
+                                    .ToList()
                 });
 
             return result.ToPagedList(page, pageSize);

@@ -13,6 +13,8 @@ namespace Core.Models
         public int? ProjectId { get; set; }
         [ForeignKey(nameof(ProjectId))]
         public virtual Project? Project { get; set; }
+        public virtual ICollection<ProjectCustomFieldValue> Values { get; set; } = [];
+
     }
     public class ProjectCustomFieldValue
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,6 @@ namespace Core.Models
         [ForeignKey(nameof(ProjectId))]
         public virtual Project? Project { get; set; }
         public virtual ICollection<ProjectComment>? Comments { get; set; }
-
+        public virtual ICollection<ProjectCustomFieldValue> ProjectCustomFieldValues { get; set; } = [];
     }
 }

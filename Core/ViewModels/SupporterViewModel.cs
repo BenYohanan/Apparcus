@@ -22,6 +22,7 @@ namespace Core.ViewModels
         public decimal? Amount { get; set; }
         public string? PhoneNumber { get; set; }
         public DateTime? DateCreated { get; set; }
+        public List<ProjectCustomFieldValueVM> CustomFields { get; set; } = [];
     }
 }
 
