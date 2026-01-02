@@ -39,108 +39,110 @@
             </div>
         </div>
         @Html.Partial("_PageSearcher", Model)
-        <div class="card-box">
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>S/N</th>
-                                <th>Name</th>
-                                <th>Created By</th>
-                                <th>Supporters</th>
-                                <th>Amount Needed</th>
-                                <th>Amount Obtained</th>
-                                <th>Date Created</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Model != null)
-                            {
-                                @foreach (var project in Model.Model)
+        <div class="d-none d-md-block">
+            <div class="card-box">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Name</th>
+                                    <th>Created By</th>
+                                    <th>Supporters</th>
+                                    <th>Amount Needed</th>
+                                    <th>Amount Obtained</th>
+                                    <th>Date Created</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Model != null)
                                 {
-                                    <tr>
-                                        <td></td>
-                                        <td>@project.Name</td>
-                                        <td>@project.CreatedBy</td>
-                                        <td>
-                                            <div class="avatar-list-stacked avatar-group-sm">
-                                                @if (project.ProjectSupporters.Any())
-                                                {
-                                                    var supporters = project.ProjectSupporters.Take(3).ToList();
-                                                    var remainingCount = project.ProjectSupporters.Count - supporters.Count;
-
-                                                    @foreach (var supporter in supporters)
+                                    @foreach (var project in Model.Model)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@project.Name</td>
+                                            <td>@project.CreatedBy</td>
+                                            <td>
+                                                <div class="avatar-list-stacked avatar-group-sm">
+                                                    @if (project.ProjectSupporters.Any())
                                                     {
+                                                        var supporters = project.ProjectSupporters.Take(3).ToList();
+                                                        var remainingCount = project.ProjectSupporters.Count - supporters.Count;
 
-                                                        <span class="avatar avatar-rounded">
-                                                            <a asp-controller="Project"
+                                                        @foreach (var supporter in supporters)
+                                                        {
+
+                                                            <span class="avatar avatar-rounded">
+                                                                <a asp-controller="Project"
+                                                                   asp-action="Supporters"
+                                                                   asp-route-projectId="@project.Id">
+                                                                    <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                                </a>
+                                                            </span>
+                                                        }
+
+                                                        @if (remainingCount > 0)
+                                                        {
+                                                            <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
+                                                               asp-controller="Project"
                                                                asp-action="Supporters"
                                                                asp-route-projectId="@project.Id">
-                                                                <img class="border border-white" src="~/template/assets/img/profiles/avatar-02.jpg" alt="img">
+                                                                +@remainingCount
                                                             </a>
-                                                        </span>
+                                                        }
                                                     }
-
-                                                    @if (remainingCount > 0)
+                                                    else
                                                     {
-                                                        <a class="avatar bg-primary avatar-rounded text-fixed-white fs-12 fw-medium"
-                                                           asp-controller="Project"
-                                                           asp-action="Supporters"
-                                                           asp-route-projectId="@project.Id">
-                                                            +@remainingCount
-                                                        </a>
+                                                        <span class="text-muted fs-12">No supporters</span>
                                                     }
-                                                }
-                                                else
-                                                {
-                                                    <span class="text-muted fs-12">No supporters</span>
-                                                }
-                                            </div>
-                                        </td>
-                                        <td>@project.AmountNeeded</td>
-                                        <td>@project.AmountObtained</td>
-                                        <td>@project.DateCreated?.ToString("dd-MMM-yyyy")</td>
-                                        @if (!project.Deleted)
-                                        {
-                                            <td>
-                                                <span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Active
-                                                </span>
+                                                </div>
                                             </td>
-                                        }
-                                        else
-                                        {
+                                            <td>@project.AmountNeeded</td>
+                                            <td>@project.AmountObtained</td>
+                                            <td>@project.DateCreated?.ToString("dd-MMM-yyyy")</td>
+                                            @if (!project.Deleted)
+                                            {
+                                                <td>
+                                                    <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                                        <i class="ti ti-point-filled me-1"></i>Active
+                                                    </span>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
+                                                        <i class="ti ti-point-filled me-1"></i>Inactive
+                                                    </span>
+                                                </td>
+                                            }
                                             <td>
-                                                <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Inactive
-                                                </span>
+                                                <div class="action-icon d-inline-flex">
+                                                    <a class="me-2" asp-controller="Project" asp-action="Supporters" asp-route-projectId="@project.Id"><i class="ti ti-users-group"></i></a>
+                                                    <a class="me-2" asp-controller="Project" asp-action="Payments" asp-route-projectId="@project.Id"><i class="ti ti-file-dollar"></i></a>
+                                                    <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project" onclick='getProjectById(@project.Id)'><i class="ti ti-edit"></i></a>
+                                                    <a href="#"
+                                                       class="me-2"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#shareProjectModal"
+                                                       onclick="getProjectById(@project.Id)">
+                                                        <i class="ti ti-share"></i>
+                                                    </a>
+                                                    <a href="#" class="text-danger" data-bs-toggle="modal" onclick='confirmDeleteProject(@project.Id)'>
+                                                        <i class="ti ti-trash"></i>
+                                                    </a>
+                                                </div>
                                             </td>
-                                        }
-                                        <td>
-                                            <div class="action-icon d-inline-flex">
-                                                <a class="me-2" asp-controller="Project" asp-action="Supporters" asp-route-projectId="@project.Id"><i class="ti ti-users-group"></i></a>
-                                                <a class="me-2" asp-controller="Project" asp-action="Payments" asp-route-projectId="@project.Id"><i class="ti ti-file-dollar"></i></a>
-                                                <a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_project" onclick='getProjectById(@project.Id)'><i class="ti ti-edit"></i></a>
-                                                <a href="#"
-                                                   class="me-2"
-                                                   data-bs-toggle="modal"
-                                                   data-bs-target="#shareProjectModal"
-                                                   onclick="getProjectById(@project.Id)">
-                                                    <i class="ti ti-share"></i>
-                                                </a>
-                                                <a href="#" class="text-danger" data-bs-toggle="modal" onclick='confirmDeleteProject(@project.Id)'>
-                                                    <i class="ti ti-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
